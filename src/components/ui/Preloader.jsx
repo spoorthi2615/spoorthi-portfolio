@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Spline from '@splinetool/react-spline';
 
 const bootMessages = [
   "Establishing secure connection...",
@@ -14,13 +13,7 @@ const bootMessages = [
 export default function Preloader({ onComplete }) {
   const [progress, setProgress] = useState(0);
   const [messageIndex, setMessageIndex] = useState(0);
-  const [isSplineLoaded, setIsSplineLoaded] = useState(false);
-
-  useEffect(() => {
-    // Fallback in case the spline fails to load or takes too long
-    const timeout = setTimeout(() => setIsSplineLoaded(true), 8000);
-    return () => clearTimeout(timeout);
-  }, []);
+  const [isSplineLoaded, setIsSplineLoaded] = useState(true); // Always true for image
 
   useEffect(() => {
     const duration = 2500;
@@ -73,14 +66,14 @@ export default function Preloader({ onComplete }) {
 
       {/* Main Content */}
       <div className="relative z-10 flex flex-col items-center mt-12">
-        {/* Live 3D Spline Scene */}
-        <div className="w-64 h-64 md:w-80 md:h-80 mb-4 drop-shadow-[0_0_25px_rgba(168,85,247,0.4)] z-20 relative flex items-center justify-center pointer-events-none">
-          <Spline
-            scene="https://prod.spline.design/KFonZGtsoUXP-qx7/scene.splinecode"
-            onLoad={() => setIsSplineLoaded(true)}
-            style={{ width: '100%', height: '100%' }}
-          />
-        </div>
+        {/* Animated Robot Image */}
+        <motion.div 
+          className="w-64 h-64 md:w-80 md:h-80 mb-4 drop-shadow-[0_0_25px_rgba(168,85,247,0.4)] z-20 relative flex items-center justify-center pointer-events-none"
+          animate={{ y: [0, -15, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <img src="/robot.png" alt="Spoorthi AI Robot" className="w-full h-full object-contain" />
+        </motion.div>
 
         {/* Loading Ring */}
         <div className="relative w-48 h-48 flex items-center justify-center mb-8">
