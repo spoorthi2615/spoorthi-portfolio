@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Spline from '@splinetool/react-spline';
 
 const bootMessages = [
   "Establishing secure connection...",
@@ -16,6 +15,18 @@ export default function Preloader({ onComplete }) {
   const [messageIndex, setMessageIndex] = useState(0);
   const [isSplineLoaded, setIsSplineLoaded] = useState(false);
   const [chatMessage, setChatMessage] = useState("Hi! I'm Spoorthi's assistant.");
+  const splineRef = useRef(null);
+
+  useEffect(() => {
+    const handleLoad = () => setIsSplineLoaded(true);
+    const viewer = splineRef.current;
+    if (viewer) {
+      viewer.addEventListener('load-complete', handleLoad);
+    }
+    return () => {
+      if (viewer) viewer.removeEventListener('load-complete', handleLoad);
+    };
+  }, []);
 
   useEffect(() => {
     // Increase duration slightly so the user can enjoy the robot
@@ -97,10 +108,10 @@ export default function Preloader({ onComplete }) {
            </AnimatePresence>
 
            <div className={`w-full h-full transition-opacity duration-1000 ${isSplineLoaded ? 'opacity-100' : 'opacity-0'}`}>
-              <Spline 
-                scene="https://prod.spline.design/EacTm1R0dYAFGfov/scene.splinecode" 
-                onLoad={() => setIsSplineLoaded(true)}
-              />
+              <spline-viewer 
+                ref={splineRef}
+                url="https://prod.spline.design/EacTm1R0dYAFGfov/scene.splinecode" 
+              ></spline-viewer>
            </div>
 
            {/* Fallback Robot Spinner if Spline is slow */}
