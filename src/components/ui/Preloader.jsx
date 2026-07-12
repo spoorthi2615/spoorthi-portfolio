@@ -65,16 +65,7 @@ export default function Preloader({ onComplete }) {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px]"></div>
 
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col items-center mt-12">
-        {/* Animated Robot Image */}
-        <motion.div 
-          className="w-64 h-64 md:w-80 md:h-80 mb-4 drop-shadow-[0_0_25px_rgba(168,85,247,0.4)] z-20 relative flex items-center justify-center pointer-events-none"
-          animate={{ y: [0, -15, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <img src="/robot.png" alt="Spoorthi AI Robot" className="w-full h-full object-contain" />
-        </motion.div>
-
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[50vh]">
         {/* Loading Ring */}
         <div className="relative w-48 h-48 flex items-center justify-center mb-8">
           <motion.svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
