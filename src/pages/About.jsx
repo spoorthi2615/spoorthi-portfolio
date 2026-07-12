@@ -139,7 +139,7 @@ export default function About() {
             </div>
          </div>
          <div className="flex flex-wrap gap-4 w-full md:w-auto">
-           <div className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 font-medium text-gray-300">2022 – Present</div>
+           <div className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 font-medium text-gray-300">2023 – Present</div>
            <div className="px-6 py-3 rounded-xl bg-purple-500/10 border border-purple-500/30 font-black text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.15)]">7.02 CGPA</div>
          </div>
       </div>
@@ -154,7 +154,7 @@ export default function About() {
             </div>
          </div>
          <div className="flex flex-wrap gap-4 w-full md:w-auto">
-           <div className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 font-medium text-gray-300">2020 – 2022</div>
+           <div className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 font-medium text-gray-300">2021 – 2023</div>
            <div className="px-6 py-3 rounded-xl bg-fuchsia-500/5 border border-fuchsia-500/30 font-black text-fuchsia-400">83.3%</div>
          </div>
       </div>
@@ -169,7 +169,7 @@ export default function About() {
             </div>
          </div>
          <div className="flex flex-wrap gap-4 w-full md:w-auto">
-           <div className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 font-medium text-gray-300">2008 – 2020</div>
+           <div className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 font-medium text-gray-300">2008 – 2021</div>
            <div className="px-6 py-3 rounded-xl bg-violet-500/5 border border-violet-500/30 font-black text-violet-400">73.3%</div>
          </div>
       </div>

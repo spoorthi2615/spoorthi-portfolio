@@ -60,7 +60,7 @@ export default function Skills() {
     const N = skillsData.length;
     const phi = Math.PI * (3 - Math.sqrt(5)); // Golden angle
     const points = [];
-    const radius = 250; // Sphere radius in pixels
+    const radius = 180; // Sphere radius in pixels (reduced to fit screen)
 
     for (let i = 0; i < N; i++) {
       const y = 1 - (i / (N - 1)) * 2; // y goes from 1 to -1
@@ -170,7 +170,7 @@ export default function Skills() {
   };
 
   return (
-    <section id="skills" className="py-24 relative bg-[#060608] overflow-hidden border-t border-gray-900">
+    <section id="skills" className="min-h-screen flex flex-col justify-center py-12 relative bg-[#060608] overflow-hidden border-t border-gray-900">
       
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-30">
@@ -197,7 +197,7 @@ export default function Skills() {
         {/* 3D SPHERE CONTAINER */}
         <div 
           ref={containerRef}
-          className="relative w-[100%] max-w-[800px] h-[600px] md:h-[700px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-none select-none"
+          className="relative w-[100%] max-w-[800px] h-[400px] md:h-[500px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-none select-none"
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
