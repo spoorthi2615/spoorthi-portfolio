@@ -21,10 +21,20 @@ export default function Preloader({ onComplete }) {
     const handleLoad = () => setIsSplineLoaded(true);
     const viewer = splineRef.current;
     if (viewer) {
+      viewer.addEventListener('load', handleLoad);
+      // Fallback in case the event name is different or it fails
       viewer.addEventListener('load-complete', handleLoad);
     }
+    
+    // Failsafe: Force load after 3 seconds max so user isn't stuck forever
+    const failsafe = setTimeout(() => setIsSplineLoaded(true), 3000);
+
     return () => {
-      if (viewer) viewer.removeEventListener('load-complete', handleLoad);
+      clearTimeout(failsafe);
+      if (viewer) {
+        viewer.removeEventListener('load', handleLoad);
+        viewer.removeEventListener('load-complete', handleLoad);
+      }
     };
   }, []);
 
@@ -41,10 +51,8 @@ export default function Preloader({ onComplete }) {
       const easeOutQuart = 1 - Math.pow(1 - t, 4);
       let currentProgress = Math.min(Math.floor(easeOutQuart * 100), 100);
 
-      // Hold at 99% if the Spline iframe hasn't loaded yet
-      if (currentProgress === 100 && !isSplineLoaded) {
-        currentProgress = 99;
-      }
+      // We no longer block at 99%. The failsafe ensures it loads, 
+      // and we just let the preloader finish smoothly.
 
       setProgress(currentProgress);
 
