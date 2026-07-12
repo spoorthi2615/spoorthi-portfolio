@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const bootMessages = [
-  "Establishing secure connection...",
-  "Initializing neural pathways...",
-  "Loading 3D environments...",
-  "Compiling shaders...",
-  "Bypassing security protocols...",
-  "System Ready."
-];
-
 export default function Preloader({ onComplete }) {
   const [progress, setProgress] = useState(0);
-  const [messageIndex, setMessageIndex] = useState(0);
 
   useEffect(() => {
     const duration = 2500;
@@ -23,29 +13,20 @@ export default function Preloader({ onComplete }) {
     const interval = setInterval(() => {
       currentStep++;
       const t = Math.min(currentStep / steps, 1);
-      const easeOutQuart = 1 - Math.pow(1 - t, 4);
-      let currentProgress = Math.min(Math.floor(easeOutQuart * 100), 100);
+      // Custom easing function for a premium, liquid-like speed
+      const easeInOutCubic = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      let currentProgress = Math.min(Math.floor(easeInOutCubic * 100), 100);
 
       setProgress(currentProgress);
 
       if (currentProgress === 100) {
         clearInterval(interval);
-        setTimeout(onComplete, 600);
+        setTimeout(onComplete, 800);
       }
     }, intervalTime);
 
     return () => clearInterval(interval);
   }, [onComplete]);
-
-  useEffect(() => {
-    // Change messages periodically based on progress
-    if (progress < 20) setMessageIndex(0);
-    else if (progress < 40) setMessageIndex(1);
-    else if (progress < 60) setMessageIndex(2);
-    else if (progress < 80) setMessageIndex(3);
-    else if (progress < 99) setMessageIndex(4);
-    else setMessageIndex(5);
-  }, [progress]);
 
   return (
     <motion.div 
@@ -54,54 +35,63 @@ export default function Preloader({ onComplete }) {
       exit={{ y: "-100%", opacity: 0 }}
       transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
     >
-      {/* Background Grid & Glow */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px]"></div>
+      {/* Background Ambient Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-      {/* Main Content */}
+      {/* Main Glass Container */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[50vh]">
-        {/* Loading Ring */}
-        <div className="relative w-48 h-48 flex items-center justify-center mb-8">
-          <motion.svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
-            <circle 
-              cx="50" cy="50" r="45" 
-              fill="none" stroke="#1f2937" strokeWidth="2" 
-            />
-            <motion.circle 
-              cx="50" cy="50" r="45" 
-              fill="none" stroke="#a855f7" strokeWidth="2" 
-              strokeDasharray={283}
-              strokeDashoffset={283 - (283 * progress) / 100}
-              strokeLinecap="round"
-            />
-          </motion.svg>
+        
+        {/* Liquid Fill 'S' Logo */}
+        <div className="relative flex items-center justify-center w-48 h-48 mb-6">
+          {/* Glassmorphic Backdrop */}
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-[0_0_40px_rgba(168,85,247,0.2)]"></div>
           
-          <div className="flex flex-col items-center drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
-            <span className="text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums tracking-tighter">
-              {progress}<span className="text-2xl">%</span>
+          <div className="relative text-[100px] font-display font-black leading-none">
+            {/* Outline / Faded Background Text */}
+            <span 
+              className="text-transparent absolute bottom-0 left-1/2 -translate-x-1/2" 
+              style={{ WebkitTextStroke: '2px rgba(255,255,255,0.1)' }}
+            >
+              S
             </span>
+            
+            {/* The Liquid Fill Mask */}
+            <div 
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 overflow-hidden transition-all duration-[30ms] ease-linear"
+              style={{ height: `${progress}%` }}
+            >
+              <span className="text-transparent bg-clip-text bg-gradient-to-t from-purple-600 via-pink-500 to-cyan-400 absolute bottom-0 left-1/2 -translate-x-1/2 drop-shadow-[0_0_15px_rgba(236,72,153,0.8)]">
+                S
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Tech Jargon / Message */}
-        <div className="h-6 overflow-hidden flex items-center justify-center">
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={messageIndex}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="text-purple-400/80 font-mono text-sm tracking-widest uppercase drop-shadow-[0_0_5px_rgba(168,85,247,0.8)] text-center"
-            >
-              {bootMessages[messageIndex]}
-            </motion.span>
-          </AnimatePresence>
+        {/* Clean Percentage Counter */}
+        <div className="flex flex-col items-center">
+          <motion.div 
+            className="text-3xl font-display font-bold text-white tracking-widest tabular-nums"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            {progress}<span className="text-purple-400/80 text-xl">%</span>
+          </motion.div>
+          
+          {/* Minimalist Progress Bar under text */}
+          <div className="w-32 h-1 bg-white/10 rounded-full mt-4 overflow-hidden">
+             <div 
+               className="h-full bg-gradient-to-r from-cyan-400 to-purple-600 rounded-full transition-all duration-[30ms] ease-linear shadow-[0_0_10px_rgba(168,85,247,0.8)]"
+               style={{ width: `${progress}%` }}
+             ></div>
+          </div>
         </div>
+
       </div>
       
       {/* Brand */}
       <motion.div 
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-600 text-xs tracking-[0.3em] uppercase font-bold"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-500 text-[10px] tracking-[0.4em] uppercase font-bold"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
