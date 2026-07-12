@@ -8,6 +8,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import SmoothScroll from './components/layout/SmoothScroll';
+import { ErrorBoundary } from './ErrorBoundary';
 
 // Lazy load heavy components below the fold
 const About = lazy(() => import('./pages/About').catch(e => { console.error("FAILED ABOUT", e); throw e; }));
@@ -29,7 +30,8 @@ export default function App() {
   }, []);
 
   return (
-    <HelmetProvider>
+    <ErrorBoundary>
+      <HelmetProvider>
       <Helmet>
         <title>Spoorthi | Cybersecurity Engineer & Full-Stack Developer</title>
         <meta name="description" content="Portfolio of Spoorthi, a Computer Science (Cybersecurity) student at NMAMIT specializing in cybersecurity, software testing, and full-stack development." />
@@ -81,5 +83,6 @@ export default function App() {
         </div>
       </SmoothScroll>
     </HelmetProvider>
+    </ErrorBoundary>
   );
 }
