@@ -44,7 +44,7 @@ export default function Contact() {
             ✦ spoorthi.dev / contact ✦
           </motion.p>
           <motion.h2 variants={itemVariants} className="text-5xl md:text-7xl font-display font-black tracking-normal text-white">
-            Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Connect! 💌</span>
+            Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Connect!</span>
           </motion.h2>
           <motion.p variants={itemVariants} className="text-gray-400 max-w-xl mx-auto mt-4 text-sm md:text-base leading-relaxed">
             Whether it's a project proposal, an architecture discussion, or just a friendly hello — my inbox is always open.
