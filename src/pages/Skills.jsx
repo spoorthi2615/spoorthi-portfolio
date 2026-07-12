@@ -11,33 +11,33 @@ import { FaJava, FaShieldAlt } from "react-icons/fa";
 // SKILLS DATA
 // ==========================================
 const skillsData = [
-  { id: 'python', name: 'Python', icon: SiPython, category: 'Languages', color: 'text-yellow-400' },
-  { id: 'cpp', name: 'C++', icon: SiCplusplus, category: 'Languages', color: 'text-blue-500' },
-  { id: 'java', name: 'Java', icon: FaJava, category: 'Languages', color: 'text-orange-500' },
-  { id: 'js', name: 'JavaScript', icon: SiJavascript, category: 'Languages', color: 'text-yellow-300' },
-  { id: 'ts', name: 'TypeScript', icon: SiTypescript, category: 'Languages', color: 'text-blue-500' },
-  { id: 'c', name: 'C', icon: SiC, category: 'Languages', color: 'text-blue-400' },
+  { id: 'python', name: 'Python', icon: SiPython, category: 'Languages', color: 'text-yellow-400', desc: 'A high-level, interpreted programming language.', usage: 'Core logic and model engineering in CascadeShield, HuntGPT, and QRIntel.' },
+  { id: 'cpp', name: 'C++', icon: SiCplusplus, category: 'Languages', color: 'text-blue-500', desc: 'A high-performance systems programming language.', usage: 'Used for algorithmic optimization and academic coursework.' },
+  { id: 'java', name: 'Java', icon: FaJava, category: 'Languages', color: 'text-orange-500', desc: 'An object-oriented programming language.', usage: 'Built foundational backend services and enterprise data structures.' },
+  { id: 'js', name: 'JavaScript', icon: SiJavascript, category: 'Languages', color: 'text-yellow-300', desc: 'The core scripting language of the web.', usage: 'Built the anomaly analytics engine in Cyber DNA and dynamic web interfaces.' },
+  { id: 'ts', name: 'TypeScript', icon: SiTypescript, category: 'Languages', color: 'text-blue-500', desc: 'A strongly typed superset of JavaScript.', usage: 'Enforced type safety across complex frontend architectures.' },
+  { id: 'c', name: 'C', icon: SiC, category: 'Languages', color: 'text-blue-400', desc: 'A procedural, low-level programming language.', usage: 'Systems-level programming and fundamental memory management.' },
   
-  { id: 'react', name: 'React', icon: SiReact, category: 'Frontend', color: 'text-cyan-400' },
-  { id: 'tailwind', name: 'Tailwind', icon: SiTailwindcss, category: 'Frontend', color: 'text-teal-400' },
-  { id: 'html', name: 'HTML5', icon: SiHtml5, category: 'Frontend', color: 'text-orange-500' },
-  { id: 'css', name: 'CSS3', icon: SiCss3, category: 'Frontend', color: 'text-blue-500' },
-  { id: 'framer', name: 'Framer', icon: SiFramer, category: 'Frontend', color: 'text-pink-500' },
+  { id: 'react', name: 'React', icon: SiReact, category: 'Frontend', color: 'text-cyan-400', desc: 'A JavaScript library for building user interfaces.', usage: 'Engineered the SPA frontend for the SkillBytes application.' },
+  { id: 'tailwind', name: 'Tailwind', icon: SiTailwindcss, category: 'Frontend', color: 'text-teal-400', desc: 'A utility-first CSS framework.', usage: 'Rapidly styled this exact portfolio and other responsive web interfaces.' },
+  { id: 'html', name: 'HTML5', icon: SiHtml5, category: 'Frontend', color: 'text-orange-500', desc: 'The standard markup language for documents on the web.', usage: 'Structured semantic and accessible web applications.' },
+  { id: 'css', name: 'CSS3', icon: SiCss3, category: 'Frontend', color: 'text-blue-500', desc: 'The style sheet language used for document presentation.', usage: 'Crafted advanced layout mechanics, animations, and responsive designs.' },
+  { id: 'framer', name: 'Framer', icon: SiFramer, category: 'Frontend', color: 'text-pink-500', desc: 'A powerful motion library for React.', usage: 'Orchestrated the complex scroll animations and interactions in this portfolio.' },
   
-  { id: 'node', name: 'Node.js', icon: SiNodedotjs, category: 'Backend', color: 'text-green-500' },
-  { id: 'express', name: 'Express', icon: SiExpress, category: 'Backend', color: 'text-gray-300' },
-  { id: 'mongo', name: 'MongoDB', icon: SiMongodb, category: 'Backend', color: 'text-green-400' },
-  { id: 'sql', name: 'SQL', icon: SiPostgresql, category: 'Backend', color: 'text-blue-400' },
-  { id: 'firebase', name: 'Firebase', icon: SiFirebase, category: 'Backend', color: 'text-amber-500' },
+  { id: 'node', name: 'Node.js', icon: SiNodedotjs, category: 'Backend', color: 'text-green-500', desc: 'An asynchronous event-driven JavaScript runtime.', usage: 'Developed backend services and behavioral drift analysis in Cyber DNA.' },
+  { id: 'express', name: 'Express', icon: SiExpress, category: 'Backend', color: 'text-gray-300', desc: 'A fast, minimalist web framework for Node.js.', usage: 'Facilitated rapid API development and middleware integration.' },
+  { id: 'mongo', name: 'MongoDB', icon: SiMongodb, category: 'Backend', color: 'text-green-400', desc: 'A document-based, distributed NoSQL database.', usage: 'Provided flexible data persistence for the SkillBytes microservices architecture.' },
+  { id: 'sql', name: 'SQL', icon: SiPostgresql, category: 'Backend', color: 'text-blue-400', desc: 'A domain-specific language for managing relational databases.', usage: 'Managed structured data querying and secure database architectures.' },
+  { id: 'firebase', name: 'Firebase', icon: SiFirebase, category: 'Backend', color: 'text-amber-500', desc: 'A Backend-as-a-Service platform.', usage: 'Enabled rapid prototyping for real-time data sync and user authentication.' },
   
-  { id: 'git', name: 'Git', icon: SiGit, category: 'Tools', color: 'text-red-500' },
-  { id: 'docker', name: 'Docker', icon: SiDocker, category: 'Tools', color: 'text-blue-500' },
-  { id: 'linux', name: 'Linux', icon: SiLinux, category: 'Tools', color: 'text-yellow-200' },
-  { id: 'postman', name: 'Postman', icon: SiPostman, category: 'Tools', color: 'text-orange-500' },
+  { id: 'git', name: 'Git', icon: SiGit, category: 'Tools', color: 'text-red-500', desc: 'A distributed version control system.', usage: 'Tracked codebase iterations across all my open-source projects.' },
+  { id: 'docker', name: 'Docker', icon: SiDocker, category: 'Tools', color: 'text-blue-500', desc: 'An OS-level virtualization platform for containerized software.', usage: 'Containerized the FastAPI backend for the SkillBytes deployment.' },
+  { id: 'linux', name: 'Linux', icon: SiLinux, category: 'Tools', color: 'text-yellow-200', desc: 'A family of open-source Unix-like operating systems.', usage: 'Core environment for threat hunting, server management, and development.' },
+  { id: 'postman', name: 'Postman', icon: SiPostman, category: 'Tools', color: 'text-orange-500', desc: 'An API platform for building and using APIs.', usage: 'Conducted rigorous testing of backend routes and authentication schemas.' },
   
-  { id: 'wireshark', name: 'Wireshark', icon: SiWireshark, category: 'Security', color: 'text-indigo-400' },
-  { id: 'kali', name: 'Kali Linux', icon: SiKalilinux, category: 'Security', color: 'text-blue-300' },
-  { id: 'security', name: 'Burp Suite', icon: FaShieldAlt, category: 'Security', color: 'text-rose-500' }
+  { id: 'wireshark', name: 'Wireshark', icon: SiWireshark, category: 'Security', color: 'text-indigo-400', desc: 'A widely-used network protocol analyzer.', usage: 'Analyzed network traffic and performed packet-level threat hunting.' },
+  { id: 'kali', name: 'Kali Linux', icon: SiKalilinux, category: 'Security', color: 'text-blue-300', desc: 'A Debian-derived Linux distribution for penetration testing.', usage: 'Ran offensive security tools for vulnerability auditing.' },
+  { id: 'security', name: 'Burp Suite', icon: FaShieldAlt, category: 'Security', color: 'text-rose-500', desc: 'An integrated tool for security testing of web applications.', usage: 'Executed OWASP Top 10 tests during my Thaniya internship.' }
 ];
 
 // ==========================================
@@ -177,10 +177,10 @@ export default function Skills() {
         <div className="w-[800px] h-[800px] rounded-full bg-fuchsia-900/10 blur-[150px]" />
       </div>
 
-      <div className="max-w-[75rem] mx-auto px-6 relative z-10 flex flex-col items-center">
+      <div className="max-w-[90rem] mx-auto px-6 relative z-10 w-full flex flex-col items-center">
         
         {/* Title */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-6 w-full">
           <h2 className="text-4xl md:text-5xl font-display font-black mb-4 text-white tracking-tighter">
             Tech{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">
@@ -190,35 +190,110 @@ export default function Skills() {
           <p className="text-base text-gray-400 max-w-2xl mx-auto font-medium h-6 transition-all">
             {hoveredSkill 
               ? <span className="text-fuchsia-400 font-bold">{hoveredSkill.name} <span className="text-gray-500 font-normal">({hoveredSkill.category})</span></span> 
-              : "Drag to rotate the sphere in 3D space."}
+              : "Drag to rotate the sphere in 3D space. Hover for details."}
           </p>
         </div>
 
-        {/* 3D SPHERE CONTAINER */}
-        <div 
-          ref={containerRef}
-          className="relative w-[100%] max-w-[800px] h-[400px] md:h-[500px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-none select-none"
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerLeave={handlePointerUp}
-        >
+        {/* 3-COLUMN DESKTOP LAYOUT / STACKED MOBILE LAYOUT */}
+        <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-8 mt-4 md:mt-10">
           
-          {/* Center Anchor Point for Absolute Positioning */}
-          <div className="absolute left-1/2 top-1/2 w-0 h-0">
-            {skillsData.map((skill, i) => (
-              <div
-                key={skill.id}
-                ref={el => elementsRef.current[i] = el}
-                className="absolute flex items-center justify-center -ml-[40px] -mt-[40px] w-[80px] h-[80px] rounded-full bg-gray-900/60 backdrop-blur-md border border-gray-700/50 hover:bg-gray-800 transition-colors shadow-2xl"
-                onMouseEnter={() => setHoveredSkill(skill)}
-                onMouseLeave={() => setHoveredSkill(null)}
-              >
-                <skill.icon className={`text-4xl ${skill.color} drop-shadow-[0_0_15px_currentColor]`} />
-              </div>
-            ))}
+          {/* LEFT SIDE: EXPERIENCE (Desktop Only) */}
+          <div className="hidden lg:flex w-[25%] h-48 relative flex-col justify-center">
+            <AnimatePresence mode="wait">
+              {hoveredSkill && (
+                <motion.div
+                  key={hoveredSkill.id + '-left'}
+                  initial={{ opacity: 0, x: -20, filter: 'blur(10px)' }}
+                  animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, x: -20, filter: 'blur(10px)' }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-gray-900/40 border border-purple-500/20 p-6 rounded-2xl backdrop-blur-md shadow-2xl"
+                >
+                  <h3 className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" /> Experience
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    {hoveredSkill.usage}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
+          {/* CENTER: 3D SPHERE */}
+          <div 
+            ref={containerRef}
+            className="relative w-full max-w-[600px] lg:max-w-[50%] h-[350px] md:h-[450px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-none select-none"
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerLeave={handlePointerUp}
+          >
+            {/* Center Anchor Point for Absolute Positioning */}
+            <div className="absolute left-1/2 top-1/2 w-0 h-0">
+              {skillsData.map((skill, i) => (
+                <div
+                  key={skill.id}
+                  ref={el => elementsRef.current[i] = el}
+                  className="absolute flex items-center justify-center -ml-[40px] -mt-[40px] w-[80px] h-[80px] rounded-full bg-gray-900/60 backdrop-blur-md border border-gray-700/50 hover:bg-gray-800 transition-colors shadow-2xl"
+                  onMouseEnter={() => setHoveredSkill(skill)}
+                  onMouseLeave={() => setHoveredSkill(null)}
+                >
+                  <skill.icon className={`text-4xl ${skill.color} drop-shadow-[0_0_15px_currentColor]`} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT SIDE: OVERVIEW (Desktop Only) */}
+          <div className="hidden lg:flex w-[25%] h-48 relative flex-col justify-center text-right items-end">
+            <AnimatePresence mode="wait">
+              {hoveredSkill && (
+                <motion.div
+                  key={hoveredSkill.id + '-right'}
+                  initial={{ opacity: 0, x: 20, filter: 'blur(10px)' }}
+                  animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, x: 20, filter: 'blur(10px)' }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-gray-900/40 border border-fuchsia-500/20 p-6 rounded-2xl backdrop-blur-md shadow-2xl"
+                >
+                  <h3 className="text-xs font-bold text-fuchsia-400 uppercase tracking-widest mb-3 flex items-center justify-end gap-2">
+                    Overview <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse" />
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    {hoveredSkill.desc}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+        </div>
+
+        {/* MOBILE STACKED DETAILS */}
+        <div className="lg:hidden w-full h-[120px] relative mt-4">
+          <AnimatePresence mode="wait">
+            {hoveredSkill && (
+              <motion.div
+                key={hoveredSkill.id + '-mobile'}
+                initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+                transition={{ duration: 0.3 }}
+                className="w-full bg-gray-900/60 border border-purple-500/20 p-5 rounded-2xl backdrop-blur-md text-center shadow-2xl flex flex-col justify-center h-full"
+              >
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <span className="text-fuchsia-400 font-bold text-sm">Overview:</span>
+                  <span className="text-gray-300 text-sm">{hoveredSkill.desc}</span>
+                </div>
+                <div className="w-12 h-px bg-gray-800 mx-auto my-2" />
+                <div className="flex flex-col items-center justify-center gap-1">
+                  <span className="text-purple-400 font-bold text-xs uppercase tracking-wider">Experience</span>
+                  <span className="text-gray-400 text-xs leading-relaxed max-w-sm">{hoveredSkill.usage}</span>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
       </div>
