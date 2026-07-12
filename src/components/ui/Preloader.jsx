@@ -42,25 +42,28 @@ export default function Preloader({ onComplete }) {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[50vh]">
         
         {/* Liquid Fill 'S' Logo */}
-        <div className="relative flex items-center justify-center w-48 h-48 mb-6">
+        <div className="relative flex items-center justify-center w-40 h-40 md:w-48 md:h-48 mb-8">
           {/* Glassmorphic Backdrop */}
-          <div className="absolute inset-0 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-[0_0_40px_rgba(168,85,247,0.2)]"></div>
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-2xl border border-white/20 rounded-full shadow-[0_0_50px_rgba(168,85,247,0.15)]"></div>
           
-          <div className="relative text-[100px] font-display font-black leading-none">
+          <div className="relative w-full h-full flex items-center justify-center font-black leading-none" style={{ fontFamily: "'Syne', sans-serif" }}>
             {/* Outline / Faded Background Text */}
             <span 
-              className="text-transparent absolute bottom-0 left-1/2 -translate-x-1/2" 
-              style={{ WebkitTextStroke: '2px rgba(255,255,255,0.1)' }}
+              className="text-transparent absolute flex items-center justify-center w-full h-full text-[120px] md:text-[150px]" 
+              style={{ WebkitTextStroke: '1px rgba(255,255,255,0.15)' }}
             >
               S
             </span>
             
             {/* The Liquid Fill Mask */}
             <div 
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 overflow-hidden transition-all duration-[30ms] ease-linear"
+              className="absolute bottom-0 left-0 w-full overflow-hidden transition-all duration-[30ms] ease-linear flex items-end justify-center"
               style={{ height: `${progress}%` }}
             >
-              <span className="text-transparent bg-clip-text bg-gradient-to-t from-purple-600 via-pink-500 to-cyan-400 absolute bottom-0 left-1/2 -translate-x-1/2 drop-shadow-[0_0_15px_rgba(236,72,153,0.8)]">
+              <span 
+                className="text-transparent bg-clip-text bg-gradient-to-t from-purple-600 via-pink-500 to-cyan-400 drop-shadow-[0_0_20px_rgba(236,72,153,0.6)] text-[120px] md:text-[150px] flex items-end justify-center h-full"
+                style={{ lineHeight: 1 }}
+              >
                 S
               </span>
             </div>
