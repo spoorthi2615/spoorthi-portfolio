@@ -6,6 +6,7 @@ import {
   SiGit, SiDocker, SiLinux, SiPostman, SiWireshark, SiKalilinux
 } from "react-icons/si";
 import { FaJava, FaShieldAlt } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
 
 // ==========================================
 // SKILLS DATA
