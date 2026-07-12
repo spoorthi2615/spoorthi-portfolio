@@ -99,7 +99,7 @@ export default function Preloader({ onComplete }) {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        Spoorthi OS v2.0
+        Spoorthi Portfolio
       </motion.div>
     </motion.div>
   );
