@@ -63,7 +63,7 @@ body {
 
 .flip-card-back {
   transform: rotateY(180deg);
-  background-color: #0e7490; /* Tailwind cyan-700 */
+  background-color: #6b21a8; /* Tailwind purple-800 */
   color: white;
 }
 

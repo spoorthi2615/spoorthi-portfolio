@@ -1,476 +1,298 @@
-import React, { useState } from "react";
-import { FaAward, FaFilePdf, FaMedal, FaCertificate, FaTrophy, FaCode, FaExternalLinkAlt } from "react-icons/fa";
-import { SiCoursera, SiUdemy, SiFreecodecamp, SiMicrosoftacademic } from "react-icons/si";
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import React from "react";
+import { FaBuilding, FaFlag, FaUniversity } from "react-icons/fa";
+import { SiMicrosoft, SiMicrosoftazure, SiHedera } from "react-icons/si";
+import { motion } from "framer-motion";
 
-const BlurText = ({ text, className }) => {
-  const words = text.split(" ");
-  
-  const container = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.05, delayChildren: 0.2 },
-    },
-  };
+// ==========================================
+// CERTIFICATIONS DATA
+// ==========================================
+const certifications = [
+  {
+    id: "hedera",
+    title: "Hashgraph Developer Course",
+    issuer: "The Hashgraph Association",
+    date: "5 Oct 2025",
+    Icon: SiHedera,
+    link: "/certificates/hashgraph.pdf",
+    level: "Completed",
+    category: "Blockchain",
+    featured: true,
+    color: "from-purple-400 to-purple-600",
+    iconColor: "text-purple-400",
+    bento: "md:col-span-2 md:row-span-2", // 2x2
+  },
+  {
+    id: "azure-challenge",
+    title: "Microsoft Azure Challenge",
+    issuer: "Microsoft Learn",
+    date: "22 Sept 2025",
+    Icon: SiMicrosoftazure,
+    link: "/certificates/azure.pdf",
+    level: "Completed",
+    category: "Cloud",
+    featured: true,
+    color: "from-fuchsia-400 to-fuchsia-600",
+    iconColor: "text-fuchsia-400",
+    bento: "md:col-span-1 md:row-span-1", // 1x1
+  },
+  {
+    id: "thaniya",
+    title: "Cyber Security Internship",
+    issuer: "Thaniya Technologies",
+    date: "Jun-Jul 2025",
+    Icon: FaBuilding,
+    link: "/certificates/thaniya.pdf",
+    level: "Completed",
+    category: "Internship",
+    featured: true,
+    color: "from-violet-400 to-violet-600",
+    iconColor: "text-violet-400",
+    bento: "md:col-span-1 md:row-span-1", // 1x1
+  },
+  {
+    id: "applied-ai",
+    title: "Applied AI Challenge",
+    issuer: "Microsoft",
+    date: "22 Sept 2025",
+    Icon: SiMicrosoft,
+    link: "/certificates/applied-ai.pdf",
+    level: "Completed",
+    category: "AI",
+    featured: false,
+    color: "from-purple-500 to-fuchsia-500",
+    iconColor: "text-purple-500",
+    bento: "md:col-span-1 md:row-span-1", // 1x1
+  },
+  {
+    id: "ai-challenge",
+    title: "Microsoft AI Challenge",
+    issuer: "Microsoft",
+    date: "22 Sept 2025",
+    Icon: SiMicrosoft,
+    link: "/certificates/ai-challenge.pdf",
+    level: "Completed",
+    category: "AI",
+    featured: false,
+    color: "from-fuchsia-500 to-violet-500",
+    iconColor: "text-fuchsia-500",
+    bento: "md:col-span-1 md:row-span-1", // 1x1
+  },
+  {
+    id: "iccs",
+    title: "Internet Crimes & Cyber Security",
+    issuer: "NPTEL",
+    date: "Feb-Apr 2026",
+    Icon: FaUniversity,
+    link: "/certificates/iccs.pdf",
+    level: "Elite (79%)",
+    category: "Security",
+    featured: true,
+    color: "from-violet-500 to-purple-500",
+    iconColor: "text-violet-500",
+    bento: "md:col-span-2 md:row-span-1", // 2x1
+  },
+  {
+    id: "susec",
+    title: "Systems and Usable Security",
+    issuer: "NPTEL",
+    date: "Jan-Feb 2025",
+    Icon: FaUniversity,
+    link: "/certificates/susec.png",
+    level: "Completed (53%)",
+    category: "Security",
+    featured: false,
+    color: "from-purple-300 to-purple-500",
+    iconColor: "text-purple-300",
+    bento: "md:col-span-2 md:row-span-1", // 2x1
+  }
+];
 
-  const child = {
-    visible: {
-      opacity: 1,
-      filter: "blur(0px)",
-      y: 0,
-      transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 100,
-      },
-    },
-    hidden: {
-      opacity: 0,
-      filter: "blur(10px)",
-      y: 10,
-    },
-  };
+// ==========================================
+// COMPETITIONS DATA
+// ==========================================
+const competitions = [
+  {
+    id: "cybersiege",
+    title: "Cybersiege 2026: 24-Hour CTF",
+    issuer: "Alva's Institute of Tech",
+    date: "30-31 Mar 2026",
+    Icon: FaFlag,
+    link: "/certificates/cybersiege.jpg",
+    level: "3rd Place Winner",
+    category: "Competition",
+    featured: true,
+    color: "from-purple-400 to-fuchsia-600",
+    iconColor: "text-purple-400",
+    bento: "md:col-span-2 md:row-span-1", // 2x1
+  },
+  {
+    id: "hackfest",
+    title: "Hackfest 26' CTF",
+    issuer: "NITTE & Finite Loop",
+    date: "18-19 Apr 2026",
+    Icon: FaFlag,
+    link: "/certificates/hackfest.jpg",
+    level: "Participant",
+    category: "Competition",
+    featured: false,
+    color: "from-violet-400 to-purple-600",
+    iconColor: "text-violet-400",
+    bento: "md:col-span-2 md:row-span-1", // 2x1
+  }
+];
+
+// ==========================================
+// BENTO CARD COMPONENT
+// ==========================================
+const BentoCard = ({ item, index }) => {
+  const isLarge = item.bento === "md:col-span-2 md:row-span-2";
+  const isWide = item.bento === "md:col-span-2 md:row-span-1";
+  const isTall = item.bento === "md:col-span-1 md:row-span-2";
+  const isSmall = item.bento === "md:col-span-1 md:row-span-1";
 
   return (
     <motion.div
-      style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem", justifyContent: "center" }}
-      variants={container}
-      initial="hidden"
-      whileInView="visible"
+      initial={{ opacity: 0, scale: 0.95, y: 20 }}
+      whileInView={{ opacity: 1, scale: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      className={className}
+      transition={{ delay: index * 0.1, duration: 0.5, type: 'spring' }}
+      className={`col-span-1 ${item.bento} relative group w-full h-full bg-gray-900/40 border border-gray-800 rounded-3xl overflow-hidden flex transition-all duration-500 hover:border-gray-600 hover:shadow-[0_0_40px_rgba(255,255,255,0.03)] hover:-translate-y-1`}
     >
-      {words.map((word, index) => (
-        <motion.span variants={child} key={index}>
-          {word}
-        </motion.span>
-      ))}
+       {/* Background ambient glow on hover */}
+       <div className={`absolute -bottom-24 -right-24 w-64 h-64 bg-gradient-to-br ${item.color} rounded-full blur-[80px] opacity-0 group-hover:opacity-15 transition-opacity duration-500 pointer-events-none z-0`} />
+
+       {/* Link Arrow Indicator (Top Right) */}
+       <div className="absolute top-4 right-4 md:top-6 md:right-6 w-8 h-8 rounded-full bg-gray-800/80 backdrop-blur-sm border border-gray-600 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 -translate-y-4 group-hover:translate-x-0 group-hover:translate-y-0 z-30 shadow-xl">
+         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+       </div>
+
+       {/* LARGE CARD (2x2) */}
+       {isLarge && (
+         <div className="p-8 md:p-10 flex flex-col h-full w-full relative z-10">
+           <div className="w-16 h-16 rounded-2xl bg-gray-950 border border-gray-800 flex items-center justify-center mb-auto shadow-inner">
+             <item.Icon className={`text-3xl ${item.iconColor}`} />
+           </div>
+           
+           <div className="mt-6">
+             <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center justify-between">
+               <span>{item.category}</span>
+               {item.featured && <span className={`text-transparent bg-clip-text bg-gradient-to-r ${item.color} font-black`}>★ FEATURED</span>}
+             </div>
+             <h3 className="text-3xl font-bold text-white mb-3 leading-tight">{item.title}</h3>
+             <p className="text-gray-400 text-sm mb-6">{item.issuer}</p>
+             
+             <div className="flex justify-between items-center border-t border-gray-800/80 pt-5">
+                <span className="text-gray-600 font-mono text-[10px] uppercase tracking-wider">{item.level}</span>
+                <span className="text-gray-500 font-medium text-xs">{item.date}</span>
+             </div>
+           </div>
+         </div>
+       )}
+
+       {/* WIDE CARD (2x1) */}
+       {isWide && (
+         <div className="p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center h-full w-full relative z-10 gap-5">
+           <div className="w-14 h-14 rounded-2xl bg-gray-950 border border-gray-800 flex items-center justify-center shrink-0 shadow-inner">
+             <item.Icon className={`text-2xl ${item.iconColor}`} />
+           </div>
+           
+           <div className="flex-1 w-full flex flex-col h-full justify-center">
+             <div className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-2 flex items-center justify-between">
+               <span>{item.category}</span>
+               {item.featured && <span className={`text-transparent bg-clip-text bg-gradient-to-r ${item.color} font-black`}>★ FEATURED</span>}
+             </div>
+             <h3 className="text-lg font-bold text-white mb-1 leading-tight">{item.title}</h3>
+             <p className="text-gray-400 text-xs mb-3">{item.issuer}</p>
+             
+             <div className="flex justify-between items-center w-full mt-auto pt-2">
+                <span className="text-gray-600 font-mono text-[9px] uppercase tracking-wider">{item.level}</span>
+                <span className="text-gray-500 font-medium text-[10px]">{item.date}</span>
+             </div>
+           </div>
+         </div>
+       )}
+
+       {/* SMALL CARD (1x1) */}
+       {isSmall && (
+         <div className="p-6 flex flex-col justify-center items-center h-full w-full relative z-10 text-center">
+           <div className="w-12 h-12 rounded-xl bg-gray-950 border border-gray-800 flex items-center justify-center mb-4 shadow-inner">
+             <item.Icon className={`text-xl ${item.iconColor}`} />
+           </div>
+           
+           <h3 className="text-sm font-bold text-white mb-1 line-clamp-2 leading-tight">{item.title}</h3>
+           <p className="text-gray-400 text-[10px] mb-3">{item.issuer}</p>
+           <div className="text-gray-500 font-medium text-[9px] mt-auto uppercase">{item.level}</div>
+         </div>
+       )}
+
+       {/* View Certificate Link Overlay */}
+       <a 
+         href={item.link} 
+         target="_blank" 
+         rel="noopener noreferrer"
+         className="absolute inset-0 z-40" 
+         aria-label={`View Certificate: ${item.title}`} 
+         onClick={(e) => { 
+           if (!item.link || item.link === "#") e.preventDefault(); 
+         }}
+       />
     </motion.div>
   );
 };
 
-const certifications = [
-  {
-    title: "Full Stack Developer",
-    issuer: "Winsun Global Tech",
-    date: "April 2024",
-    Icon: SiFreecodecamp,
-    link: "https://res.cloudinary.com/duf8kshsz/image/upload/v1779393148/full_stack__winsun_sbqh5p.jpg",
-    level: "Professional",
-    category: "Development",
-    featured: true,
-    color: "from-green-400 to-green-600",
-    bgColor: "bg-green-500/10",
-  },
-  {
-    title: "Internet Crime & Cyber Security",
-    issuer: "NPTEL",
-    date: "Recent",
-    Icon: SiUdemy,
-    link: "https://res.cloudinary.com/duf8kshsz/image/upload/v1779393159/nptel_internet_cybersecurity_lp6nmb.pdf",
-    level: "Score: 96%",
-    category: "Security",
-    featured: true,
-    color: "from-purple-400 to-purple-600",
-    bgColor: "bg-purple-500/10",
-  },
-  {
-    title: "Microsoft AI Learning",
-    issuer: "Microsoft Learn",
-    date: "Aug 2025",
-    Icon: SiMicrosoftacademic,
-    link: "https://res.cloudinary.com/duf8kshsz/image/upload/v1779393190/microsdt_learn_aidevelopment_kdct99.pdf",
-    level: "Intermediate",
-    category: "AI & Cloud",
-    featured: false,
-    color: "from-blue-400 to-blue-600",
-    bgColor: "bg-blue-500/10",
-  },
-  {
-    title: "Python Fundamentals",
-    issuer: "Course/Certification",
-    date: "Recent",
-    Icon: FaCode,
-    link: "https://res.cloudinary.com/duf8kshsz/image/upload/v1779393199/python_basics_hyncge.pdf",
-    level: "Fundamentals",
-    category: "Programming",
-    featured: false,
-    color: "from-yellow-400 to-yellow-600",
-    bgColor: "bg-yellow-500/10",
-  },
-  {
-    title: "Hedera Development Course",
-    issuer: "Hedera",
-    date: "Recent",
-    Icon: FaCode,
-    link: "https://res.cloudinary.com/duf8kshsz/image/upload/v1779393206/hedera_development_uuns23.pdf",
-    level: "Certified",
-    category: "Blockchain",
-    featured: false,
-    color: "from-emerald-400 to-emerald-600",
-    bgColor: "bg-emerald-500/10",
-  },
-  {
-    title: "Typing Speed Certificate",
-    issuer: "Coursera",
-    date: "June 2024",
-    Icon: SiCoursera,
-    link: "https://res.cloudinary.com/duf8kshsz/image/upload/v1779393167/typing_one_ys2nrg.pdf",
-    level: "Certified",
-    category: "Skills",
-    featured: false,
-    color: "from-orange-400 to-orange-600",
-    bgColor: "bg-orange-500/10",
-  },
-];
-
-const achievements = [
-  {
-    title: "Cybersiege National Level CTF",
-    issuer: "Alvas",
-    date: "Recent",
-    Icon: FaTrophy,
-    link: "https://res.cloudinary.com/duf8kshsz/image/upload/v1779219194/Alvas_ctf_iqrev7.jpg",
-    level: "2nd Runner Up",
-    category: "Winning",
-    featured: true,
-    color: "from-yellow-300 to-yellow-600",
-    bgColor: "bg-yellow-500/10",
-  },
-  {
-    title: "Bit N Build Hackathon",
-    issuer: "24 Hours Hackathon",
-    date: "Recent",
-    Icon: FaMedal,
-    link: "https://res.cloudinary.com/duf8kshsz/image/upload/v1779219194/bit_n_build_ixv25i.jpg",
-    level: "Special Recognition",
-    category: "Recognition",
-    featured: true,
-    color: "from-pink-400 to-pink-600",
-    bgColor: "bg-pink-500/10",
-  },
-  {
-    title: "Christ Hackathon",
-    issuer: "24 Hours Hackathon",
-    date: "Recent",
-    Icon: FaMedal,
-    link: "https://res.cloudinary.com/duf8kshsz/image/upload/v1779219199/Christ_hackthon_qy9km2.png",
-    level: "Finalist",
-    category: "Recognition",
-    featured: false,
-    color: "from-purple-400 to-pink-500",
-    bgColor: "bg-purple-500/10",
-  },
-  {
-    title: "Codefury 8.0",
-    issuer: "24 Hours Hackathon",
-    date: "Recent",
-    Icon: FaCode,
-    link: "https://res.cloudinary.com/duf8kshsz/image/upload/v1779219195/Codefrury_hackthon_klslft.pdf",
-    level: "Participant",
-    category: "Participation",
-    featured: false,
-    color: "from-cyan-400 to-blue-500",
-    bgColor: "bg-cyan-500/10",
-  },
-  {
-    title: "Hackfest CTF",
-    issuer: "Capture The Flag",
-    date: "Recent",
-    Icon: FaCode,
-    link: "https://res.cloudinary.com/duf8kshsz/image/upload/v1779219198/Hackfest_ctf_r0g766.jpg",
-    level: "Participant",
-    category: "Participation",
-    featured: false,
-    color: "from-teal-400 to-emerald-500",
-    bgColor: "bg-teal-500/10",
-  }
-];
-
-// Optimized Card with Performant Local 3D Tilt
-const FastCard = ({ item, index, setSelectedItem }) => {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <div className="perspective-[1000px] h-full">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.05, duration: 0.4 }}
-        whileHover={{ scale: 1.02, zIndex: 10 }}
-        className="relative group cursor-pointer h-full"
-        onClick={() => setSelectedItem(item)}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      >
-        <div 
-          className="glass gpu-accelerated rounded-3xl p-6 backdrop-blur-sm border border-gray-800/80 hover:border-cyan-400/40 transition-colors duration-300 h-full flex flex-col relative overflow-hidden bg-gray-900/40 hover:bg-gray-800/60 shadow-xl"
-          style={{ transform: "translateZ(30px)" }}
-        >
-        
-        {/* Animated border gradient placeholder */}
-        <div className={`absolute inset-0 bg-gradient-to-r ${item.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
-
-        {item.featured && (
-          <div className="absolute top-0 right-0 z-20 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white px-3 py-1 rounded-bl-xl rounded-tr-3xl text-xs font-bold shadow-lg flex items-center gap-1">
-            <FaMedal /> Featured
-          </div>
-        )}
-
-        <div className="flex items-start gap-4 mb-6 relative z-10">
-          <div className={`p-4 ${item.bgColor} rounded-2xl`}>
-            <item.Icon className={`text-3xl bg-gradient-to-br ${item.color} bg-clip-text text-transparent`} />
-          </div>
-          <div className="flex-1">
-            <h3 className="text-xl font-bold text-white mb-1 leading-tight group-hover:text-cyan-300 transition-colors">
-              {item.title}
-            </h3>
-            <p className="text-cyan-400/80 font-medium text-sm">
-              {item.issuer}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex-1 space-y-4 relative z-10">
-          <div className="flex gap-2 flex-wrap">
-            <span className={`px-3 py-1 text-xs font-semibold rounded-full bg-gradient-to-r ${item.color} text-white`}>
-              {item.category}
-            </span>
-            <span className="px-3 py-1 text-xs font-semibold rounded-full bg-gray-800/80 text-gray-300 border border-gray-700">
-              {item.level}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 text-gray-500 text-sm">
-            <FaCertificate className="text-cyan-500/40" />
-            <span>{item.date}</span>
-          </div>
-        </div>
-
-        <div className="mt-6 pt-4 border-t border-gray-800/60 flex items-center justify-between relative z-10">
-           <span className="text-xs text-gray-500 group-hover:text-cyan-400 transition-colors font-medium">Click to view details</span>
-           <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${item.color} flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity`}>
-             <FaFilePdf className="text-white text-xs" />
-           </div>
-        </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-};
-
+// ==========================================
+// MAIN COMPONENT
+// ==========================================
 export default function Certifications() {
-  const [activeTab, setActiveTab] = useState("achievements");
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [showAll, setShowAll] = useState(false);
-
-  const activeData = activeTab === "certifications" ? certifications : achievements;
-  const INITIAL_LIMIT = 6;
-  const displayData = showAll ? activeData : activeData.slice(0, INITIAL_LIMIT);
-  const hasMore = activeData.length > INITIAL_LIMIT;
-
   return (
-    <section id="certifications" className="py-24 relative overflow-hidden min-h-screen flex flex-col justify-center">
-      {/* Dynamic Backgrounds - Optimized */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[100px] will-change-transform" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-[100px] will-change-transform" />
-      </div>
-
-      <div className="container mx-auto px-6 relative z-10">
-        <motion.div 
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-4 tracking-tighter">
-            Global <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Recognitions</span>
+    <section id="certifications" className="py-24 relative bg-[#060608] overflow-hidden">
+      
+      <div className="max-w-[75rem] mx-auto px-6 relative z-10">
+        
+        {/* Title */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-display font-black mb-4 text-white tracking-tighter">
+            Achievements &{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">
+              Certifications
+            </span>
           </h2>
-          <BlurText 
-            text="A showcase of my professional certifications, continuous learning journey, and competitive hackathon wins."
-            className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-8 font-medium"
-          />
-          
-          {/* Futuristic Tab Switcher */}
-          <div className="inline-flex bg-gray-900/80 backdrop-blur-md p-1.5 rounded-full border border-gray-800 shadow-xl relative gpu-accelerated">
-            <div 
-              className={`absolute inset-y-1.5 w-1/2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full transition-transform duration-300 ease-out ${activeTab === "certifications" ? "translate-x-0" : "translate-x-full"}`} 
-              style={{ width: 'calc(50% - 6px)' }}
-            />
-            <button 
-              className={`relative z-10 px-8 py-3 rounded-full text-sm font-bold tracking-wide transition-colors ${activeTab === "certifications" ? "text-white" : "text-gray-400 hover:text-white"}`}
-              onClick={() => { setActiveTab("certifications"); setShowAll(false); }}
-            >
-              CERTIFICATIONS
-            </button>
-            <button 
-              className={`relative z-10 px-8 py-3 rounded-full text-sm font-bold tracking-wide transition-colors ${activeTab === "achievements" ? "text-white" : "text-gray-400 hover:text-white"}`}
-              onClick={() => { setActiveTab("achievements"); setShowAll(false); }}
-            >
-              ACHIEVEMENTS
-            </button>
+          <p className="text-base text-gray-400 max-w-2xl mx-auto font-medium">
+            Professional certifications, academic milestones, and competitive achievements. Click any card to view the official credential.
+          </p>
+        </div>
+
+        {/* SECTION 1: CERTIFICATIONS */}
+        <div className="mb-16">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-10 h-[2px] bg-gradient-to-r from-purple-500 to-transparent" />
+            <h3 className="text-xl font-bold text-white tracking-wide uppercase">Certifications & Internships</h3>
+            <div className="flex-1 h-[1px] bg-gray-800/60 ml-4" />
           </div>
-        </motion.div>
-
-        {/* Optimized Grid Layout */}
-        <AnimatePresence mode="wait">
-          <motion.div 
-            key={activeTab}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto mb-12"
-          >
-            {displayData.map((item, index) => (
-               <FastCard key={item.title} item={item} index={index} setSelectedItem={setSelectedItem} />
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-[220px] gap-5">
+            {certifications.map((cert, index) => (
+               <BentoCard key={cert.id} item={cert} index={index} />
             ))}
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        </div>
 
-        {/* See More Button */}
-        {hasMore && (
-          <motion.div 
-            className="flex justify-center mt-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <button
-              onClick={() => setShowAll(!showAll)}
-              className="px-8 py-3 rounded-full bg-transparent border border-cyan-500/50 text-cyan-400 font-bold tracking-wide hover:bg-cyan-500/10 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all duration-300"
-            >
-              {showAll ? "See Less" : `Explore More ${activeTab === 'certifications' ? 'Certificates' : 'Achievements'}`}
-            </button>
-          </motion.div>
-        )}
+        {/* SECTION 2: COMPETITIONS */}
+        <div>
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-10 h-[2px] bg-gradient-to-r from-fuchsia-500 to-transparent" />
+            <h3 className="text-xl font-bold text-white tracking-wide uppercase">Achievements</h3>
+            <div className="flex-1 h-[1px] bg-gray-800/60 ml-4" />
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-[200px] gap-5">
+            {competitions.map((comp, index) => (
+               <BentoCard key={comp.id} item={comp} index={index} />
+            ))}
+          </div>
+        </div>
+
       </div>
-
-      {/* Modal */}
-      <AnimatePresence>
-        {selectedItem && (
-          <motion.div 
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedItem(null)}
-          >
-            <motion.div 
-              className="bg-gray-900 border border-cyan-400/30 rounded-[2rem] w-full max-w-5xl shadow-[0_0_80px_rgba(6,182,212,0.15)] overflow-hidden flex flex-col lg:flex-row max-h-[90vh] relative"
-              initial={{ scale: 0.95, y: 20, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.95, y: 20, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Left Side: Document Preview */}
-              <div className="lg:w-2/3 bg-black/90 relative border-b lg:border-b-0 lg:border-r border-gray-800 flex items-center justify-center p-6">
-                {selectedItem.link.endsWith('.pdf') ? (
-                  <iframe 
-                    src={`${selectedItem.link}#toolbar=0`} 
-                    className="w-full h-[40vh] lg:h-[80vh] rounded-xl bg-white shadow-xl" 
-                    title={selectedItem.title}
-                  />
-                ) : (
-                  <img 
-                    src={selectedItem.link} 
-                    alt={selectedItem.title} 
-                    className="max-w-full max-h-[40vh] lg:max-h-[80vh] object-contain rounded-xl shadow-xl"
-                  />
-                )}
-              </div>
-
-              {/* Right Side: Info Panel */}
-              <div className="lg:w-1/3 p-8 lg:p-10 flex flex-col relative bg-gray-950 overflow-y-auto">
-                <button 
-                  className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-gray-800/80 text-gray-400 hover:text-white hover:bg-gray-700 transition-all z-10"
-                  onClick={() => setSelectedItem(null)}
-                >
-                  ✕
-                </button>
-
-                <div className="flex-1 mt-4">
-                  <div className={`inline-flex p-4 ${selectedItem.bgColor} rounded-2xl mb-6`}>
-                    <selectedItem.Icon className={`text-4xl bg-gradient-to-br ${selectedItem.color} bg-clip-text text-transparent`} />
-                  </div>
-                  
-                  <h3 className="text-2xl lg:text-3xl font-black text-white mb-2 tracking-tight">{selectedItem.title}</h3>
-                  <p className="text-cyan-400 font-bold text-md mb-8 tracking-wide uppercase text-sm">{selectedItem.issuer}</p>
-                  
-                  <div className="space-y-6">
-                    <div>
-                      <div className="text-xs text-gray-500 mb-2 uppercase tracking-wider font-bold">Category</div>
-                      <span className={`px-4 py-2 text-sm font-bold rounded-xl bg-gradient-to-r ${selectedItem.color} text-white inline-block`}>
-                        {selectedItem.category}
-                      </span>
-                    </div>
-
-                    <div>
-                      <div className="text-xs text-gray-500 mb-2 uppercase tracking-wider font-bold">Outcome / Level</div>
-                      <span className="px-4 py-2 text-sm font-bold rounded-xl bg-gray-800 text-white border border-gray-700 inline-block">
-                        {selectedItem.level}
-                      </span>
-                    </div>
-
-                    <div className="pt-6 border-t border-gray-800/50">
-                      <div className="flex justify-between items-center mb-3">
-                        <span className="text-xs text-gray-500 font-bold uppercase">Status</span>
-                        <span className="text-xs text-green-400 font-black tracking-widest">VERIFIED</span>
-                      </div>
-                      <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
-                        <motion.div
-                          className={`h-full bg-gradient-to-r ${selectedItem.color}`}
-                          initial={{ width: 0 }}
-                          animate={{ width: "100%" }}
-                          transition={{ delay: 0.2, duration: 1, ease: "easeOut" }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <a
-                  href={selectedItem.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-8 py-3 text-center text-sm font-bold uppercase tracking-widest text-white bg-white/5 hover:bg-white/10 rounded-xl transition-colors flex items-center justify-center gap-2 group border border-white/10"
-                >
-                  Open Original <FaExternalLinkAlt className="group-hover:scale-110 transition-transform text-xs" />
-                </a>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }

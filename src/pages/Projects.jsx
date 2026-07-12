@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaGithub,
   FaExternalLinkAlt,
@@ -8,6 +8,12 @@ import {
   FaCheckCircle,
   FaLaptopCode,
   FaRocket,
+  FaPython,
+  FaDocker,
+  FaLock,
+  FaBrain,
+  FaDatabase,
+  FaCode,
 } from "react-icons/fa";
 import {
   SiTailwindcss,
@@ -18,7 +24,7 @@ import {
   SiVite,
   SiPostgresql,
 } from "react-icons/si";
-import { motion, AnimatePresence, useInView, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, X, ExternalLink, Code2, Database, LayoutTemplate, Layers } from "lucide-react";
 import { createPortal } from "react-dom";
 
@@ -27,251 +33,140 @@ import { createPortal } from "react-dom";
 // ==========================================
 const projects = [
   {
-    id: "club-modx",
-    title: "Club MODX",
-    shortDescription: "Modular Discipline Exchange Platform for Communities.",
-    fullDescription:
-      "A comprehensive full-stack club management platform designed to solve fragmented communication. It enables users to invite members, join specialized communities, and collaborate seamlessly via real-time chat with complete CRUD capabilities.",
-    features: [
-      "Role-Based Access Control",
-      "Real-Time Community Chat",
-      "Dynamic Event Scheduling",
-      "Analytics Dashboard",
+    id: "cascade-shield",
+    title: "CascadeShield",
+    shortDescription: "Cyber-Physical Cascade Failure Prediction | Python, GNN, PyTorch.",
+    fullDescription: "An infrastructure cascade failure prediction system modeling how catastrophic failures propagate across highly interconnected, multi-subsystem city grids.",
+    architecture: "Built a hybrid graph neural network + epidemiological (SEIR) model to predict cascading attacks across interdependent smart-city infrastructure networks.",
+    security: "Trained on synthetic multi-infrastructure dependency graphs to identify highly central nodes and simulate adversarial physical-cyber contagion spread vectors.",
+    challenge: "Modeling complex interdependencies between heterogeneous systems. Solved by standardizing node interfaces and deploying scalable graph-based analytical engines.",
+    deliverables: [
+      "Hybrid GNN + SEIR epidemiological model",
+      "Synthetic multi-infrastructure dependency graphs",
+      "Achieved ROC-AUC of 0.7063 & Precision@K of 0.4242"
     ],
-    challenge:
-      "Handling concurrent real-time connections efficiently while ensuring strict data isolation between different clubs.",
-    image: "https://res.cloudinary.com/duf8kshsz/image/upload/v1782494743/Screenshot_2026-06-26_224315_pvmxmj.png",
+    image: "/projects/cascade_shield.jpg",
     tech: [
-      { icon: <FaReact />, name: "React", color: "text-cyan-400" },
-      { icon: <FaNodeJs />, name: "Node.js", color: "text-green-500" },
-      { icon: <SiTailwindcss />, name: "Tailwind CSS", color: "text-cyan-300" },
-      { icon: <SiPostgresql />, name: "PostgreSQL", color: "text-blue-500" },
-    ],
-    demo: "https://modx-second-2.onrender.com",
-    github: "#",
-    year: "2026",
-    role: "Full Stack Developer",
-    status: "Live",
-    bentoClass: "md:col-span-2 md:row-span-2",
-  },
-  {
-    id: "gupshup",
-    title: "GupShup",
-    shortDescription: "Secure, real-time MERN chat application.",
-    fullDescription:
-      "GupShup is a robust real-time messaging platform built on the MERN stack and Socket.io. It features instant message delivery, online presence indicators, and AI-powered chat suggestions to keep conversations engaging.",
-    features: [
-      "Instant Messaging via WebSockets",
-      "AI Message Suggestions",
-      "Online/Offline Presence",
-      "Media Sharing",
-    ],
-    challenge:
-      "Optimizing MongoDB queries for loading chat history instantly without causing lag during rapid message bursts.",
-    image: "https://res.cloudinary.com/duf8kshsz/image/upload/v1782494705/Screenshot_2026-06-26_224634_ydevrm.png",
-    tech: [
-      { icon: <FaReact />, name: "React", color: "text-cyan-400" },
-      { icon: <SiTailwindcss />, name: "Tailwind CSS", color: "text-cyan-300" },
-      { icon: <FaNodeJs />, name: "Node.js", color: "text-green-500" },
-      { icon: <SiExpress />, name: "Express", color: "text-gray-300" },
-      { icon: <SiMongodb />, name: "MongoDB", color: "text-green-600" },
-      { icon: <SiSocketdotio />, name: "Socket.IO", color: "text-white" },
-    ],
-    demo: "https://gupshup-rbcp.onrender.com/",
-    github: "https://github.com/Srujan253/Gupshup",
-    year: "2025",
-    role: "Backend Architect",
-    status: "Live",
-    bentoClass: "md:col-span-2 md:row-span-2",
-  },
-  // {
-  //   id: "sinchana-portfolio",
-  //   title: "Sinchana Portfolio",
-  //   shortDescription: "3D Interactive Portfolio built with React and Three.js.",
-  //   fullDescription:
-  //     "A modern, highly interactive portfolio web application built with React, Vite, and 3D graphics. Powered by three.js and cobe for stunning visual elements, featuring fluid animations via framer-motion and smooth scrolling mechanics integrated via lenis.",
-  //   features: [
-  //     "Immersive 3D Experiences",
-  //     "Fluid Animations",
-  //     "Smooth Scrolling",
-  //     "Fast Development",
-  //   ],
-  //   challenge:
-  //     "Integrating Three.js and Cobe 3D globes alongside Framer Motion animations while maintaining 60fps performance.",
-  //   image: "https://res.cloudinary.com/duf8kshsz/image/upload/v1782494695/Screenshot_2026-06-26_224531_nfhabj.png",
-  //   tech: [
-  //     { icon: <FaReact />, name: "React", color: "text-cyan-400" },
-  //     { icon: <SiTailwindcss />, name: "Tailwind CSS", color: "text-cyan-300" },
-  //     { icon: <SiVite />, name: "Vite", color: "text-purple-400" },
-  //   ],
-  //   demo: "https://sinchana-frd.vercel.app",
-  //   github: "https://github.com/Srujan253/portfolio-frd.git",
-  //   year: "2026",
-  //   role: "Frontend Developer",
-  //   status: "Live",
-  //   bentoClass: "md:col-span-2 md:row-span-1",
-  // },
-  {
-    id: "star-x-portfolio",
-    title: "Star X Portfolio",
-    shortDescription: "High-performance cinematic portfolio for Star X Creations.",
-    fullDescription:
-      "Built a high-performance portfolio using Next.js, TypeScript, Tailwind CSS, GSAP, Framer Motion, Lenis, and Shadcn/UI featuring cinematic UI, smooth scrolling, interactive animations, custom transitions, and responsive design. Created for my friend Thilak (star_x_creations) who has 8.6k followers on Instagram.",
-    features: [
-      "Cinematic UI & Transitions",
-      "GSAP & Framer Motion Animations",
-      "Next.js Image Optimization",
-      "GPU-Accelerated 60FPS Rendering",
-    ],
-    challenge:
-      "Improving frontend performance through lazy loading, code splitting, dynamic imports, SEO optimization, and accessibility best practices while maintaining 60 FPS heavy animations.",
-    image: "https://res.cloudinary.com/duf8kshsz/image/upload/v1783533672/Screenshot_2026-07-08_230542_xgr8x3.png",
-    images: [
-      "https://res.cloudinary.com/duf8kshsz/image/upload/v1783533672/Screenshot_2026-07-08_230542_xgr8x3.png",
-      "https://res.cloudinary.com/duf8kshsz/image/upload/v1783532714/Screenshot_2026-07-08_230707_db5pst.png",
-      "https://res.cloudinary.com/duf8kshsz/image/upload/v1783532701/Screenshot_2026-07-08_230643_vbhiyz.png"
-    ],
-    tech: [
-      { icon: <FaReact />, name: "Next.js & React", color: "text-white" },
-      { icon: <SiTailwindcss />, name: "Tailwind CSS", color: "text-cyan-300" },
-      { icon: <FaRocket />, name: "GSAP & Framer", color: "text-purple-400" },
-    ],
-    demo: "https://star-x-creations.onrender.com/",
-    github: "#",
-    year: "2026",
-    role: "Frontend Architect",
-    status: "Live",
-    bentoClass: "md:col-span-2 md:row-span-1",
-  },
-  {
-    id: "privacy-id",
-    title: "Privacy-Preserving ID",
-    shortDescription: "Cryptographically secure offline/online ID verification.",
-    fullDescription:
-      "A privacy-first identity verification web application that generates cryptographically signed QR codes. It supports offline verification via RSA signatures and online verification using JWTs, ensuring user data remains protected.",
-    features: [
-      "RSA Signed QR Codes",
-      "JWT Online Verification",
-      "Zero-Knowledge Proofs",
-      "Offline Mode",
-    ],
-    challenge:
-      "Implementing robust RSA cryptography in the browser while maintaining high performance for QR generation.",
-    image: "https://placehold.co/800x500/0f172a/06b6d4?text=Privacy+ID+Verification",
-    tech: [
-      { icon: <FaReact />, name: "React", color: "text-cyan-400" },
-      { icon: <FaNodeJs />, name: "Node.js", color: "text-green-500" },
-      { icon: <SiExpress />, name: "Express", color: "text-gray-300" },
-      { icon: <SiTailwindcss />, name: "Tailwind", color: "text-cyan-300" },
+      { icon: <FaPython />, name: "Python", color: "text-purple-400" },
+      { icon: <FaBrain />, name: "GNNs", color: "text-fuchsia-400" },
+      { icon: <FaDatabase />, name: "Data Modeling", color: "text-violet-400" }
     ],
     demo: "#",
-    github: "#",
-    year: "2025",
+    github: "https://github.com/spoorthi2615/Cascade-Shield",
+    year: "2024",
+    role: "Lead Developer",
+    status: "Completed"
+  },
+  {
+    id: "cyber-dna",
+    title: "Cyber DNA",
+    shortDescription: "Continuous Behavioral Authentication for Insider-Threat Detection.",
+    fullDescription: "A production-ready behavioral authentication framework generating per-user 'digital DNA' profiles from login and activity patterns.",
+    architecture: "Quantum-inspired analytics engine designed to build and authenticate digital behavioral signatures continuously, detecting minute anomalies in user patterns.",
+    security: "Employs continuous monitoring and behavioral drift analysis to isolate and flag compromised accounts before damage occurs.",
+    challenge: "Handling large streams of event telemetry without high false-positive rates. Resolved by fine-tuning anomaly thresholds using real-world baseline data.",
+    deliverables: [
+      "Continuous behavioral authentication framework",
+      "Generated per-user 'digital DNA' profiles",
+      "Evaluated on CMU CERT insider-threat dataset"
+    ],
+    image: "/projects/cyber_dna.jpg",
+    tech: [
+      { icon: <FaNodeJs />, name: "JavaScript", color: "text-purple-400" },
+      { icon: <FaCode />, name: "Analytics", color: "text-violet-400" },
+      { icon: <FaLock />, name: "Authentication", color: "text-fuchsia-400" }
+    ],
+    demo: "#",
+    github: "https://github.com/spoorthi2615/Cyber-DNA--MIT",
+    year: "2024",
     role: "Security Engineer",
-    status: "Proof of Concept",
-    bentoClass: "md:col-span-2 md:row-span-1",
+    status: "Completed"
   },
   {
-    id: "clash-portfolio",
-    title: "Clash Royale Portfolio",
-    shortDescription: "Game-themed personal portfolio design.",
-    fullDescription:
-      "A highly creative, interactive personal portfolio inspired by the aesthetics and mechanics of Clash Royale. It gamifies the browsing experience, turning standard sections into 'arenas' and 'cards'.",
-    features: [
-      "Gamified UI",
-      "Custom Animations",
-      "Interactive 'Cards'",
-      "Themed Sound Effects",
+    id: "huntgpt",
+    title: "HuntGPT",
+    shortDescription: "Autonomous Cyber Threat Hunting Using Fine-Tuned LLMs.",
+    fullDescription: "An autonomous cyber threat hunting pipeline designed to autonomously map raw network logs to MITRE ATT&CK techniques using Large Language Models.",
+    architecture: "Integrates fine-tuned LLMs with an adversarial prompt injection defense layer, ensuring the model's integrity while analyzing potentially malicious raw logs.",
+    security: "Features robust adversarial prompt injection defenses, preventing attackers from hijacking the LLM analysis via crafted payloads hidden in network logs.",
+    challenge: "Mitigating prompt injection in autonomous LLM security tools. Developed a specialized defense layer to sanitize and validate LLM inputs.",
+    deliverables: [
+      "End-to-end log to MITRE ATT&CK mapping",
+      "Resilient against adversarial prompt injection",
+      "Automated threat hunting workflow"
     ],
-    challenge:
-      "Replicating complex game mechanics and animations strictly using web technologies and CSS.",
-    image: "https://res.cloudinary.com/duf8kshsz/image/upload/v1782494622/Screenshot_2026-06-26_224441_sypry0.png",
+    image: "/projects/huntgpt.jpg",
     tech: [
-      { icon: <FaReact />, name: "React", color: "text-cyan-400" },
-      { icon: <SiTailwindcss />, name: "Tailwind CSS", color: "text-cyan-300" },
-      { icon: <SiVite />, name: "Vite", color: "text-purple-400" },
-    ],
-    demo: "https://clash-royal-portfolio.vercel.app/",
-    github: "#",
-    year: "2026",
-    role: "UI/UX Developer",
-    status: "Live",
-    bentoClass: "md:col-span-2 md:row-span-1",
-  },
-  {
-    id: "archicanvas",
-    title: "ArchiCanvas",
-    shortDescription: "Modern digital art & architecture marketplace.",
-    fullDescription:
-      "A sleek marketplace designed for architects and digital artists. Features include role-based authentication, advanced artwork filtering, AI-powered descriptions, and highly animated UI components for a premium browsing experience.",
-    features: [
-      "Role-Based Auth",
-      "Advanced Search & Filtering",
-      "AI Descriptions",
-      "Animated UI",
-    ],
-    challenge:
-      "Designing a highly complex animated UI that performs smoothly at 60fps across all devices.",
-    image: "https://placehold.co/800x500/0f172a/06b6d4?text=ArchiCanvas",
-    tech: [
-      { icon: <FaReact />, name: "React", color: "text-cyan-400" },
-      { icon: <SiTailwindcss />, name: "Tailwind CSS", color: "text-cyan-300" },
-      { icon: <SiVite />, name: "Vite", color: "text-purple-400" },
+      { icon: <FaPython />, name: "Python", color: "text-purple-400" },
+      { icon: <FaBrain />, name: "LLMs / GPT", color: "text-violet-400" },
+      { icon: <FaLock />, name: "Prompt Defense", color: "text-fuchsia-400" }
     ],
     demo: "#",
-    github: "https://github.com/Srujan253/ArchiCanvas_",
-    year: "2025",
-    role: "Frontend Architect",
-    status: "Development",
-    bentoClass: "md:col-span-2 md:row-span-1",
+    github: "https://github.com/spoorthi2615/HuntGPT",
+    year: "2024",
+    role: "AI Security Researcher",
+    status: "Completed"
   },
+  {
+    id: "qr-intel",
+    title: "QRIntel",
+    shortDescription: "Explainable Threat Intelligence Platform for Malicious QR Infrastructure.",
+    fullDescription: "A proactive, explainable cybersecurity intelligence platform dedicated to detecting malicious QR-based infrastructure (Quishing) before compromise.",
+    architecture: "Built a two-stage heuristic detection engine combining lexical, DNS, redirect, and SSL/visual analysis with Optuna-based optimization.",
+    security: "Safely analyzes QR structures and URL redirection chains without exposing the host environment to zero-day browser exploits.",
+    challenge: "Deobfuscating nested QR redirects in real-time. Addressed by building a robust URL unrolling and reputation-checking pipeline.",
+    deliverables: [
+      "Two-stage heuristic detection engine (lexical, DNS, SSL)",
+      "Optuna-based optimization to catch quishing attacks",
+      "Deterministic, interpretable JSON audit logs for SOC analysts"
+    ],
+    image: "/projects/qr_intel.jpg",
+    tech: [
+      { icon: <FaPython />, name: "Python", color: "text-purple-400" },
+      { icon: <FaCode />, name: "Analysis Engine", color: "text-fuchsia-400" },
+      { icon: <FaDatabase />, name: "Threat Intel", color: "text-violet-400" }
+    ],
+    demo: "#",
+    github: "https://github.com/spoorthi2615/QR-Intel-2.0",
+    year: "2024",
+    role: "Threat Intel Dev",
+    status: "Completed"
+  },
+  {
+    id: "skillbytes",
+    title: "SkillBytes",
+    shortDescription: "Production-ready WhatsApp-style Quiz Application.",
+    fullDescription: "A production-ready WhatsApp-style Quiz Application engineered with React, FastAPI, MongoDB, Zustand, Docker, and Recharts.",
+    architecture: "A decoupled microservices architecture featuring a React SPA frontend managed by Zustand, communicating with a containerized FastAPI Python backend backed by MongoDB.",
+    security: "Secured with robust JWT-based authentication schemas and database-level validation to ensure data integrity during quiz state transitions.",
+    challenge: "Synchronizing real-time quiz states across clients mimicking a chat interface. Overcome by leveraging efficient state management and optimized API polling.",
+    deliverables: [
+      "Seamless WhatsApp-style user interface",
+      "Containerized backend for rapid deployment",
+      "Dynamic data visualization with Recharts"
+    ],
+    image: "/projects/skillbytes.jpg",
+    tech: [
+      { icon: <FaReact />, name: "React", color: "text-purple-400" },
+      { icon: <FaPython />, name: "FastAPI", color: "text-fuchsia-400" },
+      { icon: <SiMongodb />, name: "MongoDB", color: "text-violet-400" },
+      { icon: <FaDocker />, name: "Docker", color: "text-purple-500" }
+    ],
+    demo: "#",
+    github: "https://github.com/spoorthi2615/skillbytes-whatsapp-quiz-app",
+    year: "2024",
+    role: "Full Stack Dev",
+    status: "Live"
+  }
 ];
 
 // ==========================================
-// HOOKS
-// ==========================================
-const useMousePosition = () => {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const velocityX = useMotionValue(0);
-
-  useEffect(() => {
-    let lastX = 0;
-    let lastTime = Date.now();
-
-    const handleMouseMove = (e) => {
-      x.set(e.clientX);
-      y.set(e.clientY);
-      
-      const now = Date.now();
-      const dt = now - lastTime;
-      if (dt > 0) {
-        const dx = e.clientX - lastX;
-        // Cap velocity to prevent extreme tilts
-        const v = Math.max(-5, Math.min(5, dx / dt)); 
-        velocityX.set(v);
-      }
-      lastX = e.clientX;
-      lastTime = now;
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [x, y, velocityX]);
-
-  return { x, y, velocityX };
-};
-
-// ==========================================
-// PROJECT DETAIL PAGE OVERLAY
+// PROJECT DETAIL PAGE OVERLAY (Unchanged)
 // ==========================================
 const ProjectDetailOverlay = ({ project, onClose, nextProject, prevProject }) => {
-  // Prevent background scroll
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
+    return () => { document.body.style.overflow = 'auto'; };
   }, []);
 
   return createPortal(
@@ -283,7 +178,6 @@ const ProjectDetailOverlay = ({ project, onClose, nextProject, prevProject }) =>
       className="fixed inset-0 z-[9999] bg-gray-950 overflow-y-auto custom-scrollbar"
       data-lenis-prevent="true"
     >
-      {/* Navbar/Close button */}
       <div className="fixed top-0 left-0 w-full p-6 md:p-10 flex justify-between items-center z-50 pointer-events-none">
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
@@ -301,238 +195,111 @@ const ProjectDetailOverlay = ({ project, onClose, nextProject, prevProject }) =>
         </button>
       </div>
 
-      {/* Hero Section */}
       <div className="relative w-full h-[70vh] md:h-[85vh] overflow-hidden group">
-        <motion.div
-          layoutId={`project-image-${project.id}`}
-          className="absolute inset-0 w-full h-full"
-        >
-          <img 
-            src={project.image} 
-            alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-[20s] ease-linear group-hover:scale-110"
-          />
+        <motion.div layoutId={`project-image-${project.id}`} className="absolute inset-0 w-full h-full">
+          <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-[20s] ease-linear group-hover:scale-110" />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/40 to-transparent" />
         </motion.div>
-
-        {/* Hero Content */}
         <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-16 lg:px-24">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="max-w-4xl"
-          >
+          <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="max-w-4xl">
             <h1 className="text-5xl md:text-8xl font-display font-black text-white tracking-tighter mb-6">{project.title}</h1>
             <p className="text-xl md:text-3xl text-gray-300 font-light leading-relaxed">{project.shortDescription}</p>
           </motion.div>
         </div>
       </div>
 
-      {/* Content Layout */}
       <div className="max-w-[100rem] mx-auto px-6 md:px-16 lg:px-24 py-24 flex flex-col lg:flex-row gap-20">
-        
-        {/* Left Column: Story & Features */}
         <div className="w-full lg:w-2/3 flex flex-col gap-24">
-          
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-          >
-            <h3 className="text-sm font-bold text-cyan-500 uppercase tracking-widest mb-6">The Story</h3>
-            <p className="text-2xl md:text-3xl text-gray-200 font-light leading-relaxed">
-              {project.fullDescription}
-            </p>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }}>
+            <h3 className="text-sm font-bold text-purple-500 uppercase tracking-widest mb-6">The Story</h3>
+            <p className="text-2xl md:text-3xl text-gray-200 font-light leading-relaxed mb-10">{project.fullDescription}</p>
           </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-          >
-            <h3 className="text-sm font-bold text-cyan-500 uppercase tracking-widest mb-12">Key Insights</h3>
-            <div className="space-y-12 border-l border-white/10 pl-8 md:pl-12">
-              {project.features.map((feature, idx) => (
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }}>
+            <h3 className="text-sm font-bold text-purple-500 uppercase tracking-widest mb-6">System Architecture & Core Stack</h3>
+            <p className="text-xl text-gray-300 font-light leading-relaxed mb-10">{project.architecture}</p>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }}>
+            <h3 className="text-sm font-bold text-purple-500 uppercase tracking-widest mb-6">Secure Engineering & Audits</h3>
+            <p className="text-xl text-gray-300 font-light leading-relaxed mb-10">{project.security}</p>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }}>
+            <h3 className="text-sm font-bold text-purple-500 uppercase tracking-widest mb-6">The Challenge</h3>
+            <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed border border-white/5 bg-white/5 p-8 md:p-12 rounded-3xl mb-10">{project.challenge}</p>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }}>
+            <h3 className="text-sm font-bold text-purple-500 uppercase tracking-widest mb-12">Key Deliverables & Outcomes</h3>
+            <div className="space-y-8 border-l border-white/10 pl-8 md:pl-12">
+              {project.deliverables.map((deliv, idx) => (
                 <div key={idx} className="relative group">
-                  <div className="absolute -left-[3.1rem] md:-left-[4.1rem] top-1 text-4xl font-black text-gray-800 group-hover:text-cyan-500 transition-colors duration-500">
-                    0{idx + 1}
-                  </div>
-                  <h4 className="text-2xl md:text-3xl font-bold text-white mb-2">{feature}</h4>
-                  <div className="h-px w-full max-w-sm bg-white/5 mt-6 group-hover:bg-gradient-to-r from-cyan-500 to-transparent transition-colors duration-500" />
+                  <div className="absolute -left-[3.1rem] md:-left-[4.1rem] top-1 text-3xl font-black text-gray-800 group-hover:text-purple-500 transition-colors duration-500">0{idx + 1}</div>
+                  <h4 className="text-xl md:text-2xl font-bold text-white mb-2">{deliv}</h4>
+                  <div className="h-px w-full max-w-sm bg-white/5 mt-4 group-hover:bg-gradient-to-r from-purple-500 to-transparent transition-colors duration-500" />
                 </div>
               ))}
             </div>
           </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-          >
-            <h3 className="text-sm font-bold text-cyan-500 uppercase tracking-widest mb-6">The Challenge</h3>
-            <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed border border-white/5 bg-white/5 p-8 md:p-12 rounded-3xl">
-              {project.challenge}
-            </p>
-          </motion.div>
-
-          {/* Visual Gallery */}
-          <div className="w-full space-y-8">
-            <h3 className="text-sm font-bold text-cyan-500 uppercase tracking-widest mb-6">Gallery</h3>
-            <div className="w-full aspect-video bg-gray-900 rounded-3xl border border-white/5 overflow-hidden group">
-               <img src={project.images && project.images[0] ? project.images[0] : "https://placehold.co/1200x800/0f172a/06b6d4?text=Dashboard+Mockup"} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Gallery Image 1" />
-            </div>
-            <div className="flex flex-col md:flex-row gap-8">
-               <div className="w-full md:w-1/2 aspect-square bg-gray-900 rounded-3xl border border-white/5 overflow-hidden group">
-                 <img src={project.images && project.images[1] ? project.images[1] : "https://placehold.co/800x800/0f172a/06b6d4?text=Mobile+View"} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Gallery Image 2" />
-               </div>
-               <div className="w-full md:w-1/2 aspect-square bg-gray-900 rounded-3xl border border-white/5 overflow-hidden group">
-                 <img src={project.images && project.images[2] ? project.images[2] : "https://placehold.co/800x800/0f172a/06b6d4?text=Dark+Mode"} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Gallery Image 3" />
-               </div>
-            </div>
-          </div>
-
         </div>
 
-        {/* Right Column: Sticky Sidebar */}
         <div className="w-full lg:w-1/3">
           <div className="sticky top-32 space-y-16">
-            
-            {/* Metadata Table */}
             <div className="space-y-6">
-              <h3 className="text-sm font-bold text-cyan-500 uppercase tracking-widest border-b border-white/10 pb-4">Details</h3>
-              
+              <h3 className="text-sm font-bold text-purple-500 uppercase tracking-widest border-b border-white/10 pb-4">Details</h3>
               <div className="grid grid-cols-2 gap-y-6">
-                <div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Year</div>
-                  <div className="text-white font-medium">{project.year || "2024"}</div>
-                </div>
-                <div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Role</div>
-                  <div className="text-white font-medium">{project.role || "Developer"}</div>
-                </div>
+                <div><div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Year</div><div className="text-white font-medium">{project.year}</div></div>
+                <div><div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Role</div><div className="text-white font-medium">{project.role}</div></div>
                 <div>
                   <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">Status</div>
-                  <div className="text-cyan-400 font-medium flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                    {project.status || "Live"}
-                  </div>
+                  <div className="text-purple-400 font-medium flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />{project.status}</div>
                 </div>
               </div>
             </div>
-
-            {/* Liquid Tech Stack */}
             <div className="space-y-6">
-              <h3 className="text-sm font-bold text-cyan-500 uppercase tracking-widest border-b border-white/10 pb-4">Technologies</h3>
+              <h3 className="text-sm font-bold text-purple-500 uppercase tracking-widest border-b border-white/10 pb-4">Technologies</h3>
               <div className="flex flex-wrap gap-2">
                 {project.tech.map((t, idx) => (
-                  <div 
-                    key={idx}
-                    className="relative px-4 py-2 text-gray-300 font-medium text-sm rounded-full border border-white/10 overflow-hidden group cursor-default"
-                  >
-                    <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
-                      {t.icon} {t.name}
-                    </span>
-                    <div className="absolute inset-0 bg-cyan-500 translate-y-[101%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                  <div key={idx} className="relative px-4 py-2 text-gray-300 font-medium text-sm rounded-full border border-white/10 overflow-hidden group cursor-default">
+                    <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">{t.icon} {t.name}</span>
+                    <div className="absolute inset-0 bg-purple-500 translate-y-[101%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                   </div>
                 ))}
               </div>
             </div>
-
-            {/* Code Access */}
             <div className="space-y-6">
-              <h3 className="text-sm font-bold text-cyan-500 uppercase tracking-widest border-b border-white/10 pb-4">Repository</h3>
+              <h3 className="text-sm font-bold text-purple-500 uppercase tracking-widest border-b border-white/10 pb-4">Repository</h3>
               {project.github !== "#" ? (
                 <a href={project.github} target="_blank" rel="noreferrer" className="flex items-center gap-4 text-gray-400 hover:text-white transition-colors group">
-                  <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                    <FaGithub className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="font-medium">View Source</div>
-                    <div className="text-xs">Available on GitHub</div>
-                  </div>
+                  <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors"><FaGithub className="w-5 h-5" /></div>
+                  <div><div className="font-medium">View Source</div><div className="text-xs">Available on GitHub</div></div>
                 </a>
               ) : (
                 <div className="flex items-center gap-4 text-gray-500">
-                   <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
-                    <Code2 className="w-5 h-5 opacity-50" />
-                  </div>
-                  <div>
-                    <div className="font-medium">Private Repository</div>
-                    <div className="text-xs">Developed under NDA</div>
-                  </div>
+                   <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center"><Code2 className="w-5 h-5 opacity-50" /></div>
+                  <div><div className="font-medium">Private Repository</div><div className="text-xs">Developed under NDA</div></div>
                 </div>
               )}
             </div>
-
           </div>
         </div>
       </div>
 
-      {/* Huge Visit Website Action */}
-      <a 
-        href={project.demo !== "#" ? project.demo : null} 
-        target="_blank" 
-        rel="noreferrer"
-        className={`block w-full py-24 md:py-32 border-t border-b border-white/10 group transition-colors duration-500 ${project.demo !== "#" ? 'hover:bg-cyan-500 cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}
-      >
-        <div className="max-w-[100rem] mx-auto px-6 md:px-16 flex items-center justify-between">
-          <h2 className="text-5xl md:text-9xl font-black text-white tracking-tighter group-hover:text-gray-950 transition-colors duration-500">
-            {project.demo !== "#" ? "VISIT WEBSITE" : "NOT AVAILABLE"}
-          </h2>
-          {project.demo !== "#" && (
-            <ArrowRight className="w-12 h-12 md:w-32 md:h-32 text-white group-hover:text-gray-950 group-hover:-rotate-45 transition-all duration-500" />
-          )}
-        </div>
-      </a>
-
-      {/* Project Navigation Footer */}
       <div className="w-full flex">
-        <button 
-          onClick={() => prevProject()}
-          className="w-1/2 p-12 md:p-24 bg-gray-900 hover:bg-gray-800 transition-colors flex flex-col items-start gap-4"
-        >
-          <span className="text-cyan-500 font-bold uppercase tracking-widest text-xs flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Previous Project</span>
+        <button onClick={() => prevProject()} className="w-1/2 p-12 md:p-24 bg-gray-900 hover:bg-gray-800 transition-colors flex flex-col items-start gap-4">
+          <span className="text-purple-500 font-bold uppercase tracking-widest text-xs flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Previous Project</span>
         </button>
-        <button 
-          onClick={() => nextProject()}
-          className="w-1/2 p-12 md:p-24 bg-gray-900 hover:bg-gray-800 transition-colors border-l border-white/5 flex flex-col items-end text-right gap-4"
-        >
-           <span className="text-cyan-500 font-bold uppercase tracking-widest text-xs flex items-center gap-2">Next Project <ArrowRight className="w-4 h-4"/></span>
+        <button onClick={() => nextProject()} className="w-1/2 p-12 md:p-24 bg-gray-900 hover:bg-gray-800 transition-colors border-l border-white/5 flex flex-col items-end text-right gap-4">
+           <span className="text-purple-500 font-bold uppercase tracking-widest text-xs flex items-center gap-2">Next Project <ArrowRight className="w-4 h-4"/></span>
         </button>
       </div>
-      
     </motion.div>,
     document.body
   );
 };
 
 // ==========================================
-// MAIN COMPONENT (Minimal List)
+// MAIN COMPONENT (Option 1: Stacking Cards)
 // ==========================================
 export default function Projects() {
-  const [hoveredProject, setHoveredProject] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
-  
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"]
-  });
-  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
-  const { x, y, velocityX } = useMousePosition();
-  
-  // Smooth spring physics for the cursor follower
-  const cursorX = useSpring(x, { stiffness: 150, damping: 25, mass: 0.5 });
-  const cursorY = useSpring(y, { stiffness: 150, damping: 25, mass: 0.5 });
-  
-  // Tilt physics based on mouse velocity
-  const rotateTilt = useTransform(velocityX, [-5, 5], [-8, 8]);
-  const smoothTilt = useSpring(rotateTilt, { stiffness: 100, damping: 20 });
 
   const navigateProject = (direction) => {
     const currentIndex = projects.findIndex(p => p.id === activeProject.id);
@@ -543,108 +310,80 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" ref={containerRef} className="py-32 relative bg-gray-950">
+    <section id="projects" className="py-24 relative bg-[#060608]">
       
       {/* Title */}
-      <div className="text-center mb-16 md:mb-24 px-6">
-        <h2 className="text-4xl md:text-6xl font-display font-black mb-4 text-white tracking-tighter">
+      <div className="text-center mb-16 px-6">
+        <h2 className="text-5xl md:text-7xl font-display font-black mb-4 text-white tracking-tighter">
           Featured{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">
             Projects
           </span>
         </h2>
         <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-          A curated selection of my latest work. Click on any project to dive
-          into the detailed case study.
+          A curated selection of my latest work. Scroll down to explore the stack.
         </p>
-        <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto mt-6 rounded-full" />
       </div>
 
-      <div className="max-w-[100rem] mx-auto px-6 md:px-16 lg:px-24 relative flex">
+      {/* The Stack */}
+      <div className="max-w-6xl mx-auto px-6 relative pb-32 flex flex-col gap-8 md:gap-16">
         
-        {/* Left Scroll Progress Indicator */}
-        <div className="hidden md:flex w-24 shrink-0 flex-col items-center py-12 relative">
-           <div className="absolute top-0 bottom-0 w-px bg-gray-800" />
-           <motion.div 
-             style={{ height: lineHeight }} 
-             className="absolute top-0 w-[3px] bg-cyan-400 origin-top shadow-[0_0_15px_rgba(34,211,238,0.5)]" 
-           />
-        </div>
+        {projects.map((project, index) => {
+          // Dynamic sticky top offset to create the visual stack
+          const topOffset = 100 + (index * 30);
 
-        {/* Minimalist List */}
-        <div className="w-full flex flex-col border-t border-white/10">
-          {projects.map((project, index) => (
+          return (
             <div 
               key={project.id}
-              className="group relative flex flex-col md:flex-row md:items-center py-12 md:py-16 border-b border-white/10 cursor-pointer"
-              onMouseEnter={() => setHoveredProject(project)}
-              onMouseLeave={() => setHoveredProject(null)}
-              onClick={() => {
-                setHoveredProject(null); // hide preview instantly
-                setActiveProject(project);
-              }}
+              className="sticky w-full h-[70vh] min-h-[500px] rounded-[3rem] overflow-hidden border border-white/10 bg-[#0a0a0f] shadow-2xl flex flex-col md:flex-row group"
+              style={{ top: `${topOffset}px` }}
             >
-              {/* Number */}
-              <div className="text-gray-600 font-mono text-xl md:text-3xl font-light mb-4 md:mb-0 md:w-32 transition-colors duration-500 group-hover:text-cyan-500">
-                0{index + 1}
-              </div>
+               {/* Left: Image */}
+               <div className="w-full md:w-1/2 h-1/2 md:h-full relative overflow-hidden">
+                 <motion.img 
+                   layoutId={`project-image-${project.id}`}
+                   src={project.image} 
+                   alt={project.title}
+                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
+                   onClick={() => setActiveProject(project)}
+                 />
+                 <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#0a0a0f] via-transparent to-transparent opacity-80 pointer-events-none" />
+               </div>
 
-              {/* Title with Gradient Fill on Hover */}
-              <h2 className="text-4xl sm:text-6xl md:text-8xl font-black text-gray-700 tracking-tighter relative overflow-hidden inline-block w-fit">
-                 {/* Base text */}
-                 <span>{project.title}</span>
-                 
-                 {/* Overlay Text (fills from left) */}
-                 <span className="absolute top-0 left-0 text-white w-0 overflow-hidden whitespace-nowrap transition-[width] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-full">
-                   {project.title}
-                 </span>
-              </h2>
+               {/* Right: Content */}
+               <div className="w-full md:w-1/2 h-1/2 md:h-full p-8 md:p-12 lg:p-16 flex flex-col justify-center bg-white/[0.02] backdrop-blur-xl relative">
+                  
+                  {/* Subtle glow */}
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-[80px] pointer-events-none" />
 
-              {/* Mobile Arrow */}
-              <div className="mt-6 md:hidden">
-                <ArrowRight className="w-8 h-8 text-gray-600 group-hover:text-white transition-colors" />
-              </div>
+                  <div className="text-purple-400 font-bold uppercase tracking-widest text-sm mb-4">0{index + 1}</div>
+                  <h3 className="text-4xl md:text-5xl font-black text-white tracking-tight mb-4">{project.title}</h3>
+                  <p className="text-gray-400 text-lg md:text-xl leading-relaxed mb-8">
+                    {project.shortDescription}
+                  </p>
+
+                  <div className="flex flex-wrap gap-3 mb-10">
+                    {project.tech.map((t, idx) => (
+                      <span key={idx} className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-gray-300">
+                        {t.name}
+                      </span>
+                    ))}
+                  </div>
+
+                  <button 
+                    onClick={() => setActiveProject(project)}
+                    className="w-fit flex items-center gap-4 px-8 py-4 rounded-full bg-white text-gray-950 font-bold hover:bg-purple-400 hover:text-white transition-colors"
+                  >
+                    Explore Project <ArrowRight className="w-5 h-5" />
+                  </button>
+               </div>
             </div>
-          ))}
-        </div>
+          )
+        })}
+
       </div>
 
-      {/* ========================================== */}
-      {/* FLOATING CURSOR PREVIEW (Hidden on touch) */}
-      {/* ========================================== */}
-      <AnimatePresence>
-        {hoveredProject && !activeProject && (
-          <motion.div
-            style={{ 
-              x: cursorX, 
-              y: cursorY, 
-              rotate: smoothTilt,
-            }}
-            className="fixed top-0 left-0 pointer-events-none z-50 -ml-[200px] -mt-[150px] hidden md:block"
-          >
-            <motion.div
-              layoutId={`project-image-${hoveredProject.id}`}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="w-[400px] aspect-[4/3] rounded-xl overflow-hidden shadow-2xl relative"
-            >
-              <img 
-                src={hoveredProject.image} 
-                alt={hoveredProject.title} 
-                className="w-full h-full object-cover"
-              />
-              {/* Dark overlay to make it look premium */}
-              <div className="absolute inset-0 bg-gray-900/10 mix-blend-overlay" />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ========================================== */}
       {/* FULLSCREEN PROJECT DETAIL OVERLAY */}
-      {/* ========================================== */}
       <AnimatePresence>
         {activeProject && (
           <ProjectDetailOverlay 

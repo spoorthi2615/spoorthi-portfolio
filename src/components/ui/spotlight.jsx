@@ -49,3 +49,4 @@ export const Spotlight = ({ className, fill }) => {
     </svg>
   );
 };
+

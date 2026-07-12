@@ -6,7 +6,7 @@ export function SplineScene({ scene, className }) {
     <Suspense 
       fallback={
         <div className="w-full h-full flex items-center justify-center">
-          <div className="w-8 h-8 rounded-full border-t-2 border-cyan-500 animate-spin"></div>
+          <div className="w-8 h-8 rounded-full border-t-2 border-purple-500 animate-spin"></div>
         </div>
       }
     >
@@ -17,3 +17,4 @@ export function SplineScene({ scene, className }) {
     </Suspense>
   )
 }
+

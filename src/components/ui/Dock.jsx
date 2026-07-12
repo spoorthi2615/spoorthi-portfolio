@@ -50,7 +50,7 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance,
       {isActive && (
         <motion.div
           layoutId="activeNavIndicator"
-          className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 rounded-full z-0"
+          className="absolute inset-0 bg-gradient-to-tr from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded-full z-0"
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         />
       )}
@@ -96,7 +96,7 @@ function DockIcon({ children, className = '', ...rest }) {
       {Children.map(children, child => 
         cloneElement(child, {
           className: `${child.props.className || ''} w-[45%] h-[45%] transition-colors duration-300 ${
-            isActive ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]' : 'text-gray-400 group-hover:text-white'
+            isActive ? 'text-purple-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]' : 'text-gray-400 group-hover:text-white'
           }`.trim(),
           width: undefined,
           height: undefined
@@ -173,3 +173,4 @@ export default function Dock({
     </motion.div>
   );
 }
+

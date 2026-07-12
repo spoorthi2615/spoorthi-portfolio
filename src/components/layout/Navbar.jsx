@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Home, User, Code2, Briefcase, Clock, Mail } from 'lucide-react';
+import { useLenis } from '@studio-freight/react-lenis';
 import Dock from '../ui/Dock';
 
 const navItems = [
@@ -14,6 +15,7 @@ const navItems = [
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState('hero');
   const [isMobile, setIsMobile] = useState(false);
+  const lenis = useLenis();
 
   // Detect mobile viewports to adapt Dock sizes
   useEffect(() => {
@@ -46,9 +48,13 @@ export default function Navbar() {
 
   const handleClick = (e, id) => {
     e.preventDefault();
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
+    if (lenis) {
+      lenis.scrollTo(`#${id}`, { offset: 0, duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    } else {
+      const section = document.getElementById(id);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -74,4 +80,6 @@ export default function Navbar() {
     />
   );
 }
+
+
 

@@ -1,370 +1,425 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence, useSpring } from 'framer-motion';
-import { Briefcase, GraduationCap, Code, Trophy, BookOpen, Star, Calendar, MapPin, X } from 'lucide-react';
-import { createPortal } from 'react-dom';
+import React, { useState, useRef, useMemo } from 'react';
+import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'framer-motion';
+import { Calendar, MapPin, Briefcase, GraduationCap, Award, Terminal } from 'lucide-react';
 
+// ------------------------------------------------------------------------
+// DATASET
+// ------------------------------------------------------------------------
 const timeline = [
   {
     id: 0,
-    type: 'edu',
-    title: 'SSLC (10th Grade)',
-    org: 'State Board',
+    category: 'education',
+    title: 'Secondary School Education (CBSE)',
+    org: 'Little Rock Indian School',
     location: 'Karnataka',
-    date: 'Where it all started',
-    shortDesc: 'The beginning of the journey. Scored an outstanding 92.48%.',
-    made: [],
-    learned: ['Foundational Mathematics', 'Science & Logic', 'Core Academics'],
-    achievements: ['Secured 92.48% in Board Examinations']
+    date: '2008 - 2020',
+    shortDesc: 'Foundational secondary school education. Scored 73.3%.',
+    learned: ['Sciences', 'Mathematics', 'Communication'],
+    Icon: GraduationCap,
+    color: "from-purple-400 to-purple-600",
+    glow: "rgba(168, 85, 247, 0.4)",
+    borderColor: "border-purple-500/50"
   },
   {
     id: 1,
-    type: 'edu',
-    title: 'Diploma in Full Stack Development',
-    org: 'SDM Polytechnic',
-    location: 'Ujire',
-    date: 'June 2021 - June 2024',
-    shortDesc: 'Graduated with high distinction. CGPA: 9.78',
-    made: ['Foundational static websites', 'Database Management schemas', 'Several academic web projects'],
-    learned: ['HTML/CSS/JavaScript', 'C & C++', 'Basic Database Management', 'Core Computer Science Principles'],
-    achievements: ['Graduated with High Distinction', 'CGPA: 9.78 / 10']
+    category: 'education',
+    title: 'Pre-University Education (PCMB)',
+    org: 'Excellent PU College',
+    location: 'Karnataka',
+    date: '2020 - 2022',
+    shortDesc: 'Established solid mathematical and analytical foundations. Scored 83.3%.',
+    learned: ['Physics', 'Advanced Math', 'Biology'],
+    Icon: GraduationCap,
+    color: "from-fuchsia-400 to-fuchsia-600",
+    glow: "rgba(217, 70, 239, 0.4)",
+    borderColor: "border-fuchsia-500/50"
+  },
+  {
+    id: 5,
+    category: 'education',
+    title: 'B.Tech in CS (Cybersecurity)',
+    org: 'NMAM Institute of Technology',
+    location: 'Karnataka',
+    date: '2022 - Present',
+    shortDesc: 'Currently pursuing Bachelor of Technology focusing on secure system engineering. CGPA: 7.02',
+    learned: ['Cryptography', 'Network Engineering', 'Software Auditing'],
+    Icon: Terminal,
+    color: "from-violet-400 to-violet-600",
+    glow: "rgba(139, 92, 246, 0.4)",
+    borderColor: "border-violet-500/50"
   },
   {
     id: 2,
-    type: 'work',
-    title: 'Full Stack Developer Intern',
-    org: 'Winsun Global Tech',
-    location: 'Nagarbhavi, Bangalore',
-    date: 'Jan 2024 - Apr 2024',
-    shortDesc: 'Designed MERN tech blogging platform with JWT authentication, RBAC.',
-    made: ['MERN Tech Blogging Platform', 'Custom Authentication System with JWT', 'Role-Based Access Control (RBAC)'],
-    learned: ['MongoDB, Express.js, React, Node.js', 'Advanced API optimization techniques', 'State Management'],
-    achievements: ['Improved API load times significantly', 'Successfully delivered MVP ahead of schedule']
+    category: 'experience',
+    title: 'Cybersecurity Intern',
+    org: 'Thaniya Technologies',
+    location: 'Karnataka',
+    date: '8-Week Intern',
+    shortDesc: 'OSINT footprinting, OWASP top 10 web app tests, and AD audits.',
+    learned: ['Maltego, Burp Suite', 'AD Security', 'Threat Drills'],
+    Icon: Briefcase,
+    color: "from-fuchsia-400 to-fuchsia-600",
+    glow: "rgba(217, 70, 239, 0.4)",
+    borderColor: "border-fuchsia-500/50"
   },
   {
     id: 3,
-    type: 'edu',
-    title: 'B.Tech in Cyber Security',
-    org: 'NMAM Institute of Technology',
-    location: 'Nitte',
-    date: 'July 2024 - Ongoing',
-    shortDesc: 'Currently pursuing Bachelor of Technology. CGPA: 8.83',
-    made: ['Security-focused web applications', 'Network monitoring scripts'],
-    learned: ['Advanced Cybersecurity Concepts', 'Ethical Hacking', 'Cryptography', 'Next.js & Advanced React'],
-    achievements: ['Current CGPA: 8.83', 'Active in cybersecurity clubs']
+    category: 'achievements',
+    title: 'Cybersiege 2026 CTF',
+    org: 'Alvas Institute',
+    location: 'Karnataka',
+    date: '2026',
+    shortDesc: 'Competed and secured 3rd Place overall in jeopardy-style security challenges.',
+    learned: ['Cryptography', 'Web Security', 'Reverse Engineering'],
+    Icon: Award,
+    color: "from-purple-400 to-purple-600",
+    glow: "rgba(168, 85, 247, 0.4)",
+    borderColor: "border-purple-500/50"
   },
   {
     id: 4,
-    type: 'work',
-    title: 'Full Stack Developer Intern',
-    org: 'Vill Design Co. Limited',
-    location: 'Japan (Remote)',
-    date: 'Feb 2025 - Present',
-    shortDesc: 'Developed Contest Scoring System & Reception Management System using MERN stack.',
-    made: ['Contest Scoring System', 'Reception Management System', 'Real-time Operations Dashboards'],
-    learned: ['Neon PostgreSQL', 'Real-time WebSocket integrations', 'Remote international collaboration', 'Advanced MERN patterns'],
-    achievements: ['Enabled real-time operations across departments', 'Scaled database architecture for high concurrency']
+    category: 'achievements',
+    title: 'Hackfest \'26 Participant',
+    org: 'NMAMIT',
+    location: 'Karnataka',
+    date: '2026',
+    shortDesc: 'Participated in the cybersecurity capture-the-flag (CTF) challenges.',
+    learned: ['Security Exploiting', 'Vulnerability Auditing'],
+    Icon: Award,
+    color: "from-violet-400 to-violet-600",
+    glow: "rgba(139, 92, 246, 0.4)",
+    borderColor: "border-violet-500/50"
   }
 ];
 
-const DetailSection = ({ icon: Icon, title, items }) => {
-  if (!items || items.length === 0) return null;
+const categories = [
+  { id: 'all', label: 'All Milestones' },
+  { id: 'education', label: 'Education' },
+  { id: 'experience', label: 'Work Experience' },
+  { id: 'achievements', label: 'Awards & CTFs' }
+];
+
+// ==========================================
+// BACKGROUND ANIMATIONS
+// ==========================================
+const CyberBackground = () => {
+  const particles = useMemo(() => {
+    return Array.from({ length: 40 }).map(() => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      size: Math.random() * 3 + 1,
+      duration: Math.random() * 15 + 10,
+      delay: Math.random() * 5
+    }));
+  }, []);
+
   return (
-    <div className="mb-6">
-      <h4 className="flex items-center gap-2 text-cyan-300 font-semibold mb-3">
-        <Icon className="w-5 h-5" /> {title}
-      </h4>
-      <ul className="space-y-2">
-        {items.map((item, idx) => (
-          <li key={idx} className="flex items-start gap-2 text-gray-300 text-sm">
-            <span className="text-cyan-500 mt-1">•</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {/* Sweeping Scanline */}
+      <motion.div 
+        className="absolute top-0 left-0 w-full h-[10vh] bg-gradient-to-b from-transparent via-purple-500/10 to-transparent blur-[2px]"
+        animate={{ y: ['-10vh', '110vh'] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+      />
+      
+      {/* Floating Particles */}
+      {particles.map((p, i) => (
+        <motion.div
+          key={i}
+          className="absolute bg-white/20 rounded-full"
+          style={{ left: `${p.left}%`, top: `${p.top}%`, width: p.size, height: p.size }}
+          animate={{
+            y: [0, -150, 0],
+            opacity: [0, 0.8, 0],
+            scale: [1, 1.5, 1]
+          }}
+          transition={{
+            duration: p.duration,
+            repeat: Infinity,
+            delay: p.delay,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
     </div>
   );
 };
 
-// ========================================================================
-//  RICH DATA MODAL
-// ========================================================================
-const RichDataModal = ({ item, onClose }) => {
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, []);
+// ==========================================
+// DIAGONAL NODE COMPONENT
+// ==========================================
+const DiagonalNode = ({ item, index, total, scrollYProgress }) => {
+  // nodePosition is exactly index / (total - 1) which perfectly matches the 0 to 1 scroll
+  const nodePosition = index / (total > 1 ? total - 1 : 1);
+  
+  const opacity = useTransform(
+    scrollYProgress, 
+    [nodePosition - 0.15, nodePosition, nodePosition + 0.15], 
+    [0.4, 1, 0.4]
+  );
+  
+  const scale = useTransform(
+    scrollYProgress, 
+    [nodePosition - 0.15, nodePosition, nodePosition + 0.15], 
+    [0.9, 1.05, 0.9]
+  );
 
-  return createPortal(
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8 bg-black/60 backdrop-blur-md"
-      onClick={onClose}
-      data-lenis-prevent="true"
+  const glowOpacity = useTransform(
+    scrollYProgress, 
+    [nodePosition - 0.1, nodePosition, nodePosition + 0.1], 
+    [0, 1, 0]
+  );
+
+  // Dynamic coordinates based on filter index
+  const cx = 50 + index * 80;
+  const cy = 50 + index * 80;
+
+  return (
+    <div 
+      className="absolute flex items-center gap-8 z-30"
+      style={{
+        left: `${cx}vw`,
+        top: `${cy}vh`,
+        transform: 'translate(-50%, -50%)'
+      }}
     >
+      {/* Center Node / Dot */}
+      <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
+        <div className="w-5 h-5 rounded-full bg-gray-950 border-2 border-white relative z-10" />
+        <motion.div 
+          className="absolute inset-0 rounded-full"
+          style={{ 
+            background: `radial-gradient(circle, ${item.glow}, transparent 80%)`,
+            opacity: glowOpacity 
+          }}
+        />
+        <motion.div 
+          className="absolute inset-0 w-full h-full rounded-full border-4 border-transparent z-20"
+          style={{ opacity: glowOpacity, borderColor: item.glow.replace('0.4', '1') }}
+        />
+      </div>
+
+      {/* The Content Card */}
       <motion.div 
-        className="bg-gray-900 border border-cyan-500/30 rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl relative"
-        initial={{ scale: 0.95, y: 20, opacity: 0 }}
-        animate={{ scale: 1, y: 0, opacity: 1 }}
-        exit={{ scale: 0.95, y: 20, opacity: 0 }}
-        onClick={(e) => e.stopPropagation()}
+        style={{ opacity, scale }}
+        className="w-[450px] md:w-[550px]"
       >
-        <button 
-          className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-gray-400 hover:text-white hover:bg-red-500 transition-colors z-10"
-          onClick={onClose}
+        <div 
+          className={`relative p-10 md:p-14 rounded-[2.5rem] bg-gray-950/90 backdrop-blur-2xl border border-white/10 transition-all duration-500 hover:${item.borderColor} hover:-translate-y-2 hover:shadow-2xl overflow-hidden group flex flex-col gap-8`}
+          style={{
+            boxShadow: `inset 0 0 100px -30px ${item.glow}`
+          }}
         >
-          <X className="w-5 h-5" />
-        </button>
-
-        <div className="p-8 md:p-12">
-          <div className="flex items-center gap-4 mb-6">
-            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${item.type === 'work' ? 'bg-blue-500/20 text-blue-400' : 'bg-purple-500/20 text-purple-400'}`}>
-              {item.type === 'work' ? <Briefcase className="w-7 h-7" /> : <GraduationCap className="w-7 h-7" />}
+          
+          <div className="flex flex-col gap-6 relative z-10">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-gray-950 border border-gray-800 flex items-center justify-center shadow-inner shrink-0">
+                <item.Icon className={`w-6 h-6 text-transparent bg-clip-text bg-gradient-to-br ${item.color} text-white drop-shadow-md`} /> 
+                <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-20 rounded-2xl`} />
+              </div>
+              <div className="flex flex-col">
+                 <span className={`bg-gradient-to-r ${item.color} bg-clip-text text-transparent font-bold uppercase tracking-widest text-[10px] mb-1`}>{item.category}</span>
+                 <span className="text-gray-400 font-medium text-xs flex items-center gap-1">
+                   <Calendar className="w-3 h-3" /> {item.date}
+                 </span>
+              </div>
             </div>
-            <div>
-              <h2 className="text-2xl md:text-4xl font-black text-white">{item.title}</h2>
-              <p className="text-lg text-cyan-400">{item.org}</p>
+
+            <div className="flex flex-col">
+              <h3 className="text-xl md:text-2xl font-black text-white tracking-tight mb-2">{item.title}</h3>
+              <p className="text-gray-400 text-sm flex items-center gap-2">
+                <MapPin className="w-3.5 h-3.5" /> {item.org}
+              </p>
             </div>
-          </div>
 
-          <div className="flex flex-wrap gap-4 mb-10 text-sm text-gray-400 bg-gray-800/50 p-4 rounded-xl border border-gray-700">
-            <div className="flex items-center gap-2"><Calendar className="w-4 h-4" /> {item.date}</div>
-            <div className="flex items-center gap-2"><MapPin className="w-4 h-4" /> {item.location}</div>
-          </div>
+            <p className="text-gray-400 text-sm leading-relaxed">
+                {item.shortDesc}
+            </p>
 
-          <p className="text-gray-300 text-lg mb-10 leading-relaxed border-l-4 border-cyan-500 pl-4">{item.shortDesc}</p>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <DetailSection icon={Code} title="What I Built / Did" items={item.made} />
-            <DetailSection icon={BookOpen} title="What I Learned" items={item.learned} />
-            <div className="md:col-span-2">
-              <DetailSection icon={Trophy} title="Key Achievements" items={item.achievements} />
+            <div className="flex flex-wrap gap-2 mt-2">
+                {item.learned.map((tag, i) => (
+                    <span key={i} className="px-3 py-1 bg-gray-950 border border-gray-800 rounded-full text-xs text-gray-400">
+                        {tag}
+                    </span>
+                ))}
             </div>
+
           </div>
         </div>
       </motion.div>
-    </motion.div>,
-    document.body
+    </div>
   );
 };
 
-// ========================================================================
-//  MAIN COMPONENT (CINEMATIC TRAIN)
-// ========================================================================
-export default function Timeline() {
-  const containerRef = useRef(null);
-  const [activeItem, setActiveItem] = useState(null);
 
+// ==========================================
+// SCROLLING CANVAS COMPONENT
+// ==========================================
+const TimelineCanvas = ({ items, activeCategory, setActiveCategory }) => {
+  const containerRef = useRef(null);
+  const N = items.length;
+  
+  // Track scroll progress of the main window over this tall section
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
 
-  // Smooth out the scroll progress for animations
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  const travelVW = N > 1 ? (N - 1) * 80 : 0;
+  const containerHeightVH = N > 1 ? N * 100 : 100;
 
-  // 1. SKY COLOR: Day (Cyan/Blue) -> Sunset (Orange/Pink) -> Night (Dark Navy)
-  const skyBackground = useTransform(
-    smoothProgress,
-    [0, 0.5, 1],
-    [
-      "linear-gradient(to bottom, #0ea5e9, #bae6fd)", // Day
-      "linear-gradient(to bottom, #f97316, #db2777)", // Sunset
-      "linear-gradient(to bottom, #0f172a, #020617)"  // Night
-    ]
-  );
+  // Translate the canvas diagonally backwards as we scroll down
+  const xTranslate = useTransform(scrollYProgress, [0, 1], ["0vw", `-${travelVW}vw`]);
+  const yTranslate = useTransform(scrollYProgress, [0, 1], ["0vh", `-${travelVW}vh`]);
 
-  // 2. PARALLAX ELEMENTS (Moving left as we scroll down)
-  const cloudsX = useTransform(smoothProgress, [0, 1], ["0%", "-50%"]);
-  const mountainsX = useTransform(smoothProgress, [0, 1], ["0%", "-100%"]);
-  const tracksX = useTransform(smoothProgress, [0, 1], ["0%", "-400%"]);
-  const stationsX = useTransform(smoothProgress, [0, 1], ["0%", "-300%"]); // 4 stations
+  // Parallax for the grid background (moves slower than the main canvas)
+  const gridX = useTransform(scrollYProgress, [0, 1], ["0vw", `-${travelVW * 0.3}vw`]);
+  const gridY = useTransform(scrollYProgress, [0, 1], ["0vh", `-${travelVW * 0.3}vh`]);
 
-  // 3. TRAIN BOUNCE (Subtle vibration to simulate movement)
-  const trainY = useTransform(scrollYProgress, (val) => {
-    return Math.sin(val * 200) * 4; // Vibration effect based on scroll
-  });
-
-  // 4. DAY TO NIGHT ELEMENTS
-  const sunOpacity = useTransform(smoothProgress, [0, 0.4, 0.6], [1, 1, 0]);
-  const moonOpacity = useTransform(smoothProgress, [0.4, 0.6, 1], [0, 1, 1]);
-  const starsOpacity = useTransform(smoothProgress, [0.5, 0.8, 1], [0, 0.8, 1]);
+  // Generate path points dynamically based on item coordinates
+  const pathData = N > 0 
+    ? `M 50vw 50vh ` + items.slice(1).map((_, i) => `L ${50 + (i + 1) * 80}vw ${50 + (i + 1) * 80}vh`).join(' ')
+    : '';
 
   return (
-    <section id="timeline" className="bg-gray-950 relative">
+    <div ref={containerRef} style={{ height: `${containerHeightVH}vh` }} className="relative w-full">
       
-      {/* Desktop Header */}
-      <div className="pt-24 container mx-auto px-6 lg:mb-10 absolute top-0 left-0 right-0 z-50 pointer-events-none hidden lg:block">
-        <h2 className="text-4xl md:text-6xl font-display font-black text-center tracking-tighter text-white drop-shadow-lg">
-          Journey & <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Milestones</span>
-        </h2>
-      </div>
-
-      {/* 
-        ============================================================
-        MOBILE FALLBACK (< 1024px)
-        ============================================================
-      */}
-      <div className="block lg:hidden container mx-auto px-6 py-24">
-        <h2 className="text-4xl font-display font-black text-center mb-16 tracking-tighter text-white">
-          Journey & <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Milestones</span>
-        </h2>
-        <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-cyan-500/50 before:to-transparent">
-          {timeline.map((item, idx) => (
-            <motion.div 
-              key={item.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active"
-            >
-              <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-gray-900 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 text-cyan-400 z-10 relative">
-                {item.type === 'work' ? <Briefcase className="w-4 h-4" /> : <GraduationCap className="w-4 h-4" />}
-                <div className="absolute inset-0 rounded-full bg-cyan-400/20 animate-ping" />
-              </div>
-              <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl glass border border-white/10 bg-gray-900/60 hover:bg-gray-800/80 transition-colors cursor-pointer" onClick={() => setActiveItem(item)}>
-                <div className="flex flex-col gap-2 mb-4">
-                  <span className="text-cyan-400 font-bold text-sm tracking-wider uppercase">{item.date}</span>
-                  <h3 className="text-xl font-bold text-white leading-tight">{item.title}</h3>
-                  <p className="text-gray-400 text-sm flex items-center gap-1"><MapPin className="w-3 h-3"/> {item.org}</p>
-                </div>
-                <p className="text-gray-300 text-sm mb-4">{item.shortDesc}</p>
-                <span className="text-cyan-400 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Read More <span>→</span>
-                </span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      {/* 
-        ============================================================
-        CINEMATIC TRAIN TIMELINE (DESKTOP > 1024px)
-        ============================================================
-      */}
-      <div ref={containerRef} className="hidden lg:block h-[400vh] relative w-full">
-        <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-end pointer-events-none">
-          
-          {/* 1. SKY */}
-          <motion.div className="absolute inset-0 z-0" style={{ background: skyBackground }} />
-          
-          {/* STARS (Night) */}
-          <motion.div className="absolute inset-0 z-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-50" style={{ opacity: starsOpacity }} />
-
-          {/* SUN */}
-          <motion.div 
-            className="absolute top-32 left-32 w-32 h-32 rounded-full bg-yellow-300 shadow-[0_0_100px_rgba(253,224,71,0.8)] z-0" 
-            style={{ opacity: sunOpacity }}
-          />
-
-          {/* MOON */}
-          <motion.div 
-            className="absolute top-32 right-32 w-28 h-28 rounded-full bg-gray-200 shadow-[0_0_80px_rgba(255,255,255,0.6)] z-0" 
-            style={{ opacity: moonOpacity }}
-          />
-
-          {/* 2. MOUNTAINS (Parallax layer 1) */}
-          <motion.div 
-            className="absolute bottom-32 left-0 w-[400vw] h-96 flex items-end opacity-50 z-10"
-            style={{ x: mountainsX }}
-          >
-            {/* Generate some abstract CSS mountains */}
-            {[...Array(20)].map((_, i) => (
-              <div key={i} className="w-[30vw] h-full flex-shrink-0 relative -ml-[10vw]">
-                <div 
-                  className="absolute bottom-0 w-full h-[150%] bg-gray-900 origin-bottom" 
-                  style={{ 
-                    clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
-                    height: `${50 + Math.random() * 50}%`
-                  }} 
-                />
-              </div>
-            ))}
-          </motion.div>
-
-          {/* 3. CLOUDS (Parallax layer 2) */}
-          <motion.div 
-            className="absolute top-40 left-0 w-[200vw] flex gap-32 z-10 opacity-60"
-            style={{ x: cloudsX }}
-          >
-            {[...Array(10)].map((_, i) => (
-              <div key={i} className="w-64 h-20 bg-white/30 rounded-full blur-xl" style={{ marginTop: `${Math.random() * 100}px` }} />
-            ))}
-          </motion.div>
-
-          {/* 4. THE TRACKS */}
-          <div className="absolute bottom-16 w-full h-4 bg-gray-800 z-20 border-t-2 border-gray-600 shadow-xl flex items-center overflow-hidden">
-            <motion.div className="w-[400vw] h-1 flex gap-8" style={{ x: tracksX }}>
-               {[...Array(200)].map((_, i) => (
-                 <div key={i} className="w-8 h-full bg-gray-600" />
-               ))}
-            </motion.div>
+      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
+        
+        {/* HUD / UI Overlay (Inside the sticky container so it NEVER scrolls away!) */}
+        <div className="absolute top-0 left-0 w-full p-8 md:p-12 z-50 pointer-events-none flex flex-col md:flex-row justify-between items-start md:items-center">
+          <div>
+            <h2 className="text-4xl md:text-5xl font-display font-black text-white tracking-tighter mb-2">
+              My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">Journey</span>
+            </h2>
+            <p className="text-gray-400 text-sm md:text-base font-medium max-w-sm">
+              Scroll down to traverse my timeline diagonally through cyberspace.
+            </p>
           </div>
-          
-          {/* 5. THE STATIONS (Milestone Cards sliding past) */}
-          <motion.div 
-            className="absolute bottom-24 left-0 w-[400vw] h-96 flex items-end z-20 pointer-events-auto"
-            style={{ x: stationsX }}
-          >
-            {/* Padding to start train before first station */}
-            <div className="w-[50vw] flex-shrink-0" />
 
-            {timeline.map((item, index) => (
-              <div key={item.id} className="w-[100vw] flex-shrink-0 flex flex-col items-center justify-end pb-8 relative group">
-                
-                {/* Station Pole */}
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-20 bg-gray-700 rounded-t-lg" />
-                <div className="absolute bottom-16 left-1/2 -translate-x-1/2 px-4 py-1 bg-gray-800 border border-gray-600 text-cyan-400 font-bold text-xs rounded shadow-lg whitespace-nowrap">
-                  {item.date}
-                </div>
-
-                {/* Milestone Card */}
-                <div 
-                  className="w-96 glass bg-gray-900/80 border border-cyan-500/30 p-6 rounded-2xl shadow-2xl mb-12 hover:-translate-y-4 transition-transform duration-300 cursor-pointer backdrop-blur-md"
-                  onClick={() => setActiveItem(item)}
+          {/* Filters */}
+          <div className="flex flex-wrap gap-2 mt-6 md:mt-0 pointer-events-auto bg-gray-950/80 p-2 rounded-2xl border border-white/5 backdrop-blur-md">
+            {categories.map((cat) => {
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`px-4 py-2 rounded-xl font-mono text-xs transition-all relative outline-none ${
+                    isActive ? "text-gray-950 font-bold" : "text-gray-400 hover:text-white"
+                  }`}
                 >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">
-                      {item.type === 'work' ? <Briefcase className="w-5 h-5" /> : <GraduationCap className="w-5 h-5" />}
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-white">{item.title}</h3>
-                      <p className="text-cyan-400 text-sm">{item.org}</p>
-                    </div>
-                  </div>
-                  <p className="text-gray-300 text-sm mb-4">{item.shortDesc}</p>
-                  <button className="text-cyan-400 text-sm font-semibold flex items-center gap-2 hover:gap-3 transition-all">
-                    Explore Station <span>→</span>
-                  </button>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* 6. THE TRAIN (Fixed in center, bouncing) */}
-          <motion.div 
-            className="absolute bottom-20 left-1/2 -translate-x-1/2 z-30 drop-shadow-2xl text-[100px] leading-none"
-            style={{ y: trainY }}
-          >
-            🚆
-            {/* Speed lines effect behind train */}
-            <div className="absolute top-1/2 -left-32 w-24 h-1 bg-cyan-400/50 rounded-full blur-sm" />
-            <div className="absolute top-1/3 -left-24 w-16 h-1 bg-cyan-400/50 rounded-full blur-sm" />
-          </motion.div>
-
-          {/* Ground */}
-          <div className="absolute bottom-0 w-full h-16 bg-gray-950 z-10" />
-
+                  {isActive && (
+                    <motion.div 
+                      layoutId="activeFilterBg2"
+                      className="absolute inset-0 bg-gradient-to-r from-purple-400 to-fuchsia-500 rounded-xl z-0"
+                    />
+                  )}
+                  <span className="relative z-10">{cat.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
 
-      <AnimatePresence>
-        {activeItem && <RichDataModal item={activeItem} onClose={() => setActiveItem(null)} />}
-      </AnimatePresence>
+        {/* Dynamic Animated Particles & Scanline */}
+        <CyberBackground />
+
+        {/* Parallax Cyber Grid */}
+        <motion.div 
+          className="absolute inset-0 z-0 opacity-10 pointer-events-none"
+          style={{ 
+            x: gridX, 
+            y: gridY, 
+            width: `${100 + (N > 1 ? (N - 1) * 80 : 0)}vw`, 
+            height: `${100 + (N > 1 ? (N - 1) * 80 : 0)}vh`,
+            backgroundImage: 'linear-gradient(rgba(255,255,255,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.2) 1px, transparent 1px)', 
+            backgroundSize: '100px 100px' 
+          }}
+        />
+
+        {/* Background Ambient Layers */}
+        <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
+          <div className="absolute top-[10%] left-[20%] w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[150px]" />
+          <div className="absolute bottom-[10%] right-[20%] w-[500px] h-[500px] bg-fuchsia-500/20 rounded-full blur-[150px]" />
+        </div>
+
+        {/* MASSIVE DIAGONAL CANVAS */}
+        <motion.div 
+          className="absolute top-0 left-0"
+          style={{ 
+            width: `${100 + (N > 1 ? (N - 1) * 80 : 0)}vw`, 
+            height: `${100 + (N > 1 ? (N - 1) * 80 : 0)}vh`,
+            x: xTranslate, 
+            y: yTranslate 
+          }}
+        >
+          {/* THE SVG WIRE & LASER */}
+          <svg className="absolute inset-0 pointer-events-none z-10" style={{ width: `${100 + (N > 1 ? (N - 1) * 80 : 0)}vw`, height: `${100 + (N > 1 ? (N - 1) * 80 : 0)}vh` }}>
+            <defs>
+              <linearGradient id="laserGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#c084fc" /> {/* purple-400 */}
+                <stop offset="50%" stopColor="#d946ef" /> {/* fuchsia-500 */}
+                <stop offset="100%" stopColor="#a78bfa" /> {/* violet-400 */}
+              </linearGradient>
+            </defs>
+            
+            {/* Background faint wire */}
+            {N > 1 && (
+              <path 
+                d={pathData}
+                stroke="rgba(255, 255, 255, 0.08)" 
+                strokeWidth="6" 
+                fill="none" 
+                strokeDasharray="15 15"
+              />
+            )}
+            
+            {/* Animated Laser Beam */}
+            {N > 1 && (
+              <motion.path 
+                d={pathData}
+                stroke="url(#laserGrad)" 
+                strokeWidth="10" 
+                fill="none" 
+                style={{ pathLength: scrollYProgress }}
+                className="drop-shadow-[0_0_30px_rgba(217,70,239,0.8)]"
+              />
+            )}
+          </svg>
+
+          {/* THE NODES */}
+          {items.map((item, index) => (
+            <DiagonalNode 
+              key={item.id}
+              item={item}
+              index={index}
+              total={N}
+              scrollYProgress={scrollYProgress}
+            />
+          ))}
+
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+
+// ==========================================
+// MAIN COMPONENT (Timeline Section)
+// ==========================================
+export default function Timeline() {
+  const [activeCategory, setActiveCategory] = useState('all');
+
+  const filteredTimeline = useMemo(() => {
+    if (activeCategory === 'all') return timeline;
+    return timeline.filter(item => item.category === activeCategory);
+  }, [activeCategory]);
+
+  return (
+    <section id="timeline" className="relative bg-[#060608]">
+      <TimelineCanvas items={filteredTimeline} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
     </section>
   );
 }

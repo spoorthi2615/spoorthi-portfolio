@@ -59,7 +59,7 @@ export function InteractiveSpotlight({
       ref={containerRef}
       className={cn(
         'pointer-events-none absolute rounded-full bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops),transparent_80%)] blur-lg transition-opacity duration-300 z-50 mix-blend-screen',
-        'from-cyan-400/40 via-blue-500/20 to-transparent',
+        'from-purple-400/40 via-blue-500/20 to-transparent',
         isHovered ? 'opacity-100' : 'opacity-0',
         className
       )}
@@ -72,3 +72,4 @@ export function InteractiveSpotlight({
     />
   );
 }
+

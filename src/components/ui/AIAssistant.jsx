@@ -3,25 +3,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaRobot, FaTimes, FaPaperPlane, FaUser } from 'react-icons/fa';
 
 const BASE_SYSTEM_PROMPT = `
-You are Srujan's Personal AI Agent, embedded directly into his premium portfolio website. Your job is to act as his representative, hyping up his skills, projects, and achievements to potential recruiters, clients, or visitors. 
+You are Spoorthi's Personal AI Agent, embedded directly into her premium portfolio website. Your job is to act as her representative, hyping up her skills, projects, achievements, and research to potential recruiters, clients, or visitors. 
 
 Your Personality:
 - Professional, yet highly futuristic, engaging, and slightly witty. 
 - You speak concisely. Do not output massive walls of text. Keep answers short, punchy, and highly relevant.
-- Always be incredibly positive about Srujan's abilities.
+- Always be incredibly positive about Spoorthi's abilities.
 
 SUPERPOWER (Navigation):
 If the user asks to see a specific part of the portfolio, append a specific navigation command to the very end of your response.
 Available commands: [NAVIGATE:hero], [NAVIGATE:skills], [NAVIGATE:certifications], [NAVIGATE:projects], [NAVIGATE:timeline], [NAVIGATE:contact].
 
 STRICT PERSONAL QUESTION RULE:
-If the user asks deeply personal questions that are NOT covered in the provided knowledge base (e.g. what makes him great, personal secrets, etc.), you MUST reply with a variation of: "I just know this much about him, I don't know much yet. That's a bit too personal! Ask him directly via the contact section."
+If the user asks deeply personal questions that are NOT covered in the provided knowledge base (e.g. what makes her great, personal secrets, etc.), you MUST reply with a variation of: "I just know this much about her, I don't know much yet. That's a bit too personal! Ask her directly via the contact section."
 `;
 
 export default function AIAssistant() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'model', text: "Hello! I'm Srujan's personal AI assistant. Ask me anything about his skills, projects, or gaming achievements!" }
+    { role: 'model', text: "Hello! I'm Spoorthi's personal AI assistant. Ask me anything about her skills, projects, or achievements!" }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -29,8 +29,8 @@ export default function AIAssistant() {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    // Fetch Srujan's detailed knowledge base on mount
-    fetch('/data/srujan-knowledge.json')
+    // Fetch Spoorthi's detailed knowledge base on mount
+    fetch('/data/spoorthi-knowledge.json')
       .then(res => res.json())
       .then(data => setKnowledgeBase(data))
       .catch(err => console.error("Failed to load knowledge base:", err));
@@ -134,7 +134,7 @@ export default function AIAssistant() {
     <>
       {/* Floating Action Button */}
       <motion.button
-        className={`fixed bottom-6 right-6 w-16 h-16 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.5)] z-[100] transition-all ${isOpen ? 'scale-0' : 'scale-100 hover:scale-110'}`}
+        className={`fixed bottom-6 right-6 w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-blue-600 text-white flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.5)] z-[100] transition-all ${isOpen ? 'scale-0' : 'scale-100 hover:scale-110'}`}
         onClick={() => setIsOpen(true)}
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -147,20 +147,20 @@ export default function AIAssistant() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed bottom-6 right-6 w-80 sm:w-96 h-[500px] max-h-[80vh] bg-gray-900/95 backdrop-blur-xl border border-cyan-500/30 rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.3)] z-[100] flex flex-col overflow-hidden"
+            className="fixed bottom-6 right-6 w-80 sm:w-96 h-[500px] max-h-[80vh] bg-gray-900/95 backdrop-blur-xl border border-purple-500/30 rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.3)] z-[100] flex flex-col overflow-hidden"
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
           >
             {/* Header */}
-            <div className="p-4 bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border-b border-cyan-500/20 flex justify-between items-center">
+            <div className="p-4 bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border-b border-purple-500/20 flex justify-between items-center">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center border border-cyan-400/50">
-                  <FaRobot className="text-cyan-400 text-xl" />
+                <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-400/50">
+                  <FaRobot className="text-purple-400 text-xl" />
                 </div>
                 <div>
-                  <h3 className="text-white font-bold tracking-wide">Srujan's Agent</h3>
+                  <h3 className="text-white font-bold tracking-wide">Spoorthi's Agent</h3>
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                     <span className="text-xs text-green-400">Online</span>
@@ -205,9 +205,9 @@ export default function AIAssistant() {
                       <FaRobot className="text-white text-xs" />
                     </div>
                     <div className="p-4 rounded-2xl bg-gray-800 border border-gray-700 rounded-bl-sm flex gap-1">
-                      <motion.div className="w-2 h-2 bg-cyan-400 rounded-full" animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0 }} />
-                      <motion.div className="w-2 h-2 bg-cyan-400 rounded-full" animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} />
-                      <motion.div className="w-2 h-2 bg-cyan-400 rounded-full" animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} />
+                      <motion.div className="w-2 h-2 bg-purple-400 rounded-full" animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0 }} />
+                      <motion.div className="w-2 h-2 bg-purple-400 rounded-full" animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} />
+                      <motion.div className="w-2 h-2 bg-purple-400 rounded-full" animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} />
                     </div>
                   </div>
                 </div>
@@ -229,7 +229,7 @@ export default function AIAssistant() {
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}
-                  className="absolute right-2 w-8 h-8 flex items-center justify-center bg-cyan-500 text-white rounded-full hover:bg-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="absolute right-2 w-8 h-8 flex items-center justify-center bg-purple-500 text-white rounded-full hover:bg-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <FaPaperPlane className="text-xs ml-[-2px]" />
                 </button>
@@ -257,3 +257,4 @@ export default function AIAssistant() {
     </>
   );
 }
+

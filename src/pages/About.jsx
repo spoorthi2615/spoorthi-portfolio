@@ -1,397 +1,258 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaMapMarkerAlt, FaGraduationCap, FaExternalLinkAlt, FaGamepad, FaTimes } from 'react-icons/fa';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2 }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", stiffness: 100, damping: 12 }
-  }
-};
-
-const BlurText = ({ text, className }) => {
-  const words = text.split(" ");
-  
-  const container = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.05, delayChildren: 0.2 },
-    },
-  };
-
-  const child = {
-    visible: {
-      opacity: 1,
-      filter: "blur(0px)",
-      y: 0,
-      transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 100,
-      },
-    },
-    hidden: {
-      opacity: 0,
-      filter: "blur(10px)",
-      y: 10,
-    },
-  };
-
-  return (
-    <motion.p
-      style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem" }}
-      variants={container}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
-      className={className}
-    >
-      {words.map((word, index) => (
-        <motion.span variants={child} key={index}>
-          {word}
-        </motion.span>
-      ))}
-    </motion.p>
-  );
-};
-
-const competitiveGames = [
-  {
-    name: 'Free Fire',
-    id: '2431261289',
-    image: 'https://res.cloudinary.com/duf8kshsz/image/upload/v1779608629/WhatsApp_Image_2026-05-24_at_1.10.11_PM_mczw2t.jpg',
-    link: 'https://freefireinfo.in/',
-    borderColor: 'border-orange-500/30 hover:border-orange-500/60',
-    glow: 'group-hover:shadow-[0_0_20px_rgba(249,115,22,0.3)]',
-    experience: "A battle royale survivor at heart. Pushing ranks, hitting headshots, and constantly improving my tactical gameplay."
-  },
-  {
-    name: 'Clash Royale',
-    id: '#20UPRUCGJ2',
-    image: 'https://res.cloudinary.com/duf8kshsz/image/upload/v1779608629/WhatsApp_Image_2026-05-24_at_1.08.12_PM_lfuyh3.jpg',
-    link: 'https://royaleapi.com/player/20UPRUCGJ2',
-    borderColor: 'border-blue-500/30 hover:border-blue-500/60',
-    glow: 'group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]',
-    experience: "Mastering elixir management and precise card placements. Building meta-defying decks to climb the ladder."
-  },
-  {
-    name: 'Chess',
-    id: 'Srujan_H_M',
-    image: 'https://res.cloudinary.com/duf8kshsz/image/upload/v1779608629/WhatsApp_Image_2026-05-24_at_1.12.24_PM_q80irf.jpg',
-    link: 'https://www.chess.com/member/Srujan_H_M',
-    borderColor: 'border-gray-400/30 hover:border-gray-400/60',
-    glow: 'group-hover:shadow-[0_0_20px_rgba(156,163,175,0.3)]',
-    experience: "Calculating lines and dominating the board. I enjoy rapid games and deep strategic mid-game maneuvers."
-  },
-  {
-    name: 'Clash of Clans',
-    id: 'Pending ID...',
-    image: 'https://via.placeholder.com/300x400/111827/FFFFFF?text=Screenshot+Pending',
-    link: null,
-    borderColor: 'border-yellow-500/30 hover:border-yellow-500/60',
-    glow: 'group-hover:shadow-[0_0_20px_rgba(234,179,8,0.3)]',
-    experience: "Building an impenetrable base and coordinating massive clan wars. Every star matters!"
-  }
-];
-
-const funGames = [
-  {
-    name: 'Shadow Fight',
-    id: 'Played Offline',
-    image: 'https://via.placeholder.com/300x400/111827/a855f7?text=Shadow+Fight',
-    link: null,
-    borderColor: 'border-purple-500/30 hover:border-purple-500/60',
-    glow: 'group-hover:shadow-[0_0_20px_rgba(168,85,247,0.3)]',
-    experience: "Enjoying the art of combat. Testing different weapons, mastering timing, and enjoying the fluid animations."
-  }
-];
-
-const GameCard = ({ game, onSelect }) => (
-  <motion.div 
-    variants={itemVariants}
-    className={`relative group rounded-2xl overflow-hidden border ${game.borderColor} bg-black/40 ${game.glow} transition-all duration-300 flex flex-col cursor-pointer shadow-lg`}
-    onClick={() => onSelect(game)}
-    whileHover={{ y: -5, scale: 1.02 }}
-  >
-    <div className="h-40 w-full overflow-hidden bg-gray-900 relative">
-      <img 
-        src={game.image} 
-        alt={game.name} 
-        loading="lazy"
-        className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-900/40 to-transparent" />
-    </div>
-    <div className="p-4 flex flex-col flex-grow relative z-10 -mt-10">
-      <h4 className="text-xl font-bold text-white mb-1 drop-shadow-md">{game.name}</h4>
-      <div className="inline-block bg-gray-800/80 border border-white/10 px-3 py-1 rounded-full text-sm text-cyan-400 font-mono w-fit backdrop-blur-sm">
-        {game.id}
-      </div>
-    </div>
-  </motion.div>
-);
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { FaMapMarkerAlt, FaShieldAlt, FaServer, FaLock, FaDownload } from 'react-icons/fa';
 
 export default function About() {
-  const [selectedGame, setSelectedGame] = useState(null);
+  const containerRef = useRef(null);
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  // Track the scroll progress of this specific 300vh tall section
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  // Update active slide for the Header/Navigation dots
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    let nextSlide = 0;
+    if (latest > 0.25 && latest <= 0.75) nextSlide = 1;
+    if (latest > 0.75) nextSlide = 2;
+
+    if (nextSlide !== activeSlide) {
+      setActiveSlide(nextSlide);
+    }
+  });
+
+  // OPTION 1: The Giant Canvas (Camera Pan)
+  // We map the scroll progress to X and Y coordinates to move the "camera" around a massive map.
+  // Pause slightly at the middle slide (0.45 to 0.55) so the user can read it.
+  const cameraX = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], ["0vw", "-100vw", "-100vw", "0vw"]);
+  const cameraY = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], ["0vh", "-100vh", "-100vh", "-200vh"]);
+
+  // ── Slide 0: Overview ──────────────────────────────
+  const OverviewSlide = () => (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full h-full pb-8">
+      <div className="md:col-span-1 md:row-span-2 rounded-[2rem] overflow-hidden border border-white/10 relative group bg-white/[0.02] shadow-xl">
+        <img 
+          src="/spoorthi.jpg" 
+          alt="Spoorthi" 
+          className="w-full h-full min-h-[420px] md:min-h-[500px] object-cover object-top filter contrast-110 saturate-100 transition-transform duration-700" 
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#060608]/90 via-[#060608]/30 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 p-8 pointer-events-none">
+          <h3 className="text-3xl font-black text-white mb-1">Spoorthi</h3>
+          <p className="text-purple-400 font-medium">Cybersecurity Engineer</p>
+        </div>
+      </div>
+      <div className="md:col-span-2 bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-xl relative overflow-hidden flex flex-col justify-center">
+        <div className="absolute -top-32 -right-32 w-64 h-64 bg-purple-500/10 rounded-full blur-[80px] pointer-events-none" />
+        <p className="text-2xl md:text-3xl text-white font-light leading-snug mb-6 relative z-10 pointer-events-none">
+          Applying a <strong className="text-purple-400 font-bold">builder's mindset</strong> to real-world security engineering and applied ML research.
+        </p>
+        <p className="text-gray-400 leading-relaxed font-medium relative z-10 text-base md:text-lg pointer-events-none mb-4">
+          I am a Cybersecurity and Software Engineering student at NMAMIT with hands-on experience in penetration testing (VAPT) and secure application development. My track record includes building end-to-end security tools ranging from multi-agent vulnerability scanners to cryptographic file containers.
+        </p>
+        <p className="text-gray-400 leading-relaxed font-medium relative z-10 text-base md:text-lg pointer-events-none mb-8">
+          Proficient in Python, React, TypeScript, and MongoDB, I am currently authoring research on GNN-based cascade failure detection and explainable phishing intelligence.
+        </p>
+        
+        <a 
+          href="/Spoorthi_Resume.pdf" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="relative z-20 flex items-center justify-center gap-2 px-8 py-3 w-fit rounded-full font-bold text-white text-sm bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all cursor-pointer"
+        >
+          <FaDownload /> Download Resume
+        </a>
+      </div>
+    </div>
+  );
+
+  // ── Slide 1: Skills & Details ──────────────────────
+  const DetailsSlide = () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full h-full pb-8 pointer-events-none">
+      <div className="bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 flex flex-col justify-center items-center text-center shadow-xl">
+        <div className="w-16 h-16 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-6">
+          <FaMapMarkerAlt className="text-purple-400 text-2xl" />
+        </div>
+        <p className="text-gray-500 text-xs font-bold tracking-[0.2em] uppercase mb-2">Location</p>
+        <p className="text-xl font-bold text-white">Karnataka, India</p>
+      </div>
+      <div className="lg:col-span-2 bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-xl relative overflow-hidden flex flex-col justify-center">
+         <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-fuchsia-500/10 rounded-full blur-[80px]" />
+         <h3 className="text-2xl font-black text-white mb-8 tracking-tight">Languages</h3>
+         <div className="flex flex-wrap gap-4 relative z-10">
+            <div className="flex-1 bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+               <h4 className="text-white font-bold text-xl mb-1">English</h4>
+               <p className="text-purple-400 text-sm font-medium">Fluent</p>
+            </div>
+            <div className="flex-1 bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+               <h4 className="text-white font-bold text-xl mb-1">Kannada</h4>
+               <p className="text-fuchsia-400 text-sm font-medium">Native</p>
+            </div>
+            <div className="flex-1 bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+               <h4 className="text-white font-bold text-xl mb-1">Hindi</h4>
+               <p className="text-violet-400 text-sm font-medium">Proficient</p>
+            </div>
+         </div>
+      </div>
+      <div className="md:col-span-2 lg:col-span-3 bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-xl flex flex-col justify-center">
+        <h3 className="text-2xl font-black text-white mb-8 tracking-tight">Core Focus Areas</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+           <div className="flex flex-col gap-4">
+             <div className="w-12 h-12 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center">
+               <FaShieldAlt className="text-fuchsia-400 text-xl" />
+             </div>
+             <h4 className="text-white font-bold">Vulnerability Assessment</h4>
+             <p className="text-gray-400 text-sm leading-relaxed">Identifying and patching security loopholes before they can be exploited.</p>
+           </div>
+           <div className="flex flex-col gap-4">
+             <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+               <FaLock className="text-purple-400 text-xl" />
+             </div>
+             <h4 className="text-white font-bold">Cryptography</h4>
+             <p className="text-gray-400 text-sm leading-relaxed">Implementing robust encryption standards to ensure data integrity.</p>
+           </div>
+           <div className="flex flex-col gap-4">
+             <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+               <FaServer className="text-violet-400 text-xl" />
+             </div>
+             <h4 className="text-white font-bold">Secure Networks</h4>
+             <p className="text-gray-400 text-sm leading-relaxed">Architecting and auditing infrastructure for maximum resilience.</p>
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // ── Slide 2: Education ─────────────────────────────
+  const EducationSlide = () => (
+    <div className="flex flex-col gap-5 w-full h-full pb-8 pointer-events-none">
+      <div className="bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-[2rem] p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xl">
+         <div className="flex items-center gap-6">
+            <div className="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+              <FaShieldAlt className="text-purple-400 text-3xl" />
+            </div>
+            <div>
+              <h4 className="text-2xl font-bold text-white mb-2">B.Tech in CS (Cybersecurity)</h4>
+              <p className="text-purple-300/80 font-medium">NMAMIT, Nitte</p>
+            </div>
+         </div>
+         <div className="flex flex-wrap gap-4 w-full md:w-auto">
+           <div className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 font-medium text-gray-300">2022 – Present</div>
+           <div className="px-6 py-3 rounded-xl bg-purple-500/10 border border-purple-500/30 font-black text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.15)]">7.02 CGPA</div>
+         </div>
+      </div>
+      <div className="bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-[2rem] p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xl">
+         <div className="flex items-center gap-6">
+            <div className="w-16 h-16 rounded-2xl bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center text-3xl">
+              🏫
+            </div>
+            <div>
+              <h4 className="text-2xl font-bold text-white mb-2">Pre-University (PCMB)</h4>
+              <p className="text-fuchsia-300/80 font-medium">Excellent PU College</p>
+            </div>
+         </div>
+         <div className="flex flex-wrap gap-4 w-full md:w-auto">
+           <div className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 font-medium text-gray-300">2020 – 2022</div>
+           <div className="px-6 py-3 rounded-xl bg-fuchsia-500/5 border border-fuchsia-500/30 font-black text-fuchsia-400">83.3%</div>
+         </div>
+      </div>
+      <div className="bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-[2rem] p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xl">
+         <div className="flex items-center gap-6">
+            <div className="w-16 h-16 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-3xl">
+              🎒
+            </div>
+            <div>
+              <h4 className="text-2xl font-bold text-white mb-2">Secondary School (CBSE)</h4>
+              <p className="text-violet-300/80 font-medium">Little Rock Indian School</p>
+            </div>
+         </div>
+         <div className="flex flex-wrap gap-4 w-full md:w-auto">
+           <div className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 font-medium text-gray-300">2008 – 2020</div>
+           <div className="px-6 py-3 rounded-xl bg-violet-500/5 border border-violet-500/30 font-black text-violet-400">73.3%</div>
+         </div>
+      </div>
+    </div>
+  );
+
+  const sectionTitles = ["Overview", "Stats & Focus", "Education"];
 
   return (
-    <section id="about" className="py-20 relative z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    // The container is 400vh tall to give plenty of scrolling time for the camera pan
+    <section ref={containerRef} id="about" className="relative z-10 bg-[#060608] h-[400vh]">
+      
+      {/* Sticky viewport */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
         
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-6 tracking-tighter">
-            Who is <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Srujan?</span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full" />
-        </motion.div>
+        {/* Ambient glows that stay fixed */}
+        <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-fuchsia-600/10 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
-          
-          {/* Left Column: Profile & Stats */}
-          <motion.div 
-            className="lg:col-span-4 flex flex-col gap-6"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {/* Profile Photo Bento */}
-            <motion.div variants={itemVariants} className="glass rounded-[2rem] p-8 border border-white/10 bg-gray-900/40 hover:bg-gray-800/60 transition-colors flex flex-col items-center relative overflow-hidden group shadow-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-600/10 opacity-50 group-hover:opacity-100 transition-opacity" />
-              <div className="relative w-40 h-40 mb-6">
-              <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400 to-blue-600 rounded-full blur-xl opacity-40 animate-pulse gpu-accelerated" />
-                <img 
-                  src="https://res.cloudinary.com/duf8kshsz/image/upload/v1779219766/PLACEMENT_PIC2_ckncvk.jpg" 
-                  alt="Srujan"
-                  loading="lazy"
-                  className="w-full h-full rounded-full object-cover border-4 border-gray-800 relative z-10 shadow-2xl"
-                />
-              </div>
-              <h3 className="text-2xl font-black text-white tracking-widest uppercase mb-6 z-10 drop-shadow-md">Srujan</h3>
-              
-              <div className="w-full flex flex-col gap-3 z-10">
-                <div className="flex justify-between items-center bg-gray-950/80 px-5 py-3.5 rounded-xl border border-white/5 shadow-inner">
-                  <span className="text-gray-400 text-xs font-bold tracking-widest uppercase">Score</span>
-                  <span className="text-cyan-400 font-black">CGPA 8.83</span>
-                </div>
-                <div className="flex justify-between items-center bg-gray-950/80 px-5 py-3.5 rounded-xl border border-white/5 shadow-inner">
-                  <span className="text-gray-400 text-xs font-bold tracking-widest uppercase">Year</span>
-                  <span className="text-cyan-400 font-black">3rd Year</span>
-                </div>
-                <div className="flex justify-between items-center bg-gray-950/80 px-5 py-3.5 rounded-xl border border-white/5 shadow-inner">
-                  <span className="text-gray-400 text-xs font-bold tracking-widest uppercase">College</span>
-                  <span className="text-cyan-400 font-black">NMAMIT</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Info Bento */}
-            <motion.div variants={itemVariants} className="glass rounded-[2rem] p-6 border border-white/10 bg-gray-900/40 hover:bg-gray-800/60 transition-colors flex flex-col gap-4 shadow-xl">
-               <div className="flex items-center gap-4 bg-gray-950/80 px-5 py-4 rounded-xl border border-white/5 shadow-inner">
-                 <FaMapMarkerAlt className="text-cyan-400 text-xl" />
-                 <span className="text-gray-300 font-medium tracking-wide">Karnataka, India</span>
-               </div>
-               <div className="flex items-center gap-4 bg-gray-950/80 px-5 py-4 rounded-xl border border-white/5 shadow-inner">
-                 <FaGraduationCap className="text-blue-400 text-xl" />
-                 <span className="text-gray-300 font-medium tracking-wide">Born 20-10-2005</span>
-               </div>
-            </motion.div>
-          </motion.div>
-
-          {/* Right Column: Overview & Education */}
-          <motion.div 
-            className="lg:col-span-8 flex flex-col gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {/* Overview Bento */}
-            <motion.div variants={itemVariants} className="glass rounded-[2rem] p-8 md:p-10 border border-white/10 bg-gray-900/40 hover:bg-gray-800/60 transition-colors relative overflow-hidden group shadow-xl">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] -mr-32 -mt-32 transition-transform duration-700 group-hover:scale-150 gpu-accelerated" />
-              <h3 className="text-3xl font-black text-cyan-400 mb-6 drop-shadow-md">Overview</h3>
-              <BlurText 
-                text="I am an aspiring cybersecurity professional and full-stack developer, currently pursuing my B.Tech at NMAMIT. With a diploma in Full Stack Web Development and an ongoing internship at Vill Design Co. Ltd. (Japan), I build secure, high-performance applications that bridge elegant UIs with robust APIs. My goal is to craft digital experiences that are solid and performant."
-                className="text-gray-300 leading-relaxed text-[1.1rem] relative z-10 mb-8 font-medium"
-              />
-              
-              {/* Languages */}
-              <div className="flex flex-wrap gap-3 z-10 relative mt-4">
-                <span className="bg-gray-950/80 border border-white/5 px-5 py-2.5 rounded-full text-sm shadow-inner"><span className="text-gray-400">English</span> <span className="text-cyan-400 font-bold ml-2">Fluent</span></span>
-                <span className="bg-gray-950/80 border border-white/5 px-5 py-2.5 rounded-full text-sm shadow-inner"><span className="text-gray-400">Kannada</span> <span className="text-cyan-400 font-bold ml-2">Native</span></span>
-                <span className="bg-gray-950/80 border border-white/5 px-5 py-2.5 rounded-full text-sm shadow-inner"><span className="text-gray-400">Hindi</span> <span className="text-cyan-400 font-bold ml-2">Proficient</span></span>
-                <span className="bg-gray-950/80 border border-white/5 px-5 py-2.5 rounded-full text-sm shadow-inner"><span className="text-gray-400">Japanese</span> <span className="text-blue-400 font-bold ml-2">Beginner</span></span>
-              </div>
-            </motion.div>
-
-            {/* Education Title */}
-            <motion.div variants={itemVariants} className="flex items-center gap-4 mt-2 mb-2 pl-2">
-              <div className="w-2 h-8 bg-gradient-to-b from-cyan-400 to-blue-600 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
-              <h3 className="text-2xl font-black text-white tracking-wide drop-shadow-md">Education</h3>
-            </motion.div>
-
-            {/* Education Bento 1 */}
-            <motion.div variants={itemVariants} className="glass rounded-[2rem] p-6 border border-white/10 bg-gray-900/40 hover:bg-gray-800/60 transition-colors flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 shadow-lg group">
-              <div className="flex items-center gap-6">
-                <div className="w-16 h-16 rounded-full border border-cyan-500/30 flex items-center justify-center bg-cyan-500/10 shadow-[0_0_15px_rgba(6,182,212,0.2)] group-hover:scale-110 transition-transform">
-                  <span className="text-2xl drop-shadow-md">👑</span>
-                </div>
-                <div>
-                  <h4 className="text-xl font-black text-white mb-1 group-hover:text-cyan-300 transition-colors">B.Tech Cybersecurity</h4>
-                  <p className="text-gray-400 font-medium">NMAMIT, Nitte</p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 w-full sm:w-auto">
-                <span className="bg-gray-950/80 border border-white/5 px-5 py-2.5 rounded-xl text-sm font-bold text-gray-300 text-center shadow-inner">2024–Ongoing</span>
-                <span className="bg-cyan-500/10 border border-cyan-500/20 px-5 py-2.5 rounded-xl text-sm font-black text-cyan-400 text-center shadow-[0_0_10px_rgba(6,182,212,0.1)]">8.83 CGPA</span>
-              </div>
-            </motion.div>
-
-            {/* Education Bento 2 */}
-            <motion.div variants={itemVariants} className="glass rounded-[2rem] p-6 border border-white/10 bg-gray-900/40 hover:bg-gray-800/60 transition-colors flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 shadow-lg group">
-              <div className="flex items-center gap-6">
-                <div className="w-16 h-16 rounded-full border border-blue-500/30 flex items-center justify-center bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.2)] group-hover:scale-110 transition-transform">
-                  <span className="text-2xl drop-shadow-md">🏆</span>
-                </div>
-                <div>
-                  <h4 className="text-xl font-black text-white mb-1 group-hover:text-blue-300 transition-colors">Diploma Full Stack Dev</h4>
-                  <p className="text-gray-400 font-medium">SDM Polytechnic, Ujire</p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 w-full sm:w-auto">
-                <span className="bg-gray-950/80 border border-white/5 px-5 py-2.5 rounded-xl text-sm font-bold text-gray-300 text-center shadow-inner">Ended 2024</span>
-                <span className="bg-blue-500/10 border border-blue-500/20 px-5 py-2.5 rounded-xl text-sm font-black text-blue-400 text-center shadow-[0_0_10px_rgba(59,130,246,0.1)]">9.78 CGPA</span>
-              </div>
-            </motion.div>
-
-          </motion.div>
-        </div>
-
-        {/* Gaming Profiles Section */}
-        <motion.div
-          className="glass rounded-3xl p-8 border border-white/10 bg-gray-900/40"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-        >
-          <motion.div variants={itemVariants} className="flex items-center justify-center gap-3 mb-8">
-            <FaGamepad className="text-3xl text-purple-400" />
-            <h3 className="text-3xl font-bold text-white text-center">Gaming Profile</h3>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-              <motion.div variants={itemVariants} className="flex items-center gap-2 mb-4">
-                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                <h4 className="text-xl font-bold text-gray-200 uppercase tracking-widest text-sm">Competitive</h4>
-              </motion.div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {competitiveGames.map((game) => (
-                  <GameCard key={game.name} game={game} onSelect={setSelectedGame} />
-                ))}
-              </div>
+        {/* Fixed Header */}
+        <div className="absolute top-0 left-0 w-full z-50 p-6 md:p-12 pt-24 pointer-events-none">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="flex items-center gap-6">
+              <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
+                My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">Story</span>
+              </h2>
+              <div className="hidden md:block w-[1px] h-12 bg-white/10" />
+              <h3 className="text-xl md:text-2xl text-gray-400 font-medium tracking-wide hidden md:block">
+                <AnimatePresence mode="wait">
+                   <motion.span 
+                     key={activeSlide}
+                     initial={{ opacity: 0, y: 10 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     exit={{ opacity: 0, y: -10 }}
+                     className="inline-block"
+                   >
+                     {sectionTitles[activeSlide]}
+                   </motion.span>
+                </AnimatePresence>
+              </h3>
             </div>
-
-            <div className="lg:col-span-1">
-              <motion.div variants={itemVariants} className="flex items-center gap-2 mb-4">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <h4 className="text-xl font-bold text-gray-200 uppercase tracking-widest text-sm">Fun</h4>
-              </motion.div>
-              <div className="grid grid-cols-1 gap-4">
-                {funGames.map((game) => (
-                  <GameCard key={game.name} game={game} onSelect={setSelectedGame} />
+            
+            {/* Progress Dots */}
+            <div className="flex gap-3 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+                {[0, 1, 2].map((i) => (
+                  <div 
+                    key={i} 
+                    className={`h-2 rounded-full transition-all duration-500 ${activeSlide === i ? 'w-6 bg-purple-500' : 'w-2 bg-gray-600'}`}
+                  />
                 ))}
-              </div>
             </div>
           </div>
+        </div>
+
+        {/* THE GIANT CANVAS (Camera Pan Layer) */}
+        <motion.div 
+          className="absolute top-0 left-0 w-full h-full will-change-transform"
+          style={{ x: cameraX, y: cameraY }}
+        >
+          
+          {/* Page 0: At (0, 0) */}
+          <div className="absolute top-0 left-0 w-screen h-screen flex items-center justify-center p-6 pt-32">
+             <div className="max-w-6xl w-full h-[600px]">
+               <OverviewSlide />
+             </div>
+          </div>
+
+          {/* Page 1: Down and Right (100vw, 100vh) */}
+          <div className="absolute top-[100vh] left-[100vw] w-screen h-screen flex items-center justify-center p-6 pt-32">
+             <div className="max-w-6xl w-full h-[600px]">
+               <DetailsSlide />
+             </div>
+          </div>
+
+          {/* Page 2: Down and Left (0vw, 200vh) */}
+          <div className="absolute top-[200vh] left-[0vw] w-screen h-screen flex items-center justify-center p-6 pt-32">
+             <div className="max-w-6xl w-full h-[600px]">
+               <EducationSlide />
+             </div>
+          </div>
+
         </motion.div>
       </div>
-
-      {/* Pop-up Modal for Game Details */}
-      <AnimatePresence>
-        {selectedGame && (
-          <motion.div 
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedGame(null)}
-          >
-            <motion.div 
-              className={`bg-gray-900 border ${selectedGame.borderColor} rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative`}
-              initial={{ scale: 0.9, y: 30, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.9, y: 30, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button 
-                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/80 z-20 backdrop-blur-md transition-colors"
-                onClick={() => setSelectedGame(null)}
-              >
-                <FaTimes />
-              </button>
-
-              <div className="w-full h-64 relative">
-                <img src={selectedGame.image} alt={selectedGame.name} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
-              </div>
-
-              <div className="p-6 relative z-10 -mt-16">
-                <h3 className="text-3xl font-bold text-white mb-2 drop-shadow-md">{selectedGame.name}</h3>
-                
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="bg-gray-800 border border-white/10 px-4 py-1.5 rounded-full text-cyan-400 font-mono font-bold">
-                    ID: {selectedGame.id}
-                  </span>
-                </div>
-
-                <div className="mb-6 bg-gray-800/50 p-4 rounded-2xl border border-white/5">
-                  <h4 className="text-sm text-gray-400 uppercase tracking-wider font-semibold mb-2">My Experience</h4>
-                  <p className="text-gray-200 leading-relaxed">
-                    {selectedGame.experience}
-                  </p>
-                </div>
-
-                {selectedGame.link ? (
-                  <a 
-                    href={selectedGame.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className={`flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r ${selectedGame.color || 'from-cyan-500/20 to-blue-500/20'} hover:opacity-80 text-white rounded-xl border border-white/10 transition-all font-bold text-lg`}
-                  >
-                    View Stats / Profile <FaExternalLinkAlt className="text-sm" />
-                  </a>
-                ) : (
-                  <button 
-                    disabled
-                    className="flex items-center justify-center gap-2 w-full py-3 bg-gray-800/50 text-gray-500 rounded-xl border border-gray-700/50 font-bold text-lg cursor-not-allowed"
-                  >
-                    No Public Web Tracker
-                  </button>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }

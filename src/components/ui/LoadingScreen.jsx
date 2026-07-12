@@ -11,7 +11,7 @@ const LoadingScreen = () => {
     >
       <div className="relative flex flex-col items-center justify-center">
         {/* Background glow */}
-        <div className="absolute w-32 h-32 bg-cyan-500/20 rounded-full blur-3xl" />
+        <div className="absolute w-32 h-32 bg-purple-500/20 rounded-full blur-3xl" />
         
         {/* Main Logo / Animation Container */}
         <motion.div
@@ -22,7 +22,7 @@ const LoadingScreen = () => {
         >
           {/* Outer ring */}
           <motion.div
-            className="absolute inset-0 rounded-full border-t-2 border-cyan-400 opacity-80"
+            className="absolute inset-0 rounded-full border-t-2 border-purple-400 opacity-80"
             animate={{ rotate: 360 }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
           />
@@ -34,7 +34,7 @@ const LoadingScreen = () => {
           />
           {/* Center core */}
           <motion.div
-            className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-purple-500 blur-[2px]"
+            className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-400 to-purple-500 blur-[2px]"
             animate={{ 
               scale: [1, 1.2, 1],
               opacity: [0.7, 1, 0.7]
@@ -45,7 +45,7 @@ const LoadingScreen = () => {
 
         {/* Loading text */}
         <motion.div
-          className="mt-8 text-cyan-400 font-mono tracking-widest text-sm uppercase flex items-center gap-1 font-bold"
+          className="mt-8 text-purple-400 font-mono tracking-widest text-sm uppercase flex items-center gap-1 font-bold"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
@@ -61,3 +61,4 @@ const LoadingScreen = () => {
 };
 
 export default LoadingScreen;
+

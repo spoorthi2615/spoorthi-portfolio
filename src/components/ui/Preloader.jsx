@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const bootMessages = [
@@ -13,9 +13,25 @@ const bootMessages = [
 export default function Preloader({ onComplete }) {
   const [progress, setProgress] = useState(0);
   const [messageIndex, setMessageIndex] = useState(0);
+  const [isSplineLoaded, setIsSplineLoaded] = useState(false);
+  const splineRef = useRef(null);
 
   useEffect(() => {
-    // The preloader will take exactly 2.5 seconds to reach 100%.
+    // Fallback in case the spline fails to load or takes too long
+    const timeout = setTimeout(() => setIsSplineLoaded(true), 8000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    const splineEl = splineRef.current;
+    if (splineEl) {
+      const handleLoad = () => setIsSplineLoaded(true);
+      splineEl.addEventListener('load', handleLoad);
+      return () => splineEl.removeEventListener('load', handleLoad);
+    }
+  }, []);
+
+  useEffect(() => {
     const duration = 2500;
     const intervalTime = 30;
     const steps = duration / intervalTime;
@@ -23,20 +39,25 @@ export default function Preloader({ onComplete }) {
 
     const interval = setInterval(() => {
       currentStep++;
-      // Easing function for smoother progress increment
-      const easeOutQuart = 1 - Math.pow(1 - currentStep / steps, 4);
-      const currentProgress = Math.min(Math.floor(easeOutQuart * 100), 100);
-      
+      const t = Math.min(currentStep / steps, 1);
+      const easeOutQuart = 1 - Math.pow(1 - t, 4);
+      let currentProgress = Math.min(Math.floor(easeOutQuart * 100), 100);
+
+      // Hold at 99% if the Spline iframe hasn't loaded yet
+      if (currentProgress === 100 && !isSplineLoaded) {
+        currentProgress = 99;
+      }
+
       setProgress(currentProgress);
 
-      if (currentStep >= steps) {
+      if (currentProgress === 100) {
         clearInterval(interval);
-        setTimeout(onComplete, 600); // Wait a tiny bit at 100% before exiting
+        setTimeout(onComplete, 600);
       }
     }, intervalTime);
 
     return () => clearInterval(interval);
-  }, [onComplete]);
+  }, [onComplete, isSplineLoaded]);
 
   useEffect(() => {
     // Change messages periodically based on progress
@@ -57,10 +78,19 @@ export default function Preloader({ onComplete }) {
     >
       {/* Background Grid & Glow */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-600/10 rounded-full blur-[100px]"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px]"></div>
 
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col items-center">
+      <div className="relative z-10 flex flex-col items-center mt-12">
+        {/* Live 3D Spline Scene */}
+        <div className="w-64 h-64 md:w-80 md:h-80 mb-4 drop-shadow-[0_0_25px_rgba(168,85,247,0.4)] z-20 relative flex items-center justify-center pointer-events-none">
+          <spline-viewer 
+            ref={splineRef}
+            url="https://prod.spline.design/KFonZGtsoUXP-qx7/scene.splinecode"
+            class="w-full h-full"
+          ></spline-viewer>
+        </div>
+
         {/* Loading Ring */}
         <div className="relative w-48 h-48 flex items-center justify-center mb-8">
           <motion.svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
@@ -70,15 +100,15 @@ export default function Preloader({ onComplete }) {
             />
             <motion.circle 
               cx="50" cy="50" r="45" 
-              fill="none" stroke="#06b6d4" strokeWidth="2" 
+              fill="none" stroke="#a855f7" strokeWidth="2" 
               strokeDasharray={283}
               strokeDashoffset={283 - (283 * progress) / 100}
               strokeLinecap="round"
             />
           </motion.svg>
           
-          <div className="flex flex-col items-center drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]">
-            <span className="text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 tabular-nums tracking-tighter">
+          <div className="flex flex-col items-center drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+            <span className="text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 tabular-nums tracking-tighter">
               {progress}<span className="text-2xl">%</span>
             </span>
           </div>
@@ -92,7 +122,7 @@ export default function Preloader({ onComplete }) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="text-cyan-400/80 font-mono text-sm tracking-widest uppercase drop-shadow-[0_0_5px_rgba(6,182,212,0.8)]"
+              className="text-purple-400/80 font-mono text-sm tracking-widest uppercase drop-shadow-[0_0_5px_rgba(168,85,247,0.8)]"
             >
               {bootMessages[messageIndex]}
             </motion.span>
@@ -107,8 +137,9 @@ export default function Preloader({ onComplete }) {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        Srujan H M OS v2.0
+        Spoorthi OS v2.0
       </motion.div>
     </motion.div>
   );
 }
+
