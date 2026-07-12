@@ -245,7 +245,7 @@ const BentoCard = ({ item, index }) => {
 // ==========================================
 export default function Certifications() {
   return (
-    <section id="certifications" className="py-24 relative bg-[#060608] overflow-hidden">
+    <section id="certifications" className="min-h-screen flex flex-col justify-center py-12 relative bg-[#060608] overflow-hidden">
       
       <div className="max-w-[75rem] mx-auto px-6 relative z-10">
         

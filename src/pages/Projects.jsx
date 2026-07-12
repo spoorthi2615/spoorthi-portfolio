@@ -310,7 +310,7 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="py-24 relative bg-[#060608]">
+    <section id="projects" className="min-h-screen flex flex-col justify-center py-12 relative bg-[#060608]">
       
       {/* Title */}
       <div className="text-center mb-16 px-6">

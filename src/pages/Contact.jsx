@@ -23,7 +23,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden bg-gray-950">
+    <section id="contact" className="min-h-screen flex flex-col justify-center py-12 relative overflow-hidden bg-gray-950">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent" />
       
       {/* Background glow blobs */}
