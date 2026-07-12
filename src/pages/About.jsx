@@ -1,32 +1,33 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { useState, useRef } from 'react';
 import { FaMapMarkerAlt, FaShieldAlt, FaServer, FaLock, FaDownload } from 'react-icons/fa';
 
 export default function About() {
+  const containerRef = useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
 
-  // Intersection Observer to detect which slide is currently in view
-  const slide0Ref = useRef(null);
-  const slide1Ref = useRef(null);
-  const slide2Ref = useRef(null);
+  // Track the scroll progress of this specific 300vh tall section
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
 
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          if (entry.target === slide0Ref.current) setActiveSlide(0);
-          if (entry.target === slide1Ref.current) setActiveSlide(1);
-          if (entry.target === slide2Ref.current) setActiveSlide(2);
-        }
-      });
-    }, { threshold: 0.5 }); // Trigger when at least 50% of the slide is visible
+  // Update active slide for the Header/Navigation dots
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    let nextSlide = 0;
+    if (latest > 0.25 && latest <= 0.75) nextSlide = 1;
+    if (latest > 0.75) nextSlide = 2;
 
-    if (slide0Ref.current) observer.observe(slide0Ref.current);
-    if (slide1Ref.current) observer.observe(slide1Ref.current);
-    if (slide2Ref.current) observer.observe(slide2Ref.current);
+    if (nextSlide !== activeSlide) {
+      setActiveSlide(nextSlide);
+    }
+  });
 
-    return () => observer.disconnect();
-  }, []);
+  // OPTION 1: The Giant Canvas (Camera Pan)
+  // We map the scroll progress to X and Y coordinates to move the "camera" around a massive map.
+  // Pause slightly at the middle slide (0.45 to 0.55) so the user can read it.
+  const cameraX = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], ["0vw", "-100vw", "-100vw", "0vw"]);
+  const cameraY = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], ["0vh", "-100vh", "-100vh", "-200vh"]);
 
   // ── Slide 0: Overview ──────────────────────────────
   const OverviewSlide = () => (
@@ -178,69 +179,79 @@ export default function About() {
   const sectionTitles = ["Overview", "Stats & Focus", "Education"];
 
   return (
-    <section id="about" className="relative z-10 bg-[#060608]">
+    // The container is 400vh tall to give plenty of scrolling time for the camera pan
+    <section ref={containerRef} id="about" className="relative z-10 bg-[#060608] h-[400vh]">
       
-      {/* Fixed Header that stays on screen while scrolling the slides */}
-      <div className="sticky top-0 left-0 w-full z-50 p-6 md:p-12 pt-24 pointer-events-none h-0">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex items-center gap-6">
-            <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight drop-shadow-xl">
-              My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">Story</span>
-            </h2>
-            <div className="hidden md:block w-[1px] h-12 bg-white/10" />
-            <h3 className="text-xl md:text-2xl text-gray-300 font-medium tracking-wide hidden md:block drop-shadow-xl">
-              <AnimatePresence mode="wait">
-                 <motion.span 
-                   key={activeSlide}
-                   initial={{ opacity: 0, y: 10 }}
-                   animate={{ opacity: 1, y: 0 }}
-                   exit={{ opacity: 0, y: -10 }}
-                   className="inline-block"
-                 >
-                   {sectionTitles[activeSlide]}
-                 </motion.span>
-              </AnimatePresence>
-            </h3>
-          </div>
-          
-          {/* Progress Dots */}
-          <div className="flex gap-3 px-4 py-2 bg-white/5 backdrop-blur-md rounded-full border border-white/10 shadow-xl pointer-events-auto">
-              {[0, 1, 2].map((i) => (
-                <div 
-                  key={i} 
-                  className={`h-2 rounded-full transition-all duration-500 ${activeSlide === i ? 'w-6 bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)]' : 'w-2 bg-gray-600'}`}
-                />
-              ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Vertical Scrolling Container */}
-      <div className="w-full relative flex flex-col">
+      {/* Sticky viewport */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
         
-        {/* Ambient glows that stay fixed behind the content */}
-        <div className="sticky top-1/4 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
-        <div className="sticky bottom-1/4 right-0 w-[500px] h-[500px] bg-fuchsia-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
+        {/* Ambient glows that stay fixed */}
+        <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-fuchsia-600/10 rounded-full blur-[120px] pointer-events-none" />
 
-        {/* The Slides (Each takes 1 screen) */}
-        <div ref={slide0Ref} className="w-full min-h-screen flex items-center justify-center p-6 pt-32 -mt-[500px]">
-           <div className="max-w-6xl w-full h-auto md:h-[600px] flex items-center mt-[500px]">
-             <OverviewSlide />
-           </div>
+        {/* Fixed Header */}
+        <div className="absolute top-0 left-0 w-full z-50 p-6 md:p-12 pt-24 pointer-events-none">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="flex items-center gap-6">
+              <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
+                My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500">Story</span>
+              </h2>
+              <div className="hidden md:block w-[1px] h-12 bg-white/10" />
+              <h3 className="text-xl md:text-2xl text-gray-400 font-medium tracking-wide hidden md:block">
+                <AnimatePresence mode="wait">
+                   <motion.span 
+                     key={activeSlide}
+                     initial={{ opacity: 0, y: 10 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     exit={{ opacity: 0, y: -10 }}
+                     className="inline-block"
+                   >
+                     {sectionTitles[activeSlide]}
+                   </motion.span>
+                </AnimatePresence>
+              </h3>
+            </div>
+            
+            {/* Progress Dots */}
+            <div className="flex gap-3 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+                {[0, 1, 2].map((i) => (
+                  <div 
+                    key={i} 
+                    className={`h-2 rounded-full transition-all duration-500 ${activeSlide === i ? 'w-6 bg-purple-500' : 'w-2 bg-gray-600'}`}
+                  />
+                ))}
+            </div>
+          </div>
         </div>
 
-        <div ref={slide1Ref} className="w-full min-h-screen flex items-center justify-center p-6 pt-32">
-           <div className="max-w-6xl w-full h-auto md:h-[600px] flex items-center">
-             <DetailsSlide />
-           </div>
-        </div>
+        {/* THE GIANT CANVAS (Camera Pan Layer) */}
+        <motion.div 
+          className="absolute top-0 left-0 w-full h-full will-change-transform"
+          style={{ x: cameraX, y: cameraY }}
+        >
+          
+          {/* Page 0: At (0, 0) */}
+          <div className="absolute top-0 left-0 w-screen h-screen flex items-center justify-center p-6 pt-32">
+             <div className="max-w-6xl w-full h-[600px]">
+               <OverviewSlide />
+             </div>
+          </div>
 
-        <div ref={slide2Ref} className="w-full min-h-screen flex items-center justify-center p-6 pt-32">
-           <div className="max-w-6xl w-full h-auto md:h-[600px] flex items-center">
-             <EducationSlide />
-           </div>
-        </div>
+          {/* Page 1: Down and Right (100vw, 100vh) */}
+          <div className="absolute top-[100vh] left-[100vw] w-screen h-screen flex items-center justify-center p-6 pt-32">
+             <div className="max-w-6xl w-full h-[600px]">
+               <DetailsSlide />
+             </div>
+          </div>
 
+          {/* Page 2: Down and Left (0vw, 200vh) */}
+          <div className="absolute top-[200vh] left-[0vw] w-screen h-screen flex items-center justify-center p-6 pt-32">
+             <div className="max-w-6xl w-full h-[600px]">
+               <EducationSlide />
+             </div>
+          </div>
+
+        </motion.div>
       </div>
     </section>
   );
