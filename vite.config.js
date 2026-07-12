@@ -17,8 +17,7 @@ export default defineConfig({
         manualChunks: {
           three: ['three'],
           reactThree: ['@react-three/fiber', '@react-three/drei'],
-          framer: ['framer-motion'],
-          spline: ['@splinetool/react-spline', '@splinetool/runtime']
+          framer: ['framer-motion']
         }
       }
     }
