@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Spline from '@splinetool/react-spline';
 
 const bootMessages = [
   "Establishing secure connection...",
@@ -14,21 +15,11 @@ export default function Preloader({ onComplete }) {
   const [progress, setProgress] = useState(0);
   const [messageIndex, setMessageIndex] = useState(0);
   const [isSplineLoaded, setIsSplineLoaded] = useState(false);
-  const splineRef = useRef(null);
 
   useEffect(() => {
     // Fallback in case the spline fails to load or takes too long
     const timeout = setTimeout(() => setIsSplineLoaded(true), 8000);
     return () => clearTimeout(timeout);
-  }, []);
-
-  useEffect(() => {
-    const splineEl = splineRef.current;
-    if (splineEl) {
-      const handleLoad = () => setIsSplineLoaded(true);
-      splineEl.addEventListener('load', handleLoad);
-      return () => splineEl.removeEventListener('load', handleLoad);
-    }
   }, []);
 
   useEffect(() => {
@@ -84,11 +75,11 @@ export default function Preloader({ onComplete }) {
       <div className="relative z-10 flex flex-col items-center mt-12">
         {/* Live 3D Spline Scene */}
         <div className="w-64 h-64 md:w-80 md:h-80 mb-4 drop-shadow-[0_0_25px_rgba(168,85,247,0.4)] z-20 relative flex items-center justify-center pointer-events-none">
-          <spline-viewer 
-            ref={splineRef}
-            url="https://prod.spline.design/KFonZGtsoUXP-qx7/scene.splinecode"
-            class="w-full h-full"
-          ></spline-viewer>
+          <Spline
+            scene="https://prod.spline.design/KFonZGtsoUXP-qx7/scene.splinecode"
+            onLoad={() => setIsSplineLoaded(true)}
+            style={{ width: '100%', height: '100%' }}
+          />
         </div>
 
         {/* Loading Ring */}
