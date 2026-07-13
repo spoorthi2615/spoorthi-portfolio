@@ -242,6 +242,12 @@ const BentoCard = ({ item, index, onOpen }) => {
 // ==========================================
 export default function Certifications() {
   const [selectedCert, setSelectedCert] = useState(null);
+  const [isCertLoading, setIsCertLoading] = useState(true);
+
+  const handleOpenCert = (cert) => {
+    setIsCertLoading(true);
+    setSelectedCert(cert);
+  };
 
   // Close modal on escape key
   useEffect(() => {
@@ -280,7 +286,7 @@ export default function Certifications() {
           
           <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-[220px] gap-5">
             {certifications.map((cert, index) => (
-               <BentoCard key={cert.id} item={cert} index={index} onOpen={setSelectedCert} />
+               <BentoCard key={cert.id} item={cert} index={index} onOpen={handleOpenCert} />
             ))}
           </div>
         </div>
@@ -295,7 +301,7 @@ export default function Certifications() {
           
           <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-[200px] gap-5">
             {competitions.map((comp, index) => (
-               <BentoCard key={comp.id} item={comp} index={index} onOpen={setSelectedCert} />
+               <BentoCard key={comp.id} item={comp} index={index} onOpen={handleOpenCert} />
             ))}
           </div>
         </div>
@@ -343,12 +349,22 @@ export default function Certifications() {
                 </div>
                 
                 {/* Content */}
-                <div className="flex-1 w-full bg-[#030712] relative flex items-center justify-center">
+                <div className="flex-1 w-full bg-[#030712] relative flex items-center justify-center overflow-hidden">
+                  
+                  {/* Loading Spinner */}
+                  {isCertLoading && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#030712] z-10 gap-3">
+                      <div className="w-8 h-8 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin"></div>
+                      <span className="text-purple-400/50 text-xs font-mono uppercase tracking-widest animate-pulse">Decrypting File...</span>
+                    </div>
+                  )}
+
                   {selectedCert.link.endsWith('.pdf') ? (
                     <object 
                       data={`${selectedCert.link}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`} 
                       type="application/pdf" 
-                      className="w-full h-full"
+                      className={`w-full h-full relative z-0 transition-opacity duration-500 ${isCertLoading ? 'opacity-0' : 'opacity-100'}`}
+                      onLoad={() => setIsCertLoading(false)}
                     >
                       <div className="flex flex-col items-center justify-center h-full text-center p-6">
                         <p className="text-gray-400 mb-4">Your browser does not support inline PDFs.</p>
@@ -366,7 +382,8 @@ export default function Certifications() {
                     <img 
                       src={selectedCert.link} 
                       alt={selectedCert.title}
-                      className="w-full h-full object-contain"
+                      className={`w-full h-full object-contain relative z-0 transition-opacity duration-500 ${isCertLoading ? 'opacity-0' : 'opacity-100'}`}
+                      onLoad={() => setIsCertLoading(false)}
                     />
                   )}
                 </div>
