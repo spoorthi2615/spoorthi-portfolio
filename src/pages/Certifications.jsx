@@ -346,7 +346,7 @@ export default function Certifications() {
                 <div className="flex-1 w-full bg-[#030712] relative flex items-center justify-center">
                   {selectedCert.link.endsWith('.pdf') ? (
                     <object 
-                      data={selectedCert.link} 
+                      data={`${selectedCert.link}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`} 
                       type="application/pdf" 
                       className="w-full h-full"
                     >
