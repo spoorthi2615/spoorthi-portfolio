@@ -324,22 +324,44 @@ export default function Certifications() {
                     <h3 className="text-white font-bold text-lg">{selectedCert.title}</h3>
                     <p className="text-gray-400 text-xs">{selectedCert.issuer}</p>
                   </div>
-                  <button
-                    onClick={() => setSelectedCert(null)}
-                    className="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center text-white transition-colors"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <a 
+                      href={selectedCert.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-xs font-bold text-purple-400 hover:text-purple-300 border border-purple-500/30 hover:border-purple-500/60 px-3 py-1.5 rounded-lg transition-colors"
+                    >
+                      Open Link
+                    </a>
+                    <button
+                      onClick={() => setSelectedCert(null)}
+                      className="w-8 h-8 rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center text-white transition-colors"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                  </div>
                 </div>
                 
                 {/* Content */}
-                <div className="flex-1 w-full bg-[#030712] relative">
+                <div className="flex-1 w-full bg-[#030712] relative flex items-center justify-center">
                   {selectedCert.link.endsWith('.pdf') ? (
-                    <iframe 
-                      src={`${selectedCert.link}#toolbar=0`} 
-                      className="w-full h-full border-none"
-                      title={selectedCert.title}
-                    />
+                    <object 
+                      data={selectedCert.link} 
+                      type="application/pdf" 
+                      className="w-full h-full"
+                    >
+                      <div className="flex flex-col items-center justify-center h-full text-center p-6">
+                        <p className="text-gray-400 mb-4">Your browser does not support inline PDFs.</p>
+                        <a 
+                          href={selectedCert.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-bold transition-colors"
+                        >
+                          Download / View PDF
+                        </a>
+                      </div>
+                    </object>
                   ) : (
                     <img 
                       src={selectedCert.link} 
