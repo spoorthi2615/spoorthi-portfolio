@@ -61,34 +61,6 @@ const timeline = [
     color: "from-fuchsia-400 to-fuchsia-600",
     glow: "rgba(217, 70, 239, 0.4)",
     borderColor: "border-fuchsia-500/50"
-  },
-  {
-    id: 3,
-    category: 'achievements',
-    title: 'Cybersiege 2026 CTF',
-    org: 'Alvas Institute',
-    location: 'Karnataka',
-    date: '2026',
-    shortDesc: 'Competed and secured 3rd Place overall in jeopardy-style security challenges.',
-    learned: ['Cryptography', 'Web Security', 'Reverse Engineering'],
-    Icon: Award,
-    color: "from-purple-400 to-purple-600",
-    glow: "rgba(168, 85, 247, 0.4)",
-    borderColor: "border-purple-500/50"
-  },
-  {
-    id: 4,
-    category: 'achievements',
-    title: 'Hackfest \'26 Participant',
-    org: 'NMAMIT',
-    location: 'Karnataka',
-    date: '2026',
-    shortDesc: 'Participated in the cybersecurity capture-the-flag (CTF) challenges.',
-    learned: ['Security Exploiting', 'Vulnerability Auditing'],
-    Icon: Award,
-    color: "from-violet-400 to-violet-600",
-    glow: "rgba(139, 92, 246, 0.4)",
-    borderColor: "border-violet-500/50"
   }
 ];
 
