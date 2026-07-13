@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaBuilding, FaFlag, FaUniversity } from "react-icons/fa";
 import { SiMicrosoft, SiMicrosoftazure, SiHedera } from "react-icons/si";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 // ==========================================
 // CERTIFICATIONS DATA
@@ -144,7 +144,7 @@ const competitions = [
 // ==========================================
 // BENTO CARD COMPONENT
 // ==========================================
-const BentoCard = ({ item, index }) => {
+const BentoCard = ({ item, index, onOpen }) => {
   const isLarge = item.bento === "md:col-span-2 md:row-span-2";
   const isWide = item.bento === "md:col-span-2 md:row-span-1";
   const isTall = item.bento === "md:col-span-1 md:row-span-2";
@@ -225,15 +225,12 @@ const BentoCard = ({ item, index }) => {
          </div>
        )}
 
-       {/* View Certificate Link Overlay */}
-       <a 
-         href={item.link} 
-         target="_blank" 
-         rel="noopener noreferrer"
-         className="absolute inset-0 z-40" 
+       {/* View Certificate Button Overlay */}
+       <button 
+         className="absolute inset-0 z-40 w-full h-full cursor-pointer focus:outline-none" 
          aria-label={`View Certificate: ${item.title}`} 
-         onClick={(e) => { 
-           if (!item.link || item.link === "#") e.preventDefault(); 
+         onClick={() => { 
+           if (item.link && item.link !== "#") onOpen(item); 
          }}
        />
     </motion.div>
@@ -244,6 +241,17 @@ const BentoCard = ({ item, index }) => {
 // MAIN COMPONENT
 // ==========================================
 export default function Certifications() {
+  const [selectedCert, setSelectedCert] = useState(null);
+
+  // Close modal on escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setSelectedCert(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <section id="certifications" className="min-h-screen flex flex-col justify-center py-12 relative bg-[#060608] overflow-hidden">
       
@@ -272,7 +280,7 @@ export default function Certifications() {
           
           <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-[220px] gap-5">
             {certifications.map((cert, index) => (
-               <BentoCard key={cert.id} item={cert} index={index} />
+               <BentoCard key={cert.id} item={cert} index={index} onOpen={setSelectedCert} />
             ))}
           </div>
         </div>
@@ -287,10 +295,63 @@ export default function Certifications() {
           
           <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-[200px] gap-5">
             {competitions.map((comp, index) => (
-               <BentoCard key={comp.id} item={comp} index={index} />
+               <BentoCard key={comp.id} item={comp} index={index} onOpen={setSelectedCert} />
             ))}
           </div>
         </div>
+
+        {/* MODAL OVERLAY */}
+        <AnimatePresence>
+          {selectedCert && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedCert(null)}
+              className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 md:p-12"
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative w-full max-w-5xl h-[85vh] bg-gray-900 border border-gray-700 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between p-4 border-b border-gray-800 bg-gray-950/50">
+                  <div>
+                    <h3 className="text-white font-bold text-lg">{selectedCert.title}</h3>
+                    <p className="text-gray-400 text-xs">{selectedCert.issuer}</p>
+                  </div>
+                  <button
+                    onClick={() => setSelectedCert(null)}
+                    className="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center text-white transition-colors"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                  </button>
+                </div>
+                
+                {/* Content */}
+                <div className="flex-1 w-full bg-[#030712] relative">
+                  {selectedCert.link.endsWith('.pdf') ? (
+                    <iframe 
+                      src={`${selectedCert.link}#toolbar=0`} 
+                      className="w-full h-full border-none"
+                      title={selectedCert.title}
+                    />
+                  ) : (
+                    <img 
+                      src={selectedCert.link} 
+                      alt={selectedCert.title}
+                      className="w-full h-full object-contain"
+                    />
+                  )}
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div>
     </section>
