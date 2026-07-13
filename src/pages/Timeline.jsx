@@ -67,8 +67,7 @@ const timeline = [
 const categories = [
   { id: 'all', label: 'All Milestones' },
   { id: 'education', label: 'Education' },
-  { id: 'experience', label: 'Work Experience' },
-  { id: 'achievements', label: 'Awards & CTFs' }
+  { id: 'experience', label: 'Work Experience' }
 ];
 
 // ==========================================

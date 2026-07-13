@@ -56,9 +56,7 @@ export default function Contact() {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          <motion.p variants={itemVariants} className="text-purple-400 font-mono text-xs md:text-sm tracking-[0.3em] uppercase mb-4">
-            ✦ spoorthi.dev / contact ✦
-          </motion.p>
+
           <motion.h2 variants={itemVariants} className="text-5xl md:text-7xl font-display font-black tracking-normal text-white">
             Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Connect!</span>
           </motion.h2>
