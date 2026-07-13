@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaPaperPlane, FaInstagram } from 'react-icons/fa';
+import emailjs from 'emailjs-com';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -18,8 +19,23 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('sending');
-    await new Promise((r) => setTimeout(r, 1200));
-    setStatus('sent');
+    try {
+      await emailjs.sendForm(
+        'service_xwyzza7',
+        'template_u4ge8ci',
+        formRef.current,
+        'XSDmyIcn8Jvg-q5Xt'
+      );
+      setStatus('sent');
+      formRef.current.reset();
+      
+      // Reset button state after 5 seconds
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch (error) {
+      console.error('Email sending failed:', error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
   };
 
   return (
