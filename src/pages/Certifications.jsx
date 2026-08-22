@@ -412,7 +412,7 @@ export default function Certifications() {
 
                   {selectedCert.link.endsWith('.pdf') ? (
                     <object 
-                      data={`${selectedCert.link}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`} 
+                      data={`${selectedCert.link}#toolbar=1&navpanes=0&scrollbar=0&view=Fit`} 
                       type="application/pdf" 
                       className={`w-full h-full relative z-0 transition-opacity duration-500 ${isCertLoading ? 'opacity-0' : 'opacity-100'}`}
                       onLoad={() => setIsCertLoading(false)}
