@@ -35,20 +35,7 @@ const certifications = [
     iconColor: "text-fuchsia-400",
     bento: "md:col-span-1 md:row-span-1", // 1x1
   },
-  {
-    id: "thaniya",
-    title: "Cyber Security Internship",
-    issuer: "Thaniya Technologies",
-    date: "Jun-Jul 2025",
-    Icon: FaBuilding,
-    link: "/certificates/thaniya.pdf",
-    level: "Completed",
-    category: "Internship",
-    featured: true,
-    color: "from-violet-400 to-violet-600",
-    iconColor: "text-violet-400",
-    bento: "md:col-span-1 md:row-span-1", // 1x1
-  },
+
   {
     id: "applied-ai",
     title: "Applied AI Challenge",
@@ -103,6 +90,40 @@ const certifications = [
     featured: false,
     color: "from-purple-300 to-purple-500",
     iconColor: "text-purple-300",
+    bento: "md:col-span-2 md:row-span-1", // 2x1
+  }
+];
+
+// ==========================================
+// INTERNSHIPS DATA
+// ==========================================
+const internships = [
+  {
+    id: "mahe-isac",
+    title: "Cybersecurity Internship",
+    issuer: "MAHE-ISAC Centre of Excellence",
+    date: "20 Jun - 21 Jul 2026",
+    Icon: FaBuilding,
+    link: "/certificates/mahe-isac.jpg",
+    level: "Completed",
+    category: "Internship",
+    featured: true,
+    color: "from-blue-400 to-blue-600",
+    iconColor: "text-blue-400",
+    bento: "md:col-span-2 md:row-span-1", // 2x1
+  },
+  {
+    id: "thaniya",
+    title: "Cyber Security Internship",
+    issuer: "Thaniya Technologies",
+    date: "Jun-Jul 2025",
+    Icon: FaBuilding,
+    link: "/certificates/thaniya.pdf",
+    level: "Completed",
+    category: "Internship",
+    featured: true,
+    color: "from-violet-400 to-violet-600",
+    iconColor: "text-violet-400",
     bento: "md:col-span-2 md:row-span-1", // 2x1
   }
 ];
@@ -280,7 +301,7 @@ export default function Certifications() {
         <div className="mb-16">
           <div className="flex items-center gap-4 mb-8">
             <div className="w-10 h-[2px] bg-gradient-to-r from-purple-500 to-transparent" />
-            <h3 className="text-xl font-bold text-white tracking-wide uppercase">Certifications & Internships</h3>
+            <h3 className="text-xl font-bold text-white tracking-wide uppercase">Certifications</h3>
             <div className="flex-1 h-[1px] bg-gray-800/60 ml-4" />
           </div>
           
@@ -291,7 +312,22 @@ export default function Certifications() {
           </div>
         </div>
 
-        {/* SECTION 2: COMPETITIONS */}
+        {/* SECTION 2: INTERNSHIPS */}
+        <div className="mb-16">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-10 h-[2px] bg-gradient-to-r from-blue-500 to-transparent" />
+            <h3 className="text-xl font-bold text-white tracking-wide uppercase">Internships</h3>
+            <div className="flex-1 h-[1px] bg-gray-800/60 ml-4" />
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-[220px] gap-5">
+            {internships.map((internship, index) => (
+               <BentoCard key={internship.id} item={internship} index={index} onOpen={handleOpenCert} />
+            ))}
+          </div>
+        </div>
+
+        {/* SECTION 3: COMPETITIONS */}
         <div>
           <div className="flex items-center gap-4 mb-8">
             <div className="w-10 h-[2px] bg-gradient-to-r from-fuchsia-500 to-transparent" />
