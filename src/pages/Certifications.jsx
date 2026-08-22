@@ -268,14 +268,29 @@ export default function Certifications() {
   const handleOpenCert = (cert) => {
     setIsCertLoading(true);
     setSelectedCert(cert);
+    
+    // Failsafe: if the PDF engine takes too long or fails to fire onLoad, force hide the loader
+    setTimeout(() => setIsCertLoading(false), 800);
   };
 
-  // Close modal on escape key
+  // Close modal on escape key and preload all certificates in the background
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") setSelectedCert(null);
     };
     window.addEventListener("keydown", handleKeyDown);
+
+    // Aggressively pre-fetch all certificates so they load instantly from cache when clicked
+    const allCerts = [...certifications, ...internships, ...competitions];
+    allCerts.forEach((item) => {
+      if (item.link && item.link !== "#") {
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = item.link;
+        document.head.appendChild(link);
+      }
+    });
+
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
