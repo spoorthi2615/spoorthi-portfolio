@@ -1,139 +1,174 @@
 {
   "personal_info": {
     "name": "Spoorthi",
-    "location": "Karnataka, India",
+    "location": "Kundapura, Karnataka, India",
     "email": "spoorthipyadav@gmail.com",
     "linkedin": "https://www.linkedin.com/in/spoorthiyadav",
     "github": "https://github.com/spoorthi2615",
-    "bio": "Computer Science (Cybersecurity) student with hands-on experience in cybersecurity, software testing, and full-stack development. Passionate about building secure software solutions, solving complex problems, and continuously learning emerging technologies."
+    "portfolio": "https://spoorthi-portfolio-ten.vercel.app/",
+    "bio": "Computer Science (Cybersecurity) student with knowledge of Python, operating systems, networking, and cybersecurity tools. Hands-on experience in technical investigation, problem-solving, software testing, and full-stack development, seeking to apply skills in IT infrastructure, cloud support, and security operations."
   },
   "education": [
     {
-      "institution": "NMAM Institute of Technology",
+      "institution": "NMAM Institute of Technology (NMAMIT), Nitte",
       "degree": "B.Tech in Computer Science (Cybersecurity)",
-      "cgpa": 6.83,
-      "status": "Currently Pursuing (2022 - Present)",
-      "details": "Focus on cryptographic primitives, secure network engineering, OS security fundamentals, application threat detection, and software testing practices."
+      "cgpa": 7.02,
+      "status": "Pursuing (2023 - 2027)",
+      "details": "Focus on cryptographic primitives, secure network engineering, OS security fundamentals, application threat detection, and software auditing."
     },
     {
-      "institution": "Excellent PU College",
+      "institution": "Excellent PU College, Sunnari",
       "degree": "Pre-University Education (PCMB)",
       "percentage": "83.3%",
-      "status": "Completed (2020 - 2022)",
-      "details": "Core coursework in Physics, Chemistry, Mathematics, and Biology, establishing strong analytical foundations."
+      "status": "Completed (2021 - 2023)",
+      "details": "Karnataka Board coursework in Physics, Chemistry, Mathematics, and Biology."
     },
     {
       "institution": "Little Rock Indian School",
       "degree": "Secondary School Education (CBSE)",
       "percentage": "73.3%",
-      "status": "Completed (2008 - 2020)",
+      "status": "Completed (2008 - 2021)",
       "details": "Foundational sciences, mathematics, humanities, and communication skills."
     }
   ],
   "languages": [
-    { "name": "English", "proficiency": "Fluent / Professional Working Proficiency" },
-    { "name": "Kannada", "proficiency": "Fluent / Native or Bilingual Proficiency" },
-    { "name": "Hindi", "proficiency": "Fluent / Professional Working Proficiency" }
+    { "name": "English", "proficiency": "Fluent" },
+    { "name": "Kannada", "proficiency": "Native" },
+    { "name": "Hindi", "proficiency": "Proficient" }
   ],
+  "skills": {
+    "programming_and_development": ["Python", "JavaScript", "SQL", "React.js", "TypeScript", "Node.js", "HTML5", "CSS3"],
+    "troubleshooting_and_security": [
+      "Linux",
+      "Windows Fundamentals",
+      "TCP/IP",
+      "DNS",
+      "HTTP/HTTPS",
+      "Active Directory Fundamentals",
+      "Log Analysis",
+      "Network Security",
+      "OWASP Top 10",
+      "Vulnerability Assessment"
+    ],
+    "tools_and_technologies": [
+      "Git/GitHub",
+      "Docker",
+      "Wireshark",
+      "Burp Suite",
+      "Kali Linux",
+      "Postman",
+      "SQLite",
+      "Neo4j"
+    ]
+  },
   "experience": [
     {
       "role": "Cybersecurity Intern",
-      "company": "Thaniya Technologies",
-      "duration": "8-Week Milestone Journey",
+      "company": "MAHE-ISAC Centre of Excellence for Cybersecurity",
+      "location": "Manipal, Karnataka",
+      "duration": "20 Jun 2026 - 21 Jul 2026",
       "details": [
-        "Weeks 1 - 2: Conducted open-source intelligence (OSINT) operations to identify company exposure profiles using Maltego and Shodan. Audited digital files and server headers for accidental credential exposures.",
-        "Weeks 3 - 4: Intercepted and audited HTTP/HTTPS packets across local microservices. Tested APIs for parameter alterations, injection payloads, and authorization bypasses using Burp Suite and OWASP Top 10 guidelines.",
-        "Weeks 5 - 6: Reviewed Active Directory configuration controls. Mapped permission tables with BloodHound to detect privilege escalation vectors.",
-        "Weeks 7 - 8: Participated in internal CTF simulations modeling advanced persistent threats. Drafted threat logs detailing CVSS risk ratings and remediations using Metasploit, Burp Suite, and Shodan."
+        "Contributed to cybersecurity projects involving cyber-physical infrastructure risk analysis (CascadeShield) and behavioral authentication for insider-threat detection (Cyber DNA).",
+        "Used Python and technical tools to analyze system behavior, evaluate results, and support technical investigation and problem-solving."
       ]
-    }
-  ],
-  "research_publications": [
-    {
-      "title": "CascadeShield: GNN-SEIR Hybrid Cascade Failure Detection for Cyber-Physical Infrastructure",
-      "status": "In Progress (Targeting IEEE Internet of Things Journal / IEEE TNSM)",
-      "summary": "A hybrid graph neural network and epidemiological (SEIR) model that detects cascading failures across interdependent city-scale infrastructure networks, trained on synthetic multi-infrastructure dependency graphs. Outperformed a Blind SEIR baseline."
     },
     {
-      "title": "QRIntel: A Proactive, Explainable Cybersecurity Intelligence Platform for Detecting Malicious QR-Based Infrastructure",
-      "status": "Submitted (RV Conference)",
-      "summary": "A proactive, two-stage heuristic framework that combines Lexical, DNS, Redirect, and SSL intelligence with Optuna optimization to detect malicious QR infrastructure. Generates deterministic JSON logs for SOC analyst interpretability.",
-      "authors": "Ashmi Kotian, Spoorthi, Sindhoora R."
-    },
-    {
-      "title": "Cyber DNA: Digital Behavioral Signatures for Insider-Threat Detection",
-      "status": "Submitted (Springer LNCS — Malta)",
-      "summary": "A behavioral authentication framework that builds a digital DNA profile per user from login and activity patterns, evaluated on the CMU CERT insider-threat dataset to flag anomalous behavior."
-    },
-    {
-      "title": "HuntGPT-Shield: An Autonomous SOC Threat-Hunting Pipeline",
-      "status": "In Progress",
-      "summary": "An end-to-end threat-hunting pipeline pairing a DeBERTa-based prompt-injection classifier (PromptGuard) with a fine-tuned Mistral-7B model (ThreatHunter) that maps raw logs to MITRE ATT&CK techniques, surfaced through a React SOC dashboard."
+      "role": "Cybersecurity Intern",
+      "company": "Thaniya Technologies",
+      "location": "Karnataka",
+      "duration": "May 2025 - Jul 2025",
+      "details": [
+        "Gained hands-on experience in web application security testing, Active Directory fundamentals, OSINT, and digital forensics using 8+ security tools including Maltego, Burp Suite, BloodHound, Metasploit, and Shodan.",
+        "Investigated OWASP Top 10 vulnerabilities during a capstone CTF and documented findings in a structured penetration testing report."
+      ]
     }
   ],
   "projects": [
     {
-      "name": "HackShield",
-      "tagline": "Autonomous Multi-Agent Cybersecurity Platform",
-      "description": "An AI-powered orchestrator coordinating autonomous LLM scanner agents (GPT-4o & Claude 3.5 Sonnet) to audit containerized microservices for high-risk injection flaws, access anomalies, and configuration defects."
+      "name": "QRIntel",
+      "tagline": "Explainable Threat Intelligence Platform for Malicious QR Infrastructure",
+      "status": "Completed",
+      "github": "https://github.com/spoorthi2615/QR-Intel-2.0",
+      "publication": "Published on IEEE Xplore (https://ieeexplore.ieee.org/document/11746844); accepted at ICOSICS 2026",
+      "description": "Multi-modal threat detection platform identifying malicious QR-linked URLs through lexical, DNS, redirect, SSL, and headless Selenium visual/DOM analysis with deterministic JSON audit logs for SOC analysts.",
+      "tools": ["Python", "Flask", "React.js", "OpenCV", "Selenium", "NetworkX", "SQLite", "Optuna"]
     },
     {
-      "name": "Smart Leads Dashboard",
-      "tagline": "Secure Enterprise B2B Client Portal",
-      "description": "An enterprise MERN stack data management platform configured with custom database-level Role-Based Access Controls (RBAC) and rate-limiting policies to prevent scraping."
+      "name": "Cyber DNA",
+      "tagline": "Continuous Behavioral Authentication for Insider-Threat Detection",
+      "status": "Completed",
+      "github": "https://github.com/spoorthi2615/Cyber-DNA--MIT",
+      "description": "Behavioral authentication framework evaluated on the CMU CERT r4.2 dataset using behavioral drift metrics, Quantum-Inspired Evolutionary Algorithm (QEA) feature selection, Optuna-tuned XGBoost, SHAP explainability, and Mamdani Fuzzy risk tiering.",
+      "tools": ["Python", "Pandas", "NumPy", "XGBoost", "React.js", "Vite"]
     },
     {
-      "name": "Secure Media Container (SMC)",
-      "tagline": "Cryptographic Desktop Application",
-      "description": "A desktop privacy container utilizing authenticated encryption algorithms (XChaCha20-Poly1305 and Ed25519) to safeguard high-integrity media files and sensitive system notes."
+      "name": "CascadeShield",
+      "tagline": "Cyber-Physical Cascade Failure Prediction",
+      "status": "Completed",
+      "github": "https://github.com/spoorthi2615/Cascade-Shield",
+      "description": "Hybrid Graph Neural Network (GNN) and SimPy SEIR epidemiological model analyzing cascading attacks across interconnected smart-city infrastructure networks, with a FastAPI backend and React SCADA visualizer.",
+      "tools": ["Python", "PyTorch", "PyTorch Geometric", "FastAPI", "React.js", "NetworkX", "Neo4j"]
     },
     {
-      "name": "Safe QR",
-      "tagline": "Real-Time OpenCV URL Security Scanner",
-      "description": "A phishing protection utility integrating real-time webcam scanning with API reputation intelligence to filter malicious domains before navigating links."
+      "name": "AgileGraph",
+      "tagline": "Graph-Learned Crypto-Agility Risk Scoring for Post-Quantum Migration",
+      "status": "Ongoing (Major Project, 2023-2027)",
+      "github": "https://github.com/spoorthi2615/agilegraph--major-project",
+      "description": "Automated cryptographic discovery across Python, Java, Go, and manifests, 6-node property graphs, 7-factor heuristic risk scoring with Mosca's theorem PQC urgency triage, and a Heterogeneous GATv2 model backed by FastAPI and React + TypeScript.",
+      "tools": ["Python", "FastAPI", "PyTorch Geometric (GATv2)", "React", "TypeScript", "Vite"]
     }
   ],
   "achievements": [
     {
       "name": "Cybersiege 2026",
       "result": "3rd Place Winner (24-Hour Capture The Flag Competition)",
-      "details": "Solved binary reverse engineering, memory corruption (pwn), cryptography, and web exploitation challenges under intense time constraints."
+      "organizer": "Alva's Institute of Engineering & Technology",
+      "date": "30-31 Mar 2026"
     },
     {
-      "name": "Hackfest '26",
+      "name": "Hackfest '26 CTF",
       "result": "CTF Participant",
-      "details": "Competed in simulated active-directory threat audits, malware behavior profiling, and vulnerability reporting."
+      "organizer": "NITTE & Finite Loop",
+      "date": "18-19 Apr 2026"
+    }
+  ],
+  "extracurricular": [
+    {
+      "role": "Cultural Head",
+      "organization": "PROTON, NMAMIT",
+      "period": "2024 - 2026",
+      "details": "Coordinated departmental events and cultural initiatives, supporting team collaboration and event execution."
     },
     {
-      "name": "Nitte Manage Agribusiness Conclave 2024",
-      "result": "2nd Runner-Up (Folk Dance Competition)",
-      "details": "Coordinated stage layouts, choreographed movement sequences, and performed regional folk dances."
+      "role": "Cybersecurity Awareness Volunteer",
+      "organization": "PROTON NMAMIT & Rotary Club Nitte",
+      "details": "Conducted cybersecurity awareness sessions on internet safety, digital forensics, cybercrime, threat analysis, and security hygiene."
     }
   ],
   "certifications": [
     {
       "name": "Hashgraph Developer Course",
-      "issuer": "Hedera Hashgraph",
-      "date": "Aug 2024",
-      "credential_id": "HEDERA-DEV-98231"
+      "issuer": "The Hashgraph Association",
+      "date": "5 Oct 2025"
     },
     {
-      "name": "Microsoft Azure Learning Challenge",
-      "issuer": "Microsoft",
-      "date": "Sept 2024",
-      "credential_id": "MSFT-AZ-731920"
-    },
-    {
-      "name": "Systems and Usable Security",
-      "issuer": "NPTEL - IIT Kharagpur",
-      "date": "Apr 2024",
-      "credential_id": "NPTEL-SUSEC-109283"
+      "name": "AINNOVATION 2025: Microsoft Azure, AI & Applied AI Learning Challenges",
+      "issuer": "Microsoft Learn",
+      "date": "22 Sept 2025"
     },
     {
       "name": "Internet Crimes and Cyber Security",
-      "issuer": "NPTEL - IIT Madras",
-      "date": "Oct 2023",
-      "credential_id": "NPTEL-ICCS-584729"
+      "issuer": "NPTEL (IIT Madras)",
+      "date": "Feb-Apr 2026",
+      "result": "Elite (79%)",
+      "roll_no": "NPTEL26LW01S151200060"
+    },
+    {
+      "name": "Systems and Usable Security",
+      "issuer": "NPTEL (IIT Indore & IIT Madras)",
+      "date": "Jan-Feb 2025",
+      "result": "Completed (53%)",
+      "roll_no": "NPTEL25CS68S437300195"
     }
   ],
   "gaming_experience": {
