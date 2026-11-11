@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaPaperPlane, FaInstagram } from 'react-icons/fa';
-import emailjs from 'emailjs-com';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -14,27 +13,57 @@ const itemVariants = {
 
 export default function Contact() {
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  const [feedbackMsg, setFeedbackMsg] = useState('');
   const formRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('sending');
+    setFeedbackMsg('');
+
+    const formData = new FormData(formRef.current);
+    const name = String(formData.get('name') || '').trim();
+    const email = String(formData.get('email') || '').trim();
+    const message = String(formData.get('message') || '').trim();
+
     try {
-      await emailjs.sendForm(
-        'service_xwyzza7',
-        'template_u4ge8ci',
-        formRef.current,
-        'XSDmyIcn8Jvg-q5Xt'
-      );
+      const response = await fetch('https://formsubmit.co/ajax/spoorthipyadav@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          _subject: `Portfolio Contact from ${name || 'Visitor'}`,
+          _replyto: email,
+          _template: 'table',
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      const isSuccess = response.ok && (data.success === true || data.success === 'true');
+
+      if (!isSuccess) {
+        const msg = data.message || 'Could not send message right now.';
+        setFeedbackMsg(msg);
+        setStatus('error');
+        return;
+      }
+
       setStatus('sent');
+      setFeedbackMsg('Message delivered! Thank you for reaching out.');
       formRef.current.reset();
-      
-      // Reset button state after 5 seconds
-      setTimeout(() => setStatus('idle'), 5000);
+      setTimeout(() => {
+        setStatus('idle');
+        setFeedbackMsg('');
+      }, 5000);
     } catch (error) {
-      console.error('Email sending failed:', error);
+      console.error('Transmission failed:', error);
+      setFeedbackMsg('Network error while sending. You can email spoorthipyadav@gmail.com directly below.');
       setStatus('error');
-      setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
@@ -194,6 +223,26 @@ export default function Contact() {
                 {status === 'sent' && '✓ Transmission Received'}
                 {status === 'error' && 'Retry Transmission'}
               </button>
+
+              {feedbackMsg && (
+                <div
+                  className={`rounded-xl px-4 py-3 text-xs leading-relaxed border ${
+                    status === 'sent'
+                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+                      : 'bg-rose-500/10 border-rose-500/30 text-rose-200'
+                  }`}
+                >
+                  <p>{feedbackMsg}</p>
+                  {status === 'error' && (
+                    <a
+                      href="mailto:spoorthipyadav@gmail.com"
+                      className="inline-block mt-1.5 font-semibold text-purple-300 underline hover:text-white"
+                    >
+                      Open email client instead →
+                    </a>
+                  )}
+                </div>
+              )}
             </motion.form>
           </motion.div>
         </div>
