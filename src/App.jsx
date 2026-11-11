@@ -10,13 +10,28 @@ import { AnimatePresence, motion } from 'framer-motion';
 import SmoothScroll from './components/layout/SmoothScroll';
 import { ErrorBoundary } from './ErrorBoundary';
 
+// Retry dynamic chunk imports once when a new deployment invalidates cached chunk hashes
+const lazyWithRetry = (importer) =>
+  lazy(() =>
+    importer().catch((error) => {
+      const hasReloaded = sessionStorage.getItem('chunk_reload_attempted');
+      if (!hasReloaded) {
+        sessionStorage.setItem('chunk_reload_attempted', 'true');
+        window.location.reload();
+        return new Promise(() => {});
+      }
+      sessionStorage.removeItem('chunk_reload_attempted');
+      throw error;
+    })
+  );
+
 // Lazy load heavy components below the fold
-const About = lazy(() => import('./pages/About').catch(e => { console.error("FAILED ABOUT", e); throw e; }));
-const Skills = lazy(() => import('./pages/Skills').catch(e => { console.error("FAILED SKILLS", e); throw e; }));
-const Projects = lazy(() => import('./pages/Projects').catch(e => { console.error("FAILED PROJECTS", e); throw e; }));
-const Timeline = lazy(() => import('./pages/Timeline').catch(e => { console.error("FAILED TIMELINE", e); throw e; }));
-const Contact = lazy(() => import('./pages/Contact').catch(e => { console.error("FAILED CONTACT", e); throw e; }));
-const Certifications = lazy(() => import('./pages/Certifications').catch(e => { console.error("FAILED CERTIFICATIONS", e); throw e; }));
+const About = lazyWithRetry(() => import('./pages/About'));
+const Skills = lazyWithRetry(() => import('./pages/Skills'));
+const Projects = lazyWithRetry(() => import('./pages/Projects'));
+const Timeline = lazyWithRetry(() => import('./pages/Timeline'));
+const Contact = lazyWithRetry(() => import('./pages/Contact'));
+const Certifications = lazyWithRetry(() => import('./pages/Certifications'));
 
 
 export default function App() {
