@@ -93,7 +93,8 @@ const projects = [
     deliverables: [
       "Two-stage heuristic detection engine (lexical, DNS, SSL)",
       "Optuna-based optimization to catch quishing attacks",
-      "Deterministic, interpretable JSON audit logs for SOC analysts"
+      "Deterministic, interpretable JSON audit logs for SOC analysts",
+      "Published paper on IEEE Xplore"
     ],
     image: "/projects/qr_intel.jpg",
     tech: [
@@ -103,6 +104,7 @@ const projects = [
     ],
     demo: "#",
     github: "https://github.com/spoorthi2615/QR-Intel-2.0",
+    paperUrl: "https://ieeexplore.ieee.org/document/11746844",
     year: "2024",
     role: "Threat Intel Dev",
     status: "Completed"
@@ -227,6 +229,15 @@ const ProjectDetailOverlay = ({ project, onClose, nextProject, prevProject }) =>
                 </div>
               )}
             </div>
+            {project.paperUrl && (
+              <div className="space-y-6">
+                <h3 className="text-sm font-bold text-purple-500 uppercase tracking-widest border-b border-white/10 pb-4">Publication</h3>
+                <a href={project.paperUrl} target="_blank" rel="noreferrer" className="flex items-center gap-4 text-gray-400 hover:text-white transition-colors group">
+                  <div className="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors"><ExternalLink className="w-5 h-5 text-purple-400" /></div>
+                  <div><div className="font-medium">Published Paper</div><div className="text-xs text-purple-300/80">Read on IEEE Xplore</div></div>
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -319,12 +330,24 @@ export default function Projects() {
                     ))}
                   </div>
 
-                  <button 
-                    onClick={() => setActiveProject(project)}
-                    className="w-fit flex items-center gap-4 px-8 py-4 rounded-full bg-white text-gray-950 font-bold hover:bg-purple-400 hover:text-white transition-colors"
-                  >
-                    Explore Project <ArrowRight className="w-5 h-5" />
-                  </button>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <button 
+                      onClick={() => setActiveProject(project)}
+                      className="w-fit flex items-center gap-4 px-8 py-4 rounded-full bg-white text-gray-950 font-bold hover:bg-purple-400 hover:text-white transition-colors"
+                    >
+                      Explore Project <ArrowRight className="w-5 h-5" />
+                    </button>
+                    {project.paperUrl && (
+                      <a
+                        href={project.paperUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-fit flex items-center gap-2.5 px-6 py-4 rounded-full border border-purple-400/40 bg-purple-500/10 text-purple-200 font-bold hover:bg-purple-500/25 hover:text-white transition-colors"
+                      >
+                        IEEE Paper <ExternalLink className="w-4 h-4" />
+                      </a>
+                    )}
+                  </div>
                </div>
             </div>
           )
