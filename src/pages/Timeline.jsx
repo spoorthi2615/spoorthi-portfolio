@@ -61,6 +61,20 @@ const timeline = [
     color: "from-fuchsia-400 to-fuchsia-600",
     glow: "rgba(217, 70, 239, 0.4)",
     borderColor: "border-fuchsia-500/50"
+  },
+  {
+    id: 3,
+    category: 'experience',
+    title: 'Cybersecurity Intern',
+    org: 'MAHE-ISAC Centre of Excellence',
+    location: 'Manipal, Karnataka',
+    date: '20 Jun - 21 Jul 2026',
+    shortDesc: '1-month internship focused on CascadeShield cyber-physical contagion modeling and Cyber DNA behavioral authentication.',
+    learned: ['CascadeShield', 'Cyber DNA', 'Insider-Threat Detection'],
+    Icon: Briefcase,
+    color: "from-blue-400 to-blue-600",
+    glow: "rgba(59, 130, 246, 0.4)",
+    borderColor: "border-blue-500/50"
   }
 ];
 
