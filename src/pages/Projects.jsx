@@ -83,31 +83,6 @@ const projects = [
     status: "Completed"
   },
   {
-    id: "huntgpt",
-    title: "HuntGPT",
-    shortDescription: "Autonomous Cyber Threat Hunting Using Fine-Tuned LLMs.",
-    fullDescription: "An autonomous cyber threat hunting pipeline designed to autonomously map raw network logs to MITRE ATT&CK techniques using Large Language Models.",
-    architecture: "Integrates fine-tuned LLMs with an adversarial prompt injection defense layer, ensuring the model's integrity while analyzing potentially malicious raw logs.",
-    security: "Features robust adversarial prompt injection defenses, preventing attackers from hijacking the LLM analysis via crafted payloads hidden in network logs.",
-    challenge: "Mitigating prompt injection in autonomous LLM security tools. Developed a specialized defense layer to sanitize and validate LLM inputs.",
-    deliverables: [
-      "End-to-end log to MITRE ATT&CK mapping",
-      "Resilient against adversarial prompt injection",
-      "Automated threat hunting workflow"
-    ],
-    image: "/projects/huntgpt.jpg",
-    tech: [
-      { icon: <FaPython />, name: "Python", color: "text-purple-400" },
-      { icon: <FaBrain />, name: "LLMs / GPT", color: "text-violet-400" },
-      { icon: <FaLock />, name: "Prompt Defense", color: "text-fuchsia-400" }
-    ],
-    demo: "#",
-    github: "https://github.com/spoorthi2615/HuntGPT",
-    year: "2024",
-    role: "AI Security Researcher",
-    status: "Completed"
-  },
-  {
     id: "qr-intel",
     title: "QRIntel",
     shortDescription: "Explainable Threat Intelligence Platform for Malicious QR Infrastructure.",
@@ -131,32 +106,6 @@ const projects = [
     year: "2024",
     role: "Threat Intel Dev",
     status: "Completed"
-  },
-  {
-    id: "skillbytes",
-    title: "SkillBytes",
-    shortDescription: "Production-ready WhatsApp-style Quiz Application.",
-    fullDescription: "A production-ready WhatsApp-style Quiz Application engineered with React, FastAPI, MongoDB, Zustand, Docker, and Recharts.",
-    architecture: "A decoupled microservices architecture featuring a React SPA frontend managed by Zustand, communicating with a containerized FastAPI Python backend backed by MongoDB.",
-    security: "Secured with robust JWT-based authentication schemas and database-level validation to ensure data integrity during quiz state transitions.",
-    challenge: "Synchronizing real-time quiz states across clients mimicking a chat interface. Overcome by leveraging efficient state management and optimized API polling.",
-    deliverables: [
-      "Seamless WhatsApp-style user interface",
-      "Containerized backend for rapid deployment",
-      "Dynamic data visualization with Recharts"
-    ],
-    image: "/projects/skillbytes.jpg",
-    tech: [
-      { icon: <FaReact />, name: "React", color: "text-purple-400" },
-      { icon: <FaPython />, name: "FastAPI", color: "text-fuchsia-400" },
-      { icon: <SiMongodb />, name: "MongoDB", color: "text-violet-400" },
-      { icon: <FaDocker />, name: "Docker", color: "text-purple-500" }
-    ],
-    demo: "#",
-    github: "https://github.com/spoorthi2615/skillbytes-whatsapp-quiz-app",
-    year: "2024",
-    role: "Full Stack Dev",
-    status: "Live"
   }
 ];
 
