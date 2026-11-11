@@ -122,6 +122,7 @@ const projects = [
       "7-factor crypto-agility risk scoring & Mosca's theorem PQC urgency triage",
       "Heterogeneous GATv2 model + React/TypeScript/FastAPI platform (439 pytest & 40 Vitest passing)"
     ],
+    image: "/projects/agilegraph.jpg",
     tech: [
       { icon: <FaPython />, name: "Python / FastAPI", color: "text-purple-400" },
       { icon: <FaReact />, name: "React / TypeScript", color: "text-fuchsia-400" },
@@ -135,46 +136,6 @@ const projects = [
     status: "Ongoing"
   }
 ];
-
-const AgileGraphArtwork = () => (
-  <div className="w-full h-full bg-[#090910] relative flex items-center justify-center overflow-hidden p-8">
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(168,85,247,0.18),transparent_55%),radial-gradient(circle_at_75%_75%,rgba(217,70,239,0.14),transparent_55%)]" />
-    <svg viewBox="0 0 420 320" className="w-full max-w-[380px] h-auto relative z-10">
-      <defs>
-        <linearGradient id="agEdge" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#a855f7" />
-          <stop offset="100%" stopColor="#d946ef" />
-        </linearGradient>
-      </defs>
-      <g stroke="url(#agEdge)" strokeOpacity="0.45" strokeWidth="2">
-        <line x1="90" y1="85" x2="210" y2="60" />
-        <line x1="90" y1="85" x2="160" y2="175" />
-        <line x1="210" y1="60" x2="325" y2="115" />
-        <line x1="210" y1="60" x2="160" y2="175" />
-        <line x1="160" y1="175" x2="275" y2="215" />
-        <line x1="325" y1="115" x2="275" y2="215" />
-        <line x1="90" y1="245" x2="160" y2="175" />
-        <line x1="90" y1="245" x2="275" y2="215" />
-      </g>
-      {[
-        { cx: 90, cy: 85, label: "AST" },
-        { cx: 210, cy: 60, label: "RSA/ECC" },
-        { cx: 325, cy: 115, label: "GATv2" },
-        { cx: 160, cy: 175, label: "6-Node Graph" },
-        { cx: 275, cy: 215, label: "Mosca PQC" },
-        { cx: 90, cy: 245, label: "Risk Score" },
-      ].map((n, idx) => (
-        <g key={idx}>
-          <circle cx={n.cx} cy={n.cy} r="22" fill="#0f0f1a" stroke="#a855f7" strokeWidth="2" />
-          <circle cx={n.cx} cy={n.cy} r="5" fill="#e879f9" />
-          <text x={n.cx} y={n.cy + 36} fill="#cbd5e1" fontSize="10" fontWeight="600" textAnchor="middle">
-            {n.label}
-          </text>
-        </g>
-      ))}
-    </svg>
-  </div>
-);
 
 // ==========================================
 // PROJECT DETAIL PAGE OVERLAY (Unchanged)
@@ -213,11 +174,7 @@ const ProjectDetailOverlay = ({ project, onClose, nextProject, prevProject }) =>
 
       <div className="relative w-full h-[70vh] md:h-[85vh] overflow-hidden group">
         <motion.div layoutId={`project-image-${project.id}`} className="absolute inset-0 w-full h-full">
-          {project.image ? (
-            <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-[20s] ease-linear group-hover:scale-110" />
-          ) : (
-            <AgileGraphArtwork />
-          )}
+          <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-[20s] ease-linear group-hover:scale-110" />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/40 to-transparent" />
         </motion.div>
         <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-16 lg:px-24">
@@ -369,23 +326,13 @@ export default function Projects() {
             >
                {/* Left: Image */}
                <div className="w-full md:w-1/2 h-1/2 md:h-full relative overflow-hidden">
-                 {project.image ? (
-                   <motion.img 
-                     layoutId={`project-image-${project.id}`}
-                     src={project.image} 
-                     alt={project.title}
-                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
-                     onClick={() => setActiveProject(project)}
-                   />
-                 ) : (
-                   <motion.div
-                     layoutId={`project-image-${project.id}`}
-                     className="w-full h-full cursor-pointer"
-                     onClick={() => setActiveProject(project)}
-                   >
-                     <AgileGraphArtwork />
-                   </motion.div>
-                 )}
+                 <motion.img 
+                   layoutId={`project-image-${project.id}`}
+                   src={project.image} 
+                   alt={project.title}
+                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 cursor-pointer"
+                   onClick={() => setActiveProject(project)}
+                 />
                  <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#0a0a0f] via-transparent to-transparent opacity-80 pointer-events-none" />
                </div>
 
