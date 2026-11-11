@@ -44,16 +44,19 @@ export default function About() {
           <p className="text-purple-400 font-medium">Cybersecurity Engineer</p>
         </div>
       </div>
-      <div className="md:col-span-2 bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-xl relative overflow-hidden flex flex-col justify-center">
+      <div className="md:col-span-2 bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-[2rem] p-7 md:p-10 shadow-xl relative overflow-hidden flex flex-col justify-center">
         <div className="absolute -top-32 -right-32 w-64 h-64 bg-purple-500/10 rounded-full blur-[80px] pointer-events-none" />
-        <p className="text-2xl md:text-3xl text-white font-light leading-snug mb-6 relative z-10 pointer-events-none">
-          Applying a <strong className="text-purple-400 font-bold">builder's mindset</strong> to real-world security engineering and applied ML research.
+        <p className="text-xl md:text-2xl text-white font-light leading-snug mb-4 relative z-10 pointer-events-none">
+          Applying a <strong className="text-purple-400 font-bold">builder&apos;s mindset</strong> to technology, problem-solving, and innovation.
         </p>
-        <p className="text-gray-400 leading-relaxed font-medium relative z-10 text-base md:text-lg pointer-events-none mb-4">
-          I am a Cybersecurity and Software Engineering student at NMAMIT with hands-on experience in penetration testing (VAPT) and secure application development. My track record includes building end-to-end security tools ranging from multi-agent vulnerability scanners to cryptographic file containers.
+        <p className="text-gray-400 leading-relaxed font-medium relative z-10 text-sm md:text-base pointer-events-none mb-3">
+          I am a Computer Science student specializing in Cybersecurity at NMAMIT, with hands-on experience in software development, applied AI, security engineering, and technical research. I enjoy understanding complex challenges, exploring emerging technologies, and turning ideas into practical solutions.
         </p>
-        <p className="text-gray-400 leading-relaxed font-medium relative z-10 text-base md:text-lg pointer-events-none mb-8">
-          Proficient in Python, React, TypeScript, and MongoDB, I am currently authoring research on GNN-based cascade failure detection and explainable phishing intelligence.
+        <p className="text-gray-400 leading-relaxed font-medium relative z-10 text-sm md:text-base pointer-events-none mb-3">
+          My work spans end-to-end software platforms, intelligent automation, data-driven systems, and security-focused applications. With experience across Python, React, TypeScript, MongoDB, and machine learning frameworks, I bring together technical problem-solving, analytical thinking, and a practical approach to building solutions.
+        </p>
+        <p className="text-gray-400 leading-relaxed font-medium relative z-10 text-sm md:text-base pointer-events-none mb-6">
+          Beyond development, I value clear communication, collaboration, and understanding how technology can create meaningful business impact. I am interested in opportunities across technology consulting, solutions engineering, and technology-driven problem-solving.
         </p>
         
         <a 
